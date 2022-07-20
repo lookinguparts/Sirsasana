@@ -41,7 +41,7 @@ public class SirsasanaModel extends LXModel {
   public static final int LOWER_RING_DOWN_FLOODS = 12;
 
   public static final int TRIANGLE_BASES = 3;
-  public static final float TRIANGLE_BASE_RADIUS = 8f;
+  public static final float TRIANGLE_BASE_RADIUS = 16f;
   public static final float LARGE_TRIANGLE_ANGLE = 90f;
   public static final float SMALL_TRIANGLE_ANGLE = 45f;
   // The flood for the large triangle will be in the center.  The floods for each of the smaller
