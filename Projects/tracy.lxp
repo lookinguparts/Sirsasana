@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1658263088245,
+  "timestamp": 1658540778593,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -199,13 +199,13 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 0,
+              "focusedPattern": 1,
               "triggerPatternCycle": false
             },
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 0,
+            "patternIndex": 1,
             "patterns": [
               {
                 "id": 43,
@@ -228,6 +228,41 @@
                 "children": {
                   "modulation": {
                     "id": 44,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 59,
+                "class": "art.lookingup.sirsasana.patterns.Selector",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false,
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "Selector",
+                  "recall": false,
+                  "section": 4,
+                  "color/brightness": 100.0,
+                  "color/saturation": 77.5,
+                  "color/hue": 186.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 60,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0
@@ -432,17 +467,17 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 29.58350697193454,
+          "radius": 45.105247497558594,
           "theta": 0.7395354863256216,
           "phi": 0.0429962482303381,
-          "x": 1.0,
-          "y": 19.75,
+          "x": 2.857699394226074,
+          "y": 14.0,
           "z": 0.0
         },
         "cue": [
           {
             "active": false,
-            "radius": 29.58350697193454,
+            "radius": 30.29735231284169,
             "theta": 0.7395354863256216,
             "phi": 0.0429962482303381,
             "x": 1.0,
