@@ -54,6 +54,8 @@ public class SirsasanaModel extends LXModel {
 
   public static final float FLOOD_MOUNT_MARGIN = 0.5f;
 
+  public static final int NUM_BIRDS = 12;
+
   public static List<LXPoint> upperRingFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingUpFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingDownFloods = new ArrayList<LXPoint>();
@@ -64,6 +66,7 @@ public class SirsasanaModel extends LXModel {
   public static List<LXPoint> base3Floods;
   public static List<LXPoint> baseFloods = new ArrayList<LXPoint>();
 
+  public static List<Bird> birds = new ArrayList<Bird>();
   public static List<LXPoint> allPoints = new ArrayList<LXPoint>();
 
 
@@ -77,6 +80,40 @@ public class SirsasanaModel extends LXModel {
 
   static public float polarZ(float radius, float angleDegrees) {
     return radius * (float) Math.sin(Math.toRadians(angleDegrees));
+  }
+
+  public static final float INCHES_PER_METER = 39.37f;
+
+  // 12 birds and each bird has back to back led strip of some length. 4.5 inches of 144 per meter led strip.
+  static public class Bird {
+    public int id;
+    public float x, y, z;
+    public List<LXPoint> side1Points = new ArrayList<LXPoint>();
+    public List<LXPoint> side2Points = new ArrayList<LXPoint>();
+    public List<LXPoint> points = new ArrayList<LXPoint>();
+
+    public Bird(int id, float x, float y, float z) {
+      this.id = id;
+      this.x = x;
+      this.y = y;
+      this.z = z;
+
+      float metersPerSide = 4.5f / INCHES_PER_METER;
+      float ledSpacingMeters = 1f / 144f;
+      float feetPerMeter = 3.28084f;
+      float ledSpacingFeet = ledSpacingMeters / feetPerMeter;
+      int ledsPerSide = (int)(metersPerSide * 144);
+      for (int i = 0; i < ledsPerSide; i++) {
+        LXPoint point = new LXPoint(x, y + i * ledSpacingFeet, z);
+        side1Points.add(point);
+      }
+      for (int i = 0; i < ledsPerSide; i++) {
+        LXPoint point = new LXPoint(x, y + (ledsPerSide - 1) * ledSpacingFeet - (i * ledSpacingFeet), z + 0.25f/12f);
+        side2Points.add(point);
+      }
+      points.addAll(side1Points);
+      points.addAll(side2Points);
+    }
   }
 
   static public LXModel createModel() {
@@ -97,6 +134,16 @@ public class SirsasanaModel extends LXModel {
     }
     allPoints.addAll(upperRingFloods);
 
+    int birdId = 0;
+    for (int i = 0; i < NUM_BIRDS/2; i++) {
+      float angle = polarAngle(i, NUM_BIRDS/2);
+      float x = polarX(UPPER_RING_RADIUS + 1f, angle);
+      float z = polarZ(UPPER_RING_RADIUS + 1f, angle);
+      Bird bird = new Bird(birdId++, x, UPPER_RING_HEIGHT, z);
+      birds.add(bird);
+      allPoints.addAll(bird.points);
+    }
+
     for (int i = 0; i < LOWER_RING_UP_FLOODS; i++) {
       float angle = polarAngle(i, LOWER_RING_UP_FLOODS);
       float x = polarX(LOWER_RING_RADIUS, angle);
@@ -112,6 +159,15 @@ public class SirsasanaModel extends LXModel {
       lowerRingDownFloods.add(new LXPoint(x, LOWER_RING_HEIGHT - FLOOD_MOUNT_MARGIN, z));
     }
     allPoints.addAll(lowerRingDownFloods);
+
+    for (int i = 0; i < NUM_BIRDS/2; i++) {
+      float angle = polarAngle(i, NUM_BIRDS/2);
+      float x = polarX(LOWER_RING_RADIUS + 1f, angle);
+      float z = polarZ(LOWER_RING_RADIUS + 1f, angle);
+      Bird bird = new Bird(birdId++, x, LOWER_RING_HEIGHT, z);
+      birds.add(bird);
+      allPoints.addAll(bird.points);
+    }
 
     for (int i = 0; i < TRIANGLE_BASES; i++) {
       List<LXPoint> baseFloodsSet = new ArrayList<LXPoint>();
