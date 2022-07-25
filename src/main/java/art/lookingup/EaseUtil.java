@@ -13,6 +13,8 @@ package art.lookingup;
 
 public class EaseUtil {
 
+  static public final int MAX_EASE = 6;
+
   static public float ease(float t, int which) {
     switch (which) {
       case 0:

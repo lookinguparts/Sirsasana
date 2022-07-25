@@ -6,9 +6,13 @@ import heronarts.lx.LX;
 import heronarts.lx.color.ColorParameter;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.parameter.CompoundParameter;
+import heronarts.lx.parameter.DiscreteParameter;
 
 public class GlowUp extends AnimT {
   ColorParameter color = new ColorParameter("color");
+  CompoundParameter freq = new CompoundParameter("freq", 1f, 0f, 5f).setDescription("sine ease frequency");
+  DiscreteParameter ease = new DiscreteParameter("ease", 0, 0, EaseUtil.MAX_EASE + 1);
 
   public GlowUp(LX lx) {
     super(lx);
@@ -18,13 +22,19 @@ public class GlowUp extends AnimT {
     registerPhase("upper", 1f, 3f, "Upper");
     registerPhase("spike", 1f, 3f, "Spike");
     color.brightness.setValue(100.0);
+    addParameter(ease);
+    addParameter(freq);
   }
 
   public void renderPhase(int curAnimPhase, float phaseLocalT) {
     for (LXPoint p : SirsasanaModel.allPoints) {
       colors[p.index] = LXColor.BLACK;
     }
-    float brightness = 1.0f - 2f * Math.abs(EaseUtil.ease6(phaseLocalT, 1f) - 0.5f);
+    float brightness = 1.0f - 2f * Math.abs(EaseUtil.ease(phaseLocalT, ease.getValuei()) - 0.5f);
+    // Configurable sine wave easing is special and can take an additional configuration parameter.
+    if (ease.getValuei() == 6) {
+      brightness = 1.0f - 2f * Math.abs(EaseUtil.ease6(phaseLocalT, freq.getValuef()) - 0.5f);
+    }
     switch (curAnimPhase) {
       case 3:
         color.brightness.setValue(100f * brightness);
