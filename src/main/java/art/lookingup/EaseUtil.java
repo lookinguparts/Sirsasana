@@ -8,6 +8,7 @@ package art.lookingup;
  * 1 - pow(1 - t, 3)
  * 1 - pow(1 - t, 4)
  * 1 - pow(1 - t, 5)
+ * .5 * sin((t * 4 * PI) / 2) + .5
  */
 
 public class EaseUtil {
@@ -26,6 +27,8 @@ public class EaseUtil {
         return ease4(t);
       case 5:
         return ease5(t);
+      case 6:
+        return ease6(t);
     }
     return t;
   }
@@ -53,4 +56,8 @@ public class EaseUtil {
   static public float ease5(float t) {
     return 1.0f - (float)Math.pow(1.0 - t, 5);
   }
+
+  static public float ease6(float t) { return ease6(t, 1f); }
+
+  static public float ease6(float t, float freq) { return 0.5f + 0.5f * (float)Math.sin(freq * t * Math.PI * 4); }
 }

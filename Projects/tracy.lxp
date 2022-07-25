@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1658772538845,
+  "timestamp": 1658773300296,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -364,7 +364,7 @@
                   "label": "GlowUp",
                   "recall": false,
                   "t": 0.0,
-                  "color/brightness": 7.095730304718018,
+                  "color/brightness": 0.06232261657714844,
                   "color/saturation": 65.0,
                   "color/hue": 108.00000762939453,
                   "base": 3.0,
@@ -398,10 +398,10 @@
                           "tempoSync": false,
                           "tempoMultiplier": 5,
                           "tempoLock": true,
-                          "period": 6123.160075944066
+                          "period": 10000.0
                         },
                         "children": {},
-                        "basis": 0.16532177057077108,
+                        "basis": 0.20847245284593055,
                         "stages": [
                           {
                             "basis": 0.0,

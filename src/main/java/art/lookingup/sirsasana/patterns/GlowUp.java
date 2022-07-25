@@ -24,9 +24,7 @@ public class GlowUp extends AnimT {
     for (LXPoint p : SirsasanaModel.allPoints) {
       colors[p.index] = LXColor.BLACK;
     }
-    // Max brightness of 1 at t = 0.5 and then min at 0 and 1.
-    float brightness = EaseUtil.ease(phaseLocalT, 5);
-    brightness = 1.0f - 2f * Math.abs(EaseUtil.ease(phaseLocalT, 5) - 0.5f);
+    float brightness = 1.0f - 2f * Math.abs(EaseUtil.ease6(phaseLocalT, 1f) - 0.5f);
     switch (curAnimPhase) {
       case 3:
         color.brightness.setValue(100f * brightness);
@@ -34,13 +32,11 @@ public class GlowUp extends AnimT {
           colors[p.index] = color.getColor();
         break;
       case 2:
-        //brightness = 1.0f - 2f * Math.abs(phaseLocalT - 0.5f);
         color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.upperRingFloods)
           colors[p.index] = color.getColor();
         break;
       case 1:
-        //brightness = 1.0f - 2f * Math.abs(phaseLocalT - 0.5f);
         color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.lowerRingDownFloods)
           colors[p.index] = color.getColor();
