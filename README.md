@@ -22,10 +22,7 @@ Windows 10 / Mac OS X / Linux
 9. Clone the project Github Directory to a local directory: https://github.com/tracyscott/Sirsasana/
 
 ## Install Maven Depenencies
-Option 1:
-- Run mv_installs.sh (On Mac -- `sh mvn_installs.sh`)
-
-10. In Command Prompt, get to the directory of Sirsasana Github project and Run below mvn install commands (or run mvn_installs.sh, by running `sh mvn_installs.sh`):
+10. In Command Prompt, get to the directory of Sirsasana Github project and run the below mvn install commands (or run mvn_installs.sh, by running `sh mvn_installs.sh`):
 ```
 mvn install:install-file -Dfile=lib/lx-0.4.1-SNAPSHOT-jar-with-dependencies.jar -DgroupId=heronarts -DartifactId=lx -Dversion=0.4.1-SNAPSHOT-jar-with-dependencies -Dpackaging=jar
 mvn install:install-file -Dfile=lib/p4lx-0.4.1-SNAPSHOT.jar -DgroupId=heronarts -DartifactId=p4lx -Dversion=0.4.1-SNAPSHOT -Dpackaging=jar
