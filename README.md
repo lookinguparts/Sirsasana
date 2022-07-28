@@ -6,6 +6,8 @@ Sirsasana is a playful, welcoming 30 foot tall installation of a tree-like sculp
 # Installation Guide
 Windows 10 / Mac OS X / Linux
 
+Also useful: see https://github.com/titanicsend/LXStudio-TE
+
 ## Dependencies
 1. Get latest Advatek Assistant: https://www.advateklights.com/downloads/advatek-assistant/windows/V2.3.24
 2. Get latest Maven: https://dlcdn.apache.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.zip
