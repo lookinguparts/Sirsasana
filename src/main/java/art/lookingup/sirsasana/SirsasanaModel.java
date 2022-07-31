@@ -54,12 +54,17 @@ public class SirsasanaModel extends LXModel {
 
   public static final float FLOOD_MOUNT_MARGIN = 0.5f;
 
+  public static final int CANOPY_FLOODS = 5;
+  public static final float CANOPY_FLOOD_HEIGHT = 7.0f;
+  public static final float CANOPY_RADIUS = 22.0f;
+
   public static final int NUM_BIRDS = 12;
 
   public static List<LXPoint> upperRingFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingUpFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingDownFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> topSpineSpikeLights = new ArrayList<LXPoint>();
+  public static List<LXPoint> canopyFloods = new ArrayList<LXPoint>();
 
   public static List<LXPoint> base1Floods;
   public static List<LXPoint> base2Floods;
@@ -150,6 +155,14 @@ public class SirsasanaModel extends LXModel {
       lowerRingDownFloods.add(new LXPoint(x, LOWER_RING_HEIGHT - FLOOD_MOUNT_MARGIN, z));
     }
     allPoints.addAll(lowerRingDownFloods);
+
+    for (int i = 0; i < CANOPY_FLOODS; i++) {
+      float angle = polarAngle(i, CANOPY_FLOODS);
+      float x = polarX(CANOPY_RADIUS, angle);
+      float z = polarZ(CANOPY_RADIUS, angle);
+      canopyFloods.add(new LXPoint(x, CANOPY_FLOOD_HEIGHT, z));
+    }
+    allPoints.addAll(canopyFloods);
 
     for (int i = 0; i < TRIANGLE_BASES; i++) {
       List<LXPoint> baseFloodsSet = new ArrayList<LXPoint>();
