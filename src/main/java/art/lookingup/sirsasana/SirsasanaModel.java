@@ -67,6 +67,7 @@ public class SirsasanaModel extends LXModel {
   public static List<LXPoint> baseFloods = new ArrayList<LXPoint>();
 
   public static List<Bird> birds = new ArrayList<Bird>();
+  public static List<LXPoint> allFloodsNoBirds = new ArrayList<LXPoint>();
   public static List<LXPoint> allPoints = new ArrayList<LXPoint>();
 
 
@@ -134,16 +135,6 @@ public class SirsasanaModel extends LXModel {
     }
     allPoints.addAll(upperRingFloods);
 
-    int birdId = 0;
-    for (int i = 0; i < NUM_BIRDS/2; i++) {
-      float angle = polarAngle(i, NUM_BIRDS/2);
-      float x = polarX(UPPER_RING_RADIUS + 1f, angle);
-      float z = polarZ(UPPER_RING_RADIUS + 1f, angle);
-      Bird bird = new Bird(birdId++, x, UPPER_RING_HEIGHT, z);
-      birds.add(bird);
-      allPoints.addAll(bird.points);
-    }
-
     for (int i = 0; i < LOWER_RING_UP_FLOODS; i++) {
       float angle = polarAngle(i, LOWER_RING_UP_FLOODS);
       float x = polarX(LOWER_RING_RADIUS, angle);
@@ -159,15 +150,6 @@ public class SirsasanaModel extends LXModel {
       lowerRingDownFloods.add(new LXPoint(x, LOWER_RING_HEIGHT - FLOOD_MOUNT_MARGIN, z));
     }
     allPoints.addAll(lowerRingDownFloods);
-
-    for (int i = 0; i < NUM_BIRDS/2; i++) {
-      float angle = polarAngle(i, NUM_BIRDS/2);
-      float x = polarX(LOWER_RING_RADIUS + 1f, angle);
-      float z = polarZ(LOWER_RING_RADIUS + 1f, angle);
-      Bird bird = new Bird(birdId++, x, LOWER_RING_HEIGHT, z);
-      birds.add(bird);
-      allPoints.addAll(bird.points);
-    }
 
     for (int i = 0; i < TRIANGLE_BASES; i++) {
       List<LXPoint> baseFloodsSet = new ArrayList<LXPoint>();
@@ -192,6 +174,27 @@ public class SirsasanaModel extends LXModel {
       baseFloods.addAll(baseFloodsSet);
     }
     allPoints.addAll(baseFloods);
+
+    allFloodsNoBirds.addAll(allPoints);
+
+    int birdId = 0;
+    for (int i = 0; i < NUM_BIRDS/2; i++) {
+      float angle = polarAngle(i, NUM_BIRDS/2);
+      float x = polarX(UPPER_RING_RADIUS + 1f, angle);
+      float z = polarZ(UPPER_RING_RADIUS + 1f, angle);
+      Bird bird = new Bird(birdId++, x, UPPER_RING_HEIGHT, z);
+      birds.add(bird);
+      allPoints.addAll(bird.points);
+    }
+
+    for (int i = 0; i < NUM_BIRDS/2; i++) {
+      float angle = polarAngle(i, NUM_BIRDS/2);
+      float x = polarX(LOWER_RING_RADIUS + 1f, angle);
+      float z = polarZ(LOWER_RING_RADIUS + 1f, angle);
+      Bird bird = new Bird(birdId++, x, LOWER_RING_HEIGHT, z);
+      birds.add(bird);
+      allPoints.addAll(bird.points);
+    }
 
     return new SirsasanaModel(allPoints);
   }
