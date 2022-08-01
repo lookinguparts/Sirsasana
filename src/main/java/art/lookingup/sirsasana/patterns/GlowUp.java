@@ -38,7 +38,7 @@ public class GlowUp extends AnimT {
     switch (curAnimPhase) {
       case 3:
         color.brightness.setValue(100f * brightness);
-        for (LXPoint p : SirsasanaModel.topSpineSpikeLights)
+        for (LXPoint p : SirsasanaModel.topCrownSpikeLights)
           colors[p.index] = color.getColor();
         break;
       case 2:
