@@ -54,6 +54,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
   private static final int MAX_LOG_AGE_SECS = MAX_LOG_AGE_DAYS * 24 * 60 * 60;
 
   public static UIPixliteConfig pixliteConfig;
+  public static PApplet pApplet;
 
   static public float[] panelPosParams;
 
@@ -136,6 +137,8 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
 
   @Override
   public void setup() {
+    // Static pApplet reference for accessing core Processing functions anywhere.
+    pApplet  = this;
     LXStudio.Flags flags = new LXStudio.Flags(this);
     flags.resizable = true;
     flags.useGLPointCloud = false;

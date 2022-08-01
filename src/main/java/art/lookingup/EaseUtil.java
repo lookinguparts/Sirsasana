@@ -1,19 +1,34 @@
 package art.lookingup;
 
+import art.lookingup.sirsasana.SirsasanaApp;
+
 /**
  * Easing functions.
- * t
- * sin((t * PI) / 2)
- * 1 - (1 - t) * (1 - t)
- * 1 - pow(1 - t, 3)
- * 1 - pow(1 - t, 4)
- * 1 - pow(1 - t, 5)
- * .5 * sin((t * 4 * PI) / 2) + .5
  */
 
 public class EaseUtil {
 
-  static public final int MAX_EASE = 6;
+  static public final int MAX_EASE = 8;
+
+  public int easeNum;
+
+  public boolean perlin2D = false;
+  public float perlinFreq = 1f;
+  public float t2 = 0f;
+
+  public EaseUtil(int easeNum) {
+    this.easeNum = easeNum;
+  }
+
+  public float ease(float t) {
+    if (easeNum == 8 && perlin2D) {
+      return ease8(t, t2, perlinFreq);
+    } else if (easeNum == 8) {
+      return ease8(t, perlinFreq);
+    }
+
+    return ease(t, easeNum);
+  }
 
   static public float ease(float t, int which) {
     switch (which) {
@@ -31,6 +46,10 @@ public class EaseUtil {
         return ease5(t);
       case 6:
         return ease6(t);
+      case 7:
+        return ease7(t);
+      case 8:
+        return ease8(t);
     }
     return t;
   }
@@ -62,4 +81,16 @@ public class EaseUtil {
   static public float ease6(float t) { return ease6(t, 1f); }
 
   static public float ease6(float t, float freq) { return 0.5f + 0.5f * (float)Math.sin(freq * t * Math.PI * 4); }
+
+  // Mostly stays near 0 and 1 https://easings.net/#easeInOutExpo
+  static public float ease7(float t) {
+    return (t < 0.5f)? (float)Math.pow(2, 20f * t - 10f)/2f :
+        (2f - (float)Math.pow(2, -20f * t + 10))/2f;
+  }
+
+  static public float ease8(float t) { return ease8(t, 1f); }
+  static public float ease8(float t, float freq) { return SirsasanaApp.pApplet.noise(t * freq); }
+  static public float ease8(float t1, float t2, float freq) {
+    return SirsasanaApp.pApplet.noise(freq * t1, freq * t2);
+  }
 }
