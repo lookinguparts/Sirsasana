@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1659395519151,
+  "timestamp": 1659396076599,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -273,8 +273,8 @@
                   "mode": 0,
                   "period": 30.0,
                   "primary/brightness": 84.99995422363281,
-                  "primary/saturation": 70.0,
-                  "primary/hue": 261.0,
+                  "primary/saturation": 100.0,
+                  "primary/hue": 0.0,
                   "secondary/brightness": 100.0,
                   "secondary/saturation": 100.0,
                   "secondary/hue": 120.0
@@ -960,7 +960,7 @@
               "exp": 0.0
             },
             "children": {},
-            "basis": 0.34800000000142045
+            "basis": 0.7960000000017806
           }
         ],
         "modulations": [
@@ -1164,8 +1164,8 @@
         "camera": {
           "active": false,
           "radius": 60.46093020024378,
-          "theta": 26.046096245758235,
-          "phi": 0.3583378456532955,
+          "theta": 28.331330746412277,
+          "phi": 1.3773743426427245,
           "x": 2.9382088399725035,
           "y": 14.127697604708374,
           "z": -0.09434004966169596
@@ -1174,8 +1174,8 @@
           {
             "active": false,
             "radius": 60.46093020024378,
-            "theta": 26.046096245758235,
-            "phi": 0.3583378456532955,
+            "theta": 28.331330746412277,
+            "phi": 1.3773743426427245,
             "x": 2.9382088399725035,
             "y": 14.127697604708374,
             "z": -0.09434004966169596
@@ -1228,10 +1228,10 @@
         ],
         "focus": 0,
         "pointCloud": {
-          "pointSize": 5.249999949708581
+          "pointSize": 3.449999989941716
         },
         "grid": {
-          "visible": true,
+          "visible": false,
           "spacing": 100.0,
           "planes": 1,
           "size": 10,

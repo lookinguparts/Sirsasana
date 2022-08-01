@@ -52,18 +52,9 @@ public class Selector extends LXPattern {
     if (usePal.getValueb()) {
       // If we are using the palette, lets spead the palette out from 0 to 360 degrees around the structure.
       float angle = (float)Math.atan2(p.z, p.x);
-      // Angle is from -PI to PI.  We an add up another PI in rotation which would make it 0 to 2 PI
-      //angle += curAngle;
-
-      //if (angle > Math.PI) {
-      //  angle -= Math.PI;
-      //}
-
-      // Convert the angle from -PI to PI to 0 to PI twice.
       angle = Math.abs(angle);
-
-      //angle = (angle >= 0 ? angle : (2f*(float)Math.PI + angle));
-      angle = angle / (float)Math.PI; //((float)Math.PI * 2f);
+      
+      angle = angle / (float)Math.PI;
       angle += curAngle;
       if (angle > 1.0) {
         angle = angle - 1.0f;
