@@ -129,9 +129,9 @@ import java.util.logging.Logger;
     // Create the lights from top to bottom.
 
     // create crown lights
-    int NUM_CROWNS = CROWNS_PER_TINE * NUM_TINES
+    int NUM_CROWNS = CROWNS_PER_TINE * NUM_TINES;
     for (int i = 0; i <  CROWNS_PER_TINE * NUM_TINES; i++) {
-      float angle = polarAngle(i, i CROWNS_PER_TINE * NUM_TINES);
+      float angle = polarAngle(i,  CROWNS_PER_TINE * NUM_TINES);
       float x = polarX(SPIKES_TOP_SPINE_RADIUS_FT, angle);
       float z = polarZ(SPIKES_TOP_SPINE_RADIUS_FT, angle);
       topCrownSpikeLights.add(new LXPoint(x, SPIKES_TOP_SPINE_HEIGHT_FT, z));
