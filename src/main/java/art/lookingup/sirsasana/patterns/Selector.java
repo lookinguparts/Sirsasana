@@ -36,7 +36,7 @@ public class Selector extends LXPattern {
     }
     switch (which.getValuei()) {
       case 0:
-        for (LXPoint p : SirsasanaModel.topSpineSpikeLights)
+        for (LXPoint p : SirsasanaModel.topCrownSpikeLights)
           colors[p.index] = color.getColor();
         break;
       case 1:
