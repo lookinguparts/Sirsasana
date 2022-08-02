@@ -25,6 +25,7 @@ public class BirdGlow extends LXPattern {
     }
     for (SirsasanaModel.Bird bird : SirsasanaModel.birds) {
       if (bird.id == currentIndex) {
+        // todo - make this slightly nicer, by adding ease
         for (LXPoint point : bird.points) {
           colors[point.index] = LXColor.WHITE;
         }
