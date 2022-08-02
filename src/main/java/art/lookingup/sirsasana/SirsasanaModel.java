@@ -57,12 +57,14 @@ import java.util.logging.Logger;
   public static final float FLOOD_MOUNT_MARGIN_FT = 0.5f;
 
   public static final int NUM_CANOPY_FLOODS = 6;
-  public static final float CANOPY_FLOOD_HEIGHT_FT = 7.0f;
+  public static final float CANOPY_FLOOD_HEIGHT_FT = 8.0f;
   public static final float CANOPY_RADIUS_FT = 22.0f;
 
   public static final int NUM_BIRDS = 12;
+  public static final float BIRD_FLOOD_HEIGHT_FT = 6.0f;
+  public static final float BIRD_RADIUS_FT = 16.0f;
 
-  // holds flood lights
+  // holds layers of lights
   public static List<LXPoint> upperRingFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingUpFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingDownFloods = new ArrayList<LXPoint>();
