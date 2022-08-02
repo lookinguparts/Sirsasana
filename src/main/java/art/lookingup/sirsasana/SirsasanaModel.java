@@ -35,7 +35,7 @@ import java.util.logging.Logger;
   public static final float LOWER_RING_RADIUS_FT = 6f;
 
   public static final int NUM_TINES = 6;
-  public static final int CROWNS_PER_TINE = 2;  // This will be twelve.
+  public static final int CROWNS_PER_TINE = 2;
 
   public static final float LOWER_RING_HEIGHT_FT = 18f;
   public static final float UPPER_RING_HEIGHT_FT = 25f;
@@ -57,12 +57,17 @@ import java.util.logging.Logger;
   public static final float FLOOD_MOUNT_MARGIN_FT = 0.5f;
 
   public static final int NUM_CANOPY_FLOODS = 6;
-  public static final float CANOPY_FLOOD_HEIGHT_FT = 7.0f;
+  public static final float CANOPY_FLOOD_HEIGHT_FT = 8.0f;
   public static final float CANOPY_RADIUS_FT = 22.0f;
 
+  // birds are stored in pairs around the circle - let's assume they're separated by about 5 degrees
   public static final int NUM_BIRDS = 12;
+  public static final int NUM_BIRD_PAIRS = NUM_BIRDS / 2;
+  public static final int BIRD_PAIR_OFFSET_DEGREES = 5;
+  public static final float BIRD_HEIGHT_FT = 6.0f;
+  public static final float BIRD_RADIUS_FT = 16.0f;
 
-  // holds flood lights
+  // holds layers of lights
   public static List<LXPoint> upperRingFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingUpFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingDownFloods = new ArrayList<LXPoint>();
@@ -75,6 +80,8 @@ import java.util.logging.Logger;
   public static List<LXPoint> baseFloods = new ArrayList<LXPoint>();
 
   public static List<Bird> birds = new ArrayList<Bird>();
+  public static List<LXPoint> allBirdPoints = new ArrayList<LXPoint>();
+
   public static List<LXPoint> allFloodsNoBirds = new ArrayList<LXPoint>();
   public static List<LXPoint> allPoints = new ArrayList<LXPoint>();
 
@@ -202,23 +209,27 @@ import java.util.logging.Logger;
     allFloodsNoBirds.addAll(allPoints);
 
     // create birds
+    // they will live in small branches in pairs  - for now, we'll put them in pairs in a small
+    // ring around the center, offset slightly in degrees
     int birdId = 0;
-    for (int i = 0; i < NUM_BIRDS/2; i++) {
-      float angle = polarAngle(i, NUM_BIRDS/2);
-      float x = polarX(UPPER_RING_RADIUS_FT + 1f, angle);
-      float z = polarZ(UPPER_RING_RADIUS_FT + 1f, angle);
-      Bird bird = new Bird(birdId++, x, UPPER_RING_HEIGHT_FT, z);
-      birds.add(bird);
-      allPoints.addAll(bird.points);
-    }
+    for (int i = 0; i < NUM_BIRD_PAIRS; i++) {
+      float angle = polarAngle(i, NUM_BIRD_PAIRS);
 
-    for (int i = 0; i < NUM_BIRDS/2; i++) {
-      float angle = polarAngle(i, NUM_BIRDS/2);
-      float x = polarX(LOWER_RING_RADIUS_FT + 1f, angle);
-      float z = polarZ(LOWER_RING_RADIUS_FT + 1f, angle);
-      Bird bird = new Bird(birdId++, x, LOWER_RING_HEIGHT_FT, z);
-      birds.add(bird);
-      allPoints.addAll(bird.points);
+      // create first bird in pair
+      float x1 = polarX(BIRD_RADIUS_FT, angle);
+      float z1 = polarZ(BIRD_RADIUS_FT, angle);
+      Bird bird1 = new Bird(birdId++, x1, BIRD_HEIGHT_FT, z1);
+      birds.add(bird1);
+      allPoints.addAll(bird1.points);
+      allBirdPoints.addAll(bird1.points);
+
+      // create second bird in pair
+      float x2 = polarX(BIRD_RADIUS_FT, angle + BIRD_PAIR_OFFSET_DEGREES);
+      float z2 = polarZ(BIRD_RADIUS_FT, angle + BIRD_PAIR_OFFSET_DEGREES);
+      Bird bird2 = new Bird(birdId++, x2, BIRD_HEIGHT_FT, z2);
+      birds.add(bird2);
+      allPoints.addAll(bird2.points);
+      allBirdPoints.addAll(bird2.points);
     }
 
     return new SirsasanaModel(allPoints);
