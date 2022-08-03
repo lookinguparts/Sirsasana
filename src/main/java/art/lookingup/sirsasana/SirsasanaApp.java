@@ -154,7 +154,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     logger.info("Current graphics:" + getGraphics());
     logger.info("Current graphics is GL:" + getGraphics().isGL());
     loadModelParams();
-    LXModel model = SirsasanaModel.createModel();
+    LXModel model = SirsasanaModel.createModelFromPositions();
     new LXStudio(this, flags, model);
     this.surface.setTitle(WINDOW_TITLE);
   }

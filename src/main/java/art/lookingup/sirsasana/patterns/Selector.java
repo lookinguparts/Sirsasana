@@ -22,6 +22,8 @@ public class Selector extends LXPattern {
       "Lower Up",
       "Lower Down",
       "Ground",
+      "Canopy",
+      "Birds",
       "All",
   };
 
@@ -45,6 +47,7 @@ public class Selector extends LXPattern {
     addParameter("swatch", swatch);
     addParameter("speed", speed);
     addParameter("perlFreq", perlinFreq);
+    color.brightness.setValue(100f);
   }
 
   public int getColor(LXPoint p, double deltaMs) {
@@ -78,7 +81,7 @@ public class Selector extends LXPattern {
     for (LXPoint p : SirsasanaModel.allPoints) {
       colors[p.index] = LXColor.BLACK;
     }
-    if (which.getValuei() == 5) {
+    if (which.getValuei() == 7) {
       for (LXPoint p : SirsasanaModel.allPoints) {
         colors[p.index] = getColor(p, deltaMs);
       }
@@ -103,6 +106,15 @@ public class Selector extends LXPattern {
         case 4:
           for (LXPoint p : SirsasanaModel.baseFloods)
             colors[p.index] = getColor(p, deltaMs);
+          break;
+        case 5:
+          for (LXPoint p : SirsasanaModel.canopyFloods)
+            colors[p.index] = getColor(p, deltaMs);
+          break;
+        case 6:
+          for (LXPoint p : SirsasanaModel.allBirdPoints) {
+            colors[p.index] = getColor(p, deltaMs);
+          }
           break;
       }
     }

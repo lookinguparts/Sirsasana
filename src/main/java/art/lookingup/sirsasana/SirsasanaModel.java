@@ -2,6 +2,11 @@ package art.lookingup.sirsasana;
 
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -235,9 +240,101 @@ import java.util.logging.Logger;
     return new SirsasanaModel(allPoints);
   }
 
+  /**
+   * Creates the lighting model from positions exported from Rhino.
+   * @return
+   */
+  static public LXModel createModelFromPositions() {
+    final String crownFile = "crownpositions.txt";
+
+    topCrownSpikeLights = csvToLXPoints("crownlights.txt", 1f/12f);
+    allPoints.addAll(topCrownSpikeLights);
+
+    upperRingFloods = csvToLXPoints("upperlights.txt", 1f/12f);
+    allPoints.addAll(upperRingFloods);
+
+    List<LXPoint> lowerFloods = csvToLXPoints("lowerlights.txt", 1f/12f);
+    lowerRingUpFloods.addAll(lowerFloods.subList(0, lowerFloods.size()/2));
+    allPoints.addAll(lowerRingUpFloods);
+    lowerRingDownFloods.addAll(lowerFloods.subList(lowerFloods.size()/2, lowerFloods.size()));
+    allPoints.addAll(lowerRingDownFloods);
+
+    canopyFloods = csvToLXPoints("canopylights.txt", 1f/12f);
+    allPoints.addAll(canopyFloods);
+
+    baseFloods = csvToLXPoints("groundlights.txt", 1f/12f);
+    allPoints.addAll(baseFloods);
+
+    allFloodsNoBirds.addAll(allPoints);
+
+    List<Point3D> birdPositions = csvToPoint3Ds("birdlights.txt", 1f/12f);
+    int birdId = 0;
+    for (Point3D birdPos : birdPositions) {
+      Bird bird = new Bird(birdId++, birdPos.x, birdPos.y, birdPos.z);
+      birds.add(bird);
+      allBirdPoints.addAll(bird.points);
+    }
+    allPoints.addAll(allBirdPoints);
+
+    return new SirsasanaModel(allPoints);
+  }
+
 
   public SirsasanaModel(List<LXPoint> points) {
     super(points);
   }
 
+
+  static public List<String> readFileToStrings(String filename) {
+    List<String> lines = new ArrayList<String>();
+    try {
+      File file = new File(filename);
+      BufferedReader br = new BufferedReader(new FileReader(file));
+      String line;
+      while ((line = br.readLine()) != null) {
+        lines.add(line);
+      }
+    } catch (IOException ioex) {
+    }
+    return lines;
+  }
+
+  static public class Point3D {
+    float x, y, z;
+    public Point3D(float x, float y, float z) {
+      this.x = x; this.y = y; this.z = z;
+    }
+  }
+
+  static public List<Point3D> csvToPoint3Ds(String filename, float unitConversion) {
+    List<Point3D> point3Ds = new ArrayList<Point3D>();
+    List<String> lines = readFileToStrings(filename);
+    for (String line : lines) {
+      if (line.contains(",")) {
+        String[] ledPosXYZ = line.split(",");
+        float x = Float.parseFloat(ledPosXYZ[0]);
+        float y = Float.parseFloat(ledPosXYZ[2]);
+        float z = Float.parseFloat(ledPosXYZ[1]);
+        point3Ds.add(new Point3D(x * unitConversion, y * unitConversion, z * unitConversion));
+      }
+    }
+    return point3Ds;
+  }
+
+  static public List<LXPoint> csvToLXPoints(String filename, float unitConversion) {
+    List<LXPoint> points = new ArrayList<LXPoint>();
+    logger.info("Loading Points: " + filename);
+    List<String> lines = readFileToStrings(filename);
+    for (String line : lines) {
+      if (line.contains(",")) {
+        String[] ledPosXYZ = line.split(",");
+        float x = Float.parseFloat(ledPosXYZ[0]);
+        float y = Float.parseFloat(ledPosXYZ[2]);
+        float z = Float.parseFloat(ledPosXYZ[1]);
+        points.add(new LXPoint(x * unitConversion, y * unitConversion,  z * unitConversion));
+      }
+    }
+    logger.info("Num points added: " + points.size());
+    return points;
+  }
 }
