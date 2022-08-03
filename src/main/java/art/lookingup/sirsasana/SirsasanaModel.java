@@ -86,6 +86,7 @@ import java.util.logging.Logger;
 
   public static List<Bird> birds = new ArrayList<Bird>();
   public static List<LXPoint> allBirdPoints = new ArrayList<LXPoint>();
+  public static Map<Integer, Bird> midiToBird = new HashMap<Integer, Bird>();
 
   public static List<LXPoint> allFloodsNoBirds = new ArrayList<LXPoint>();
   public static List<LXPoint> allPoints = new ArrayList<LXPoint>();
@@ -108,6 +109,7 @@ import java.util.logging.Logger;
   // 12 birds and each bird has back to back led strip of some length. 4.5 inches of 144 per meter led strip.
   static public class Bird {
     public int id;
+    public int midiChannel;
     public float x, y, z;
     public List<LXPoint> side1Points = new ArrayList<LXPoint>();
     public List<LXPoint> side2Points = new ArrayList<LXPoint>();
@@ -118,6 +120,7 @@ import java.util.logging.Logger;
       this.x = x;
       this.y = y;
       this.z = z;
+      this.midiChannel = id + 1;
 
       float metersPerSide = 4.5f / INCHES_PER_METER;
       float ledSpacingMeters = 1f / 144f;
@@ -134,6 +137,24 @@ import java.util.logging.Logger;
       }
       points.addAll(side1Points);
       points.addAll(side2Points);
+    }
+
+    /**
+     * If we give a bird a new channel, swap the old bird with our current channel.  This is just a precaution so
+     * that we don't disappear birds from the midiToBird mapping.
+     * @param newChannel
+     */
+    public void changeMidiChannel(int newChannel) {
+      Bird otherBird = midiToBird.get(newChannel);
+      if (otherBird != null) {
+        otherBird.midiChannel = this.midiChannel;
+        midiToBird.put(otherBird.midiChannel, otherBird);
+      } else {
+        // There is no bird at our new channel to swap into our old position, so just remove our old mapping.
+        midiToBird.remove(this.midiChannel);
+      }
+      this.midiChannel = newChannel;
+      midiToBird.put(this.midiChannel, this);
     }
   }
 
@@ -273,6 +294,9 @@ import java.util.logging.Logger;
       Bird bird = new Bird(birdId++, birdPos.x, birdPos.y, birdPos.z);
       birds.add(bird);
       allBirdPoints.addAll(bird.points);
+      // First bird is Midi Channel 1 by default.
+      // TODO(tracy): Allow this to be remapped in the UI.
+      midiToBird.put(bird.midiChannel, bird);
     }
     allPoints.addAll(allBirdPoints);
 
