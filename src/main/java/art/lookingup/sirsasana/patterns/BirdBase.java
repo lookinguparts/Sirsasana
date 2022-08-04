@@ -2,7 +2,9 @@ package art.lookingup.sirsasana.patterns;
 
 import art.lookingup.sirsasana.SirsasanaModel;
 import heronarts.lx.LX;
+import heronarts.lx.color.LXColor;
 import heronarts.lx.midi.*;
+import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
@@ -67,8 +69,20 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
 
   public void beforeRender(double deltaMs) {}
   public void afterRender(double deltaMs) {}
+
   abstract public void renderBirdSinging(int[] colors, SirsasanaModel.Bird bird, double deltaMs);
-  abstract public void renderBirdIdle(int[] colors, SirsasanaModel.Bird bird, double deltaMs);
+
+  /**
+   * TODO(tracy): A decent default bird idle animation should go here.
+   * @param colors
+   * @param bird
+   * @param deltaMs
+   */
+  public void renderBirdIdle(int[] colors, SirsasanaModel.Bird bird, double deltaMs) {
+    for (LXPoint p : bird.points) {
+      colors[p.index] = LXColor.gray(20);
+    }
+  }
 
 
   public void noteOffReceived(MidiNote note) {

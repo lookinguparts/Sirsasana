@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1659570748697,
+  "timestamp": 1659571283148,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
