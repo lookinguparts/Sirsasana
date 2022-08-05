@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1659686432640,
+  "timestamp": 1659724869480,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -715,7 +715,7 @@
               "fader": 1.0,
               "crossfadeGroup": 0,
               "blendMode": 0,
-              "midiMonitor": false,
+              "midiMonitor": true,
               "midiChannel": 16,
               "viewEnabled": false,
               "viewSelector": "",
@@ -726,7 +726,7 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 2,
+              "focusedPattern": 4,
               "triggerPatternCycle": false
             },
             "children": {},
@@ -763,7 +763,7 @@
               }
             ],
             "clips": [],
-            "patternIndex": 2,
+            "patternIndex": 4,
             "patterns": [
               {
                 "id": 104,
@@ -925,9 +925,10 @@
                   "label": "BasicBird",
                   "recall": false,
                   "midich": 1,
-                  "note": 49,
+                  "note": 48,
                   "sing": false,
-                  "idle": false
+                  "idle": false,
+                  "log": false
                 },
                 "children": {
                   "modulation": {
@@ -1078,6 +1079,42 @@
             "clips": [],
             "patternIndex": -1,
             "patterns": []
+          },
+          {
+            "id": 633,
+            "class": "heronarts.lx.mixer.LXChannel",
+            "internal": {
+              "modulationColor": 0,
+              "controlsExpanded": true
+            },
+            "parameters": {
+              "label": "Channel-5",
+              "arm": false,
+              "selected": false,
+              "enabled": true,
+              "cue": false,
+              "fader": 1.0,
+              "crossfadeGroup": 0,
+              "blendMode": 0,
+              "midiMonitor": false,
+              "midiChannel": 16,
+              "viewEnabled": false,
+              "viewSelector": "",
+              "viewNormalization": 0,
+              "autoCycleEnabled": false,
+              "autoCycleMode": 0,
+              "autoCycleTimeSecs": 60.0,
+              "transitionEnabled": false,
+              "transitionTimeSecs": 5.0,
+              "transitionBlendMode": 0,
+              "focusedPattern": 0,
+              "triggerPatternCycle": false
+            },
+            "children": {},
+            "effects": [],
+            "clips": [],
+            "patternIndex": -1,
+            "patterns": []
           }
         ]
       },
@@ -1148,7 +1185,14 @@
           "computerKeyboardEnabled": false
         },
         "children": {},
-        "inputs": [],
+        "inputs": [
+          {
+            "name": "loopMIDI Port",
+            "channel": true,
+            "control": false,
+            "sync": false
+          }
+        ],
         "surfaces": [],
         "mapping": []
       },
@@ -1266,7 +1310,7 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 58.95912517094332,
+          "radius": 42.587583014242945,
           "theta": 35.291321316733956,
           "phi": 0.8461661692708731,
           "x": -0.5078704024199396,
@@ -1276,7 +1320,7 @@
         "cue": [
           {
             "active": false,
-            "radius": 58.95912517094332,
+            "radius": 42.587583014242945,
             "theta": 35.291321316733956,
             "phi": 0.8461661692708731,
             "x": -0.5078704024199396,

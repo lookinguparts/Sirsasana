@@ -11,13 +11,16 @@ import heronarts.lx.pattern.LXPattern;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 abstract public class BirdBase extends LXPattern implements LXMidiListener {
+  private static final Logger logger = Logger.getLogger(BirdBase.class.getName());
 
   public DiscreteParameter midiChannel = new DiscreteParameter("midich", 1, 1, 17);
   public DiscreteParameter midiNote = new DiscreteParameter("note", 49, 0, 127);
   public BooleanParameter allSinging = new BooleanParameter("sing", false);
   public BooleanParameter allIdle = new BooleanParameter("idle", false);
+  public BooleanParameter logNotes = new BooleanParameter("log", false);
 
   public Map<Integer, SirsasanaModel.Bird> singingBirds = new HashMap<Integer, SirsasanaModel.Bird>();
   public Map<Integer, SirsasanaModel.Bird> notSingingBirds = new HashMap<Integer, SirsasanaModel.Bird>();
@@ -28,6 +31,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
     addParameter("note", midiNote);
     addParameter("sing", allSinging);
     addParameter("idle", allIdle);
+    addParameter("log", logNotes);
   }
 
   /**
@@ -87,6 +91,8 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
 
   public void noteOffReceived(MidiNote note) {
     SirsasanaModel.Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
+    if (logNotes.isOn())
+      logger.info("Note OFF for channel: " + note.getChannel() + " note val: " + note.getPitch());
     if (bird != null) {
       if (singingBirds.containsKey(bird.id))
         singingBirds.remove(bird.id);
@@ -97,7 +103,10 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
   // When we receive a note on, look up the bird and add it to singing birds.
   public void noteOnReceived(MidiNoteOn note) {
     SirsasanaModel.Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
+    if (logNotes.isOn())
+      logger.info("Note ON for channel: " + note.getChannel() + " note val: " + note.getPitch());
     if (bird != null) {
+      //logger.info("Changing bird to singing");
       if (notSingingBirds.containsKey(bird.id))
         notSingingBirds.remove(bird.id);
       singingBirds.put(bird.id, bird);
