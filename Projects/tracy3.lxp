@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1659729578657,
+  "timestamp": 1659738452040,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -726,7 +726,7 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 4,
+              "focusedPattern": 3,
               "triggerPatternCycle": false
             },
             "children": {},
@@ -763,7 +763,7 @@
               }
             ],
             "clips": [],
-            "patternIndex": 4,
+            "patternIndex": 3,
             "patterns": [
               {
                 "id": 104,
@@ -852,7 +852,9 @@
                   "ease": 0,
                   "swatch": 0,
                   "speed": 0.8999999798834324,
-                  "perlFreq": 1.0
+                  "perlFreq": 1.0,
+                  "iterate": false,
+                  "iDur": 200.0
                 },
                 "children": {
                   "modulation": {
@@ -884,7 +886,7 @@
                 "parameters": {
                   "label": "Selector",
                   "recall": false,
-                  "section": 0,
+                  "section": 2,
                   "color/brightness": 100.0,
                   "color/saturation": 0.0,
                   "color/hue": 0.0,
@@ -892,7 +894,9 @@
                   "ease": 0,
                   "swatch": 0,
                   "speed": 0.0,
-                  "perlFreq": 1.0
+                  "perlFreq": 1.0,
+                  "iterate": true,
+                  "iDur": 200.00044256448746
                 },
                 "children": {
                   "modulation": {
@@ -962,7 +966,7 @@
                   "label": "GlowUp",
                   "recall": false,
                   "t": 0.0,
-                  "color/brightness": 99.32906341552734,
+                  "color/brightness": 88.10501098632812,
                   "color/saturation": 9.166664123535156,
                   "color/hue": 233.99998474121094,
                   "base": 1.0,
@@ -1000,7 +1004,7 @@
                           "tempoMultiplier": 5,
                           "tempoLock": true,
                           "clockMode": 0,
-                          "periodFast": 5197.463704874475,
+                          "periodFast": 240.59897776999594,
                           "periodSlow": 10000.0,
                           "wave": 0,
                           "skew": 0.0,
@@ -1010,7 +1014,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.40121092999382846
+                        "basis": 0.3202873483374202
                       }
                     ],
                     "modulations": [
@@ -1311,9 +1315,9 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 42.587583014242945,
-          "theta": 35.291321316733956,
-          "phi": 0.8461661692708731,
+          "radius": 93.70027722006489,
+          "theta": 35.7212838139385,
+          "phi": 0.768772941082716,
           "x": -0.5078704024199396,
           "y": 0.8703415393829346,
           "z": -0.2668661973439157
@@ -1321,9 +1325,9 @@
         "cue": [
           {
             "active": false,
-            "radius": 42.587583014242945,
-            "theta": 35.291321316733956,
-            "phi": 0.8461661692708731,
+            "radius": 93.70027722006489,
+            "theta": 35.7212838139385,
+            "phi": 0.768772941082716,
             "x": -0.5078704024199396,
             "y": 0.8703415393829346,
             "z": -0.2668661973439157

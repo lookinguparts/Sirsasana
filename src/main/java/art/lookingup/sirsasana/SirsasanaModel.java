@@ -74,15 +74,21 @@ import java.util.logging.Logger;
 
   // holds layers of lights
   public static List<LXPoint> upperRingFloods = new ArrayList<LXPoint>();
+  public static List<LXPoint> upperRingFloodsSorted = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingUpFloods = new ArrayList<LXPoint>();
+  public static List<LXPoint> lowerRingUpFloodsSorted = new ArrayList<LXPoint>();
   public static List<LXPoint> lowerRingDownFloods = new ArrayList<LXPoint>();
+  public static List<LXPoint> lowerRingDownFloodsSorted = new ArrayList<LXPoint>();
   public static List<LXPoint> topCrownSpikeLights = new ArrayList<LXPoint>();
+  public static List<LXPoint> topCrownSpikeLightsSorted = new ArrayList<LXPoint>();
   public static List<LXPoint> canopyFloods = new ArrayList<LXPoint>();
+  public static List<LXPoint> canopyFloodsSorted = new ArrayList<LXPoint>();
 
   public static List<LXPoint> base1Floods;
   public static List<LXPoint> base2Floods;
   public static List<LXPoint> base3Floods;
   public static List<LXPoint> baseFloods = new ArrayList<LXPoint>();
+  public static List<LXPoint> baseFloodsSorted = new ArrayList<LXPoint>();
 
   public static List<Bird> birds = new ArrayList<Bird>();
   public static List<LXPoint> allBirdPoints = new ArrayList<LXPoint>();
@@ -216,23 +222,39 @@ import java.util.logging.Logger;
   static public LXModel createModelFromPositions() {
     final String crownFile = "crownpositions.txt";
 
+    LXPointAngleComparator comparator = new LXPointAngleComparator();
+
     topCrownSpikeLights = csvToLXPoints("crownlights.txt", 1f/12f);
+    topCrownSpikeLightsSorted.addAll(topCrownSpikeLights);
+    Collections.sort(topCrownSpikeLightsSorted, comparator);
     allPoints.addAll(topCrownSpikeLights);
 
     upperRingFloods = csvToLXPoints("upperlights.txt", 1f/12f);
+    upperRingFloodsSorted.addAll(upperRingFloods);
+    Collections.sort(upperRingFloodsSorted, comparator);
     allPoints.addAll(upperRingFloods);
 
     List<LXPoint> lowerFloods = csvToLXPoints("lowerlights.txt", 1f/12f);
     lowerRingUpFloods.addAll(lowerFloods.subList(0, lowerFloods.size()/2));
+    lowerRingUpFloodsSorted.addAll(lowerRingUpFloods);
+    Collections.sort(lowerRingUpFloods, comparator);
     allPoints.addAll(lowerRingUpFloods);
     lowerRingDownFloods.addAll(lowerFloods.subList(lowerFloods.size()/2, lowerFloods.size()));
+    lowerRingDownFloodsSorted.addAll(lowerRingDownFloods);
+    Collections.sort(lowerRingDownFloods, comparator);
     allPoints.addAll(lowerRingDownFloods);
 
     canopyFloods = csvToLXPoints("canopylights.txt", 1f/12f);
+    canopyFloodsSorted.addAll(canopyFloods);
+    Collections.sort(canopyFloodsSorted, comparator);
     allPoints.addAll(canopyFloods);
 
+    // Preserve the original order so that the Unity output matches up
     baseFloods = csvToLXPoints("groundlights.txt", 1f/12f);
     allPoints.addAll(baseFloods);
+    baseFloodsSorted.addAll(baseFloods);
+    // Sort base floods by polar angle.
+    Collections.sort(baseFloodsSorted, new LXPointAngleComparator());
 
     allFloodsNoBirds.addAll(allPoints);
 
@@ -308,5 +330,19 @@ import java.util.logging.Logger;
     }
     logger.info("Num points added: " + points.size());
     return points;
+  }
+
+  static public class LXPointAngleComparator implements Comparator<LXPoint> {
+    @Override
+    public int compare(LXPoint a, LXPoint b) {
+      return polar(a) < polar(b)? -1 : polar(a) == polar(b) ? 0: 1;
+    }
+
+    public double polar(LXPoint a) {
+      double angle = Math.atan2(a.z, a.x);
+      // Fix -PI to PI range to be 0 to 2 PI
+      if (angle > 0) return angle;
+      else return Math.PI * 2f + angle;
+    }
   }
 }

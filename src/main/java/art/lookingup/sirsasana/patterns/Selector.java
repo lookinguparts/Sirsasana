@@ -34,6 +34,11 @@ public class Selector extends LXPattern {
   DiscreteParameter swatch = new DiscreteParameter("swatch", 0, 0, 20);
   CompoundParameter speed = new CompoundParameter("speed", 0f, 0f, 10f);
   CompoundParameter perlinFreq = new CompoundParameter("perlFreq", 1f, 0f, 20f);
+  BooleanParameter iterate = new BooleanParameter("iterate", false);
+  CompoundParameter iDur = new CompoundParameter("iDur", 200f, 0f, 20000f);
+
+  int currentLight = 0;
+  float currentLightTime = 0f;
 
   EaseUtil ease = new EaseUtil(0);
   protected float curAngle = 0f;
@@ -47,11 +52,17 @@ public class Selector extends LXPattern {
     addParameter("swatch", swatch);
     addParameter("speed", speed);
     addParameter("perlFreq", perlinFreq);
+    addParameter("iterate", iterate);
+    addParameter("iDur", iDur);
+
     color.brightness.setValue(100f);
   }
 
-  public int getColor(LXPoint p, double deltaMs) {
+  public int getColor(LXPoint p, int secIndex, double deltaMs) {
     int clr = color.getColor();
+    if (iterate.isOn() && currentLight != secIndex)
+      return LXColor.BLACK;
+
     if (usePal.getValueb()) {
       // If we are using the palette, lets spead the palette out from 0 to 360 degrees around the structure.
       float angle = (float)Math.atan2(p.z, p.x);
@@ -78,42 +89,43 @@ public class Selector extends LXPattern {
     if (ease.easeNum == 8) {
       ease.perlinFreq = perlinFreq.getValuef();
     }
+    int secIndex = 0;
     for (LXPoint p : SirsasanaModel.allPoints) {
       colors[p.index] = LXColor.BLACK;
     }
     if (which.getValuei() == 7) {
       for (LXPoint p : SirsasanaModel.allPoints) {
-        colors[p.index] = getColor(p, deltaMs);
+        colors[p.index] = getColor(p, secIndex++, deltaMs);
       }
     } else {
       switch (which.getValuei()) {
         case 0:
-          for (LXPoint p : SirsasanaModel.topCrownSpikeLights)
-            colors[p.index] = getColor(p, deltaMs);
+          for (LXPoint p : SirsasanaModel.topCrownSpikeLightsSorted)
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           break;
         case 1:
-          for (LXPoint p : SirsasanaModel.upperRingFloods)
-            colors[p.index] = getColor(p, deltaMs);
+          for (LXPoint p : SirsasanaModel.upperRingFloodsSorted)
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           break;
         case 2:
-          for (LXPoint p : SirsasanaModel.lowerRingUpFloods)
-            colors[p.index] = getColor(p, deltaMs);
+          for (LXPoint p : SirsasanaModel.lowerRingUpFloodsSorted)
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           break;
         case 3:
-          for (LXPoint p : SirsasanaModel.lowerRingDownFloods)
-            colors[p.index] = getColor(p, deltaMs);
+          for (LXPoint p : SirsasanaModel.lowerRingDownFloodsSorted)
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           break;
         case 4:
-          for (LXPoint p : SirsasanaModel.baseFloods)
-            colors[p.index] = getColor(p, deltaMs);
+          for (LXPoint p : SirsasanaModel.baseFloodsSorted)
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           break;
         case 5:
-          for (LXPoint p : SirsasanaModel.canopyFloods)
-            colors[p.index] = getColor(p, deltaMs);
+          for (LXPoint p : SirsasanaModel.canopyFloodsSorted)
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           break;
         case 6:
           for (LXPoint p : SirsasanaModel.allBirdPoints) {
-            colors[p.index] = getColor(p, deltaMs);
+            colors[p.index] = getColor(p, secIndex++, deltaMs);
           }
           break;
       }
@@ -122,5 +134,44 @@ public class Selector extends LXPattern {
     if (curAngle > 1f) {
       curAngle -= 1f;
     }
+    if (iterate.isOn()) {
+      currentLightTime += deltaMs;
+      if (currentLightTime > iDur.getValuef()) {
+        currentLightTime = 0f;
+        incrementCurrentLight();
+      }
+    }
+  }
+
+  /**
+   * For iterating the lights in a section.  We need to increment the current light index and it needs to
+   * wrap appropriately given the number of lights in a section.
+   */
+  public void incrementCurrentLight() {
+    currentLight++;
+    if (currentLight >= getNumLightsInSection())
+      currentLight = 0;
+  }
+
+  public int getNumLightsInSection() {
+    switch (which.getValuei()) {
+      case 0:
+        return SirsasanaModel.topCrownSpikeLights.size();
+      case 1:
+        return SirsasanaModel.upperRingFloods.size();
+      case 2:
+        return SirsasanaModel.lowerRingUpFloods.size();
+      case 3:
+        return SirsasanaModel.lowerRingDownFloods.size();
+      case 4:
+        return SirsasanaModel.baseFloods.size();
+      case 5:
+        return SirsasanaModel.canopyFloods.size();
+      case 6:
+        return SirsasanaModel.allBirdPoints.size();
+      case 7:
+        return SirsasanaModel.allPoints.size();
+    }
+    return 1;
   }
 }
