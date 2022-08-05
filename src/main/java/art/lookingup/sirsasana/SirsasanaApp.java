@@ -181,7 +181,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     // At this point, the LX Studio application UI has been built. You may now add
     // additional views and components to the Ui heirarchy.
     pixliteConfig = (UIPixliteConfig) new UIPixliteConfig(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
-    Output.configurePixliteOutput(lx);
+    Output.configureUnityArtNet(lx);
     logger.info("Model bounds: " + lx.getModel().xMin + "," + lx.getModel().yMin + " to " + lx.getModel().xMax + "," + lx.getModel().yMax);
   }
 

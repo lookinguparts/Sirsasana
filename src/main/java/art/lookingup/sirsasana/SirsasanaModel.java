@@ -21,10 +21,10 @@ import java.util.logging.Logger;
  *   - There are 12 points at the top and bottom, because each tine bifurcates
  *
  * Parts of lighting (top to bottom):
- * - Root Crown: 12 roots, each with a flood pointing up
+ * - Root Crown: 12 roots, each with 3 LED pucks mounted somehow.  36 lights.
  * - Two steel rings:
- *    - Upper ring - 25' high, with 12 floods down (below platform)
- *    - Middle ring - 18' high, with 12 floods up and 12 floods down
+ *    - Upper ring - 25' high, with 6 floods down (below platform)
+ *    - Middle ring - 18' high, with 6 floods up and 6 floods down
  *  - Canopy lights
  *    -
  *  - Birds:

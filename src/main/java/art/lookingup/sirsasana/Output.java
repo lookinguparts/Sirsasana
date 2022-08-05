@@ -31,20 +31,27 @@ public class Output {
     String unityIpAddress = "127.0.0.1";
     logger.log(Level.INFO, "Using ArtNet: " + unityIpAddress + ":" + artnetPort);
 
-    List<LXPoint> points = lx.getModel().getPoints();
+    List<LXPoint> points = new ArrayList<LXPoint>();
+    points.addAll(SirsasanaModel.canopyFloods);
+    points.addAll(SirsasanaModel.upperRingFloods);
+    points.addAll(SirsasanaModel.lowerRingUpFloods);
+    points.addAll(SirsasanaModel.lowerRingDownFloods);
+    points.addAll(SirsasanaModel.baseFloods);
+
     int numUniverses = (int)Math.ceil(((double)points.size())/170.0);
-    logger.info("Num universes: " + numUniverses);
+    logger.info("Num universes: " + numUniverses + " for num points: " + points.size());
     List<ArtNetDatagram> datagrams = new ArrayList<ArtNetDatagram>();
     int totalPointsOutput = 0;
 
     for (int univNum = 0; univNum < numUniverses; univNum++) {
-      int[] dmxChannelsForUniverse = new int[170];
+      int[] dmxChannelsForUniverse = new int[points.size()];
       for (int i = 0; i < 170 && totalPointsOutput < points.size(); i++) {
         LXPoint p = points.get(univNum*170 + i);
         dmxChannelsForUniverse[i] = p.index;
         totalPointsOutput++;
       }
 
+      logger.info("Generating ArtNet datagram with points=" + dmxChannelsForUniverse.length/3);
       ArtNetDatagram artnetDatagram = new ArtNetDatagram(lx, dmxChannelsForUniverse, univNum);
       try {
         artnetDatagram.setAddress(InetAddress.getByName(unityIpAddress)).setPort(artnetPort);
