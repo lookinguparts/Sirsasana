@@ -14,6 +14,18 @@ public class Bird {
   public List<LXPoint> side2Points = new ArrayList<LXPoint>();
   public List<LXPoint> points = new ArrayList<LXPoint>();
 
+  public enum State {
+    IDLE, SINGING, START_SINGING, STOP_SINGING
+  }
+  public State state = State.IDLE;
+  // To allow for the MIDI stream to select different looks, we store the MIDI note here representing the requested
+  // look.
+  public int look;
+
+  // We will want to blend between the singing and idle animations so we need to track our progress in the transition.
+  public float startSingingDuration;
+  public float stopSingingDuration;
+
   public Bird(int id, float x, float y, float z) {
     this.id = id;
     this.x = x;
@@ -36,6 +48,58 @@ public class Bird {
     }
     points.addAll(side1Points);
     points.addAll(side2Points);
+  }
+
+  public void startSinging(int look) {
+    if (state == State.SINGING || state == State.START_SINGING) return;
+    // If we are transitioning from singing to stop singing and we receive a start singing message, there might be a
+    // small blip in the blending since we schedule the start-singing transition immediately.
+    if (state == State.IDLE || state == State.STOP_SINGING) {
+      state = State.START_SINGING;
+      this.look = look;
+      startSingingDuration = 0f;
+    }
+  }
+
+  public void stopSinging() {
+    if (state == State.IDLE || state == State.STOP_SINGING) return;
+
+    if (state == State.SINGING || state == State.START_SINGING) {
+      state = State.STOP_SINGING;
+      stopSingingDuration = 0f;
+    }
+  }
+
+  /**
+   * Call this function to manage the state transitions between singing and not singing.  This will just update
+   * our elapsed transition time.
+   * @param deltaMs
+   */
+  public void updateState(double deltaMs, float transitionTime) {
+    if (state == State.START_SINGING) {
+      startSingingDuration += deltaMs;
+      if (startSingingDuration > transitionTime) {
+        state = State.SINGING;
+      }
+    }
+    if (state == State.STOP_SINGING) {
+      stopSingingDuration += deltaMs;
+      if (stopSingingDuration > transitionTime) {
+        state = State.IDLE;
+      }
+    }
+  }
+
+  public float getSingingWeight(float transitionTime) {
+    if (state == State.IDLE) return 0f;
+    if (state == State.SINGING) return 1f;
+    if (state == State.START_SINGING) return startSingingDuration / transitionTime;
+    if (state == State.STOP_SINGING) return 1f - stopSingingDuration / transitionTime;
+    return 0f;
+  }
+
+  public float getIdleWeight(float transitionTime) {
+    return 1f - getSingingWeight(transitionTime);
   }
 
   /**

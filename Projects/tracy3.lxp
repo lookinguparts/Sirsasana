@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1659724869480,
+  "timestamp": 1659729578657,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -928,7 +928,8 @@
                   "note": 48,
                   "sing": false,
                   "idle": false,
-                  "log": false
+                  "log": false,
+                  "trans": 2000.0
                 },
                 "children": {
                   "modulation": {

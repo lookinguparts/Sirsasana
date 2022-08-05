@@ -7,11 +7,10 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.midi.*;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BooleanParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 abstract public class BirdBase extends LXPattern implements LXMidiListener {
@@ -22,9 +21,11 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
   public BooleanParameter allSinging = new BooleanParameter("sing", false);
   public BooleanParameter allIdle = new BooleanParameter("idle", false);
   public BooleanParameter logNotes = new BooleanParameter("log", false);
+  public CompoundParameter transition = new CompoundParameter("trans", 0f, 0f, 2000f)
+      .setDescription("Transition time between singing and idle states");
 
-  public Map<Integer, Bird> singingBirds = new HashMap<Integer, Bird>();
-  public Map<Integer, Bird> notSingingBirds = new HashMap<Integer, Bird>();
+  // We need to perform our own internal blending when transitioning from singing to idle and back
+  public int[] blendBuffer;
 
   public BirdBase(LX lx) {
     super(lx);
@@ -33,6 +34,8 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
     addParameter("sing", allSinging);
     addParameter("idle", allIdle);
     addParameter("log", logNotes);
+    addParameter("trans", transition);
+    blendBuffer = new int[colors.length];
   }
 
   /**
@@ -47,10 +50,20 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
       runAllBirdsIdle(deltaMs);
     } else {
       for (Bird bird : SirsasanaModel.birds) {
-        if (singingBirds.containsKey(bird.id))
+        // TODO(tracy): If we are in a transition state, we will need to render both patterns and blend between them.
+        if (bird.state == Bird.State.SINGING) {
           renderBirdSinging(colors, bird, deltaMs);
-        else
+        } else if (bird.state == Bird.State.IDLE) {
           renderBirdIdle(colors, bird, deltaMs);
+        } else {
+          renderBirdSinging(colors, bird, deltaMs);
+          renderBirdIdle(blendBuffer, bird, deltaMs);
+          // Ugh, we need to just go through per-bird points only and blend them.
+          for (LXPoint p : bird.points) {
+            colors[p.index] = LXColor.lerp(colors[p.index], blendBuffer[p.index], bird.getIdleWeight(transition.getValuef()));
+          }
+        }
+        bird.updateState(deltaMs, transition.getValuef());
       }
     }
     afterRender(deltaMs);
@@ -95,9 +108,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
     if (logNotes.isOn())
       logger.info("Note OFF for channel: " + note.getChannel() + " note val: " + note.getPitch());
     if (bird != null) {
-      if (singingBirds.containsKey(bird.id))
-        singingBirds.remove(bird.id);
-      notSingingBirds.put(bird.id, bird);
+      bird.stopSinging();
     }
   }
 
@@ -108,9 +119,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
       logger.info("Note ON for channel: " + note.getChannel() + " note val: " + note.getPitch());
     if (bird != null) {
       //logger.info("Changing bird to singing");
-      if (notSingingBirds.containsKey(bird.id))
-        notSingingBirds.remove(bird.id);
-      singingBirds.put(bird.id, bird);
+      bird.startSinging(note.getPitch());
     }
   }
 
