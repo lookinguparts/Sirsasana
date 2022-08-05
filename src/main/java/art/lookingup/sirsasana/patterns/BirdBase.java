@@ -1,5 +1,6 @@
 package art.lookingup.sirsasana.patterns;
 
+import art.lookingup.sirsasana.Bird;
 import art.lookingup.sirsasana.SirsasanaModel;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
@@ -22,8 +23,8 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
   public BooleanParameter allIdle = new BooleanParameter("idle", false);
   public BooleanParameter logNotes = new BooleanParameter("log", false);
 
-  public Map<Integer, SirsasanaModel.Bird> singingBirds = new HashMap<Integer, SirsasanaModel.Bird>();
-  public Map<Integer, SirsasanaModel.Bird> notSingingBirds = new HashMap<Integer, SirsasanaModel.Bird>();
+  public Map<Integer, Bird> singingBirds = new HashMap<Integer, Bird>();
+  public Map<Integer, Bird> notSingingBirds = new HashMap<Integer, Bird>();
 
   public BirdBase(LX lx) {
     super(lx);
@@ -45,7 +46,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
     } else if (allIdle.isOn()) {
       runAllBirdsIdle(deltaMs);
     } else {
-      for (SirsasanaModel.Bird bird : SirsasanaModel.birds) {
+      for (Bird bird : SirsasanaModel.birds) {
         if (singingBirds.containsKey(bird.id))
           renderBirdSinging(colors, bird, deltaMs);
         else
@@ -60,13 +61,13 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
    * @param deltaMs
    */
   public void runAllBirdsSinging(double deltaMs) {
-    for (SirsasanaModel.Bird bird: SirsasanaModel.birds) {
+    for (Bird bird: SirsasanaModel.birds) {
       renderBirdSinging(colors, bird, deltaMs);
     }
   }
 
   public void runAllBirdsIdle(double deltaMs) {
-    for (SirsasanaModel.Bird bird : SirsasanaModel.birds) {
+    for (Bird bird : SirsasanaModel.birds) {
       renderBirdIdle(colors, bird, deltaMs);
     }
   }
@@ -74,7 +75,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
   public void beforeRender(double deltaMs) {}
   public void afterRender(double deltaMs) {}
 
-  abstract public void renderBirdSinging(int[] colors, SirsasanaModel.Bird bird, double deltaMs);
+  abstract public void renderBirdSinging(int[] colors, Bird bird, double deltaMs);
 
   /**
    * TODO(tracy): A decent default bird idle animation should go here.
@@ -82,7 +83,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
    * @param bird
    * @param deltaMs
    */
-  public void renderBirdIdle(int[] colors, SirsasanaModel.Bird bird, double deltaMs) {
+  public void renderBirdIdle(int[] colors, Bird bird, double deltaMs) {
     for (LXPoint p : bird.points) {
       colors[p.index] = LXColor.gray(20);
     }
@@ -90,7 +91,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
 
 
   public void noteOffReceived(MidiNote note) {
-    SirsasanaModel.Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
+    Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
     if (logNotes.isOn())
       logger.info("Note OFF for channel: " + note.getChannel() + " note val: " + note.getPitch());
     if (bird != null) {
@@ -102,7 +103,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
 
   // When we receive a note on, look up the bird and add it to singing birds.
   public void noteOnReceived(MidiNoteOn note) {
-    SirsasanaModel.Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
+    Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
     if (logNotes.isOn())
       logger.info("Note ON for channel: " + note.getChannel() + " note val: " + note.getPitch());
     if (bird != null) {

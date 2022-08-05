@@ -1,6 +1,6 @@
 package art.lookingup.sirsasana.patterns;
 
-import art.lookingup.sirsasana.SirsasanaModel;
+import art.lookingup.sirsasana.Bird;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
@@ -23,14 +23,14 @@ public class BasicBird extends BirdBase {
     totalSecs += deltaMs / 1000f;
   }
 
-  public void renderBirdSinging(int[] colors, SirsasanaModel.Bird bird, double deltaMs) {
+  public void renderBirdSinging(int[] colors, Bird bird, double deltaMs) {
     for (LXPoint p : bird.points) {
       float v = 0.5f + 0.5f * (float)Math.sin(totalSecs * 10f);
       colors[p.index] = LXColor.gray(v * 100);
     }
   }
 
-  public void renderBirdIdle(int[] colors, SirsasanaModel.Bird bird, double deltaMs) {
+  public void renderBirdIdle(int[] colors, Bird bird, double deltaMs) {
     for (LXPoint p : bird.points) {
       float v = 0.2f;
       colors[p.index] = LXColor.gray(v * 100);

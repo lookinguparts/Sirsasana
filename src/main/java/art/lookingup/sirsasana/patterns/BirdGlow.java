@@ -8,7 +8,7 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
-import art.lookingup.sirsasana.SirsasanaModel.Bird;
+import art.lookingup.sirsasana.Bird;
 
 public class BirdGlow extends AnimT {
   ColorParameter color = new ColorParameter("color");
