@@ -55,4 +55,4 @@ mvn install:install-file -Dfile=lib/firmata4j-2.3.8-SNAPSHOT.jar -DgroupId=com.g
 Tips
 
 1. If you had previously used a different JDK with IntelliJ, remeber to pick JDK 17 while import the project using POM file
-2. In Windows if you cannot move files from Sirsasana\classpath\windows-amd64 to C:\Users\mister_kanth\Documents\Sirsasana\build\library suing command prompt then do it manually using file explorer
+2. In Windows if you cannot move files from Sirsasana\classpath\windows-amd64 to C:\Users\mister_kanth\Documents\Sirsasana\build\library using command prompt then do it manually using file explorer
