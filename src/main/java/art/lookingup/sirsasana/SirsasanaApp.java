@@ -21,6 +21,7 @@ package art.lookingup.sirsasana;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.logging.*;
 
@@ -30,6 +31,7 @@ import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
+import heronarts.lx.osc.*;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import processing.core.PApplet;
@@ -55,6 +57,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
 
   public static UIPixliteConfig pixliteConfig;
   public static PApplet pApplet;
+  public static LXOscEngine.Transmitter superColliderOsc;
 
   static public float[] panelPosParams;
 
@@ -183,6 +186,23 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     pixliteConfig = (UIPixliteConfig) new UIPixliteConfig(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
     Output.configureUnityArtNet(lx);
     logger.info("Model bounds: " + lx.getModel().xMin + "," + lx.getModel().yMin + " to " + lx.getModel().xMax + "," + lx.getModel().yMax);
+
+    logger.info("Triggering SuperCollider");
+    try {
+      superColliderOsc = lx.engine.osc.transmitter(InetAddress.getByName("localhost"), 5757, 1024);
+    } catch (Exception ex) {
+      logger.info("Exception creating OSC transmitter: " + ex.getMessage());
+    }
+    OscMessage speakerTrigger = new OscMessage("/speaker");
+    OscInt speakerNum = new OscInt(1);
+    OscFloat speakerVolume = new OscFloat(0.8f);
+    speakerTrigger.add(speakerNum);
+    speakerTrigger.add(speakerVolume);
+    try {
+      superColliderOsc.send(speakerTrigger);
+    } catch (IOException ioex) {
+      logger.info("Error sending speaker trigger: " + ioex.getMessage());
+    }
   }
 
   @Override

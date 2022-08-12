@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1659738452040,
+  "timestamp": 1660267300115,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -726,7 +726,7 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 3,
+              "focusedPattern": 4,
               "triggerPatternCycle": false
             },
             "children": {},
@@ -763,7 +763,7 @@
               }
             ],
             "clips": [],
-            "patternIndex": 3,
+            "patternIndex": 4,
             "patterns": [
               {
                 "id": 104,
@@ -886,7 +886,7 @@
                 "parameters": {
                   "label": "Selector",
                   "recall": false,
-                  "section": 2,
+                  "section": 5,
                   "color/brightness": 100.0,
                   "color/saturation": 0.0,
                   "color/hue": 0.0,
@@ -932,8 +932,8 @@
                   "note": 48,
                   "sing": false,
                   "idle": false,
-                  "log": false,
-                  "trans": 2000.0
+                  "log": true,
+                  "trans": 200.0
                 },
                 "children": {
                   "modulation": {
@@ -1060,7 +1060,7 @@
               "label": "Channel-4",
               "arm": false,
               "selected": false,
-              "enabled": true,
+              "enabled": false,
               "cue": false,
               "fader": 1.0,
               "crossfadeGroup": 0,
@@ -1096,7 +1096,7 @@
               "label": "Channel-5",
               "arm": false,
               "selected": false,
-              "enabled": true,
+              "enabled": false,
               "cue": false,
               "fader": 1.0,
               "crossfadeGroup": 0,
@@ -1221,7 +1221,7 @@
             },
             "parameters": {
               "label": "Input",
-              "device": 0
+              "device": 1
             },
             "children": {}
           },
@@ -1289,9 +1289,9 @@
           "receiveActive": false,
           "transmitHost": "localhost",
           "transmitPort": 3131,
-          "transmitActive": false,
+          "transmitActive": true,
           "logInput": false,
-          "logOutput": false
+          "logOutput": true
         },
         "children": {}
       }
