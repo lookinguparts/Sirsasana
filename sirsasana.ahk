@@ -17,7 +17,7 @@ Loop
     Process, Exist, java.exe
     
     if not Errorlevel {    
-	Run, C:\Users\remot\Documents\GitHub\Sirsasana\sirsasana.bat, C:\Users\remot\Documents\GitHub\Sirsasana
+	Run, C:\Users\accou\Documents\GitHub\Sirsasana\sirsasana.bat, C:\Users\accou\Documents\GitHub\Sirsasana
 	  Sleep 30000
 	}
 }
