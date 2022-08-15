@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660267300115,
+  "timestamp": 1660586096764,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -726,7 +726,7 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 4,
+              "focusedPattern": 6,
               "triggerPatternCycle": false
             },
             "children": {},
@@ -763,7 +763,7 @@
               }
             ],
             "clips": [],
-            "patternIndex": 4,
+            "patternIndex": 6,
             "patterns": [
               {
                 "id": 104,
@@ -1046,6 +1046,43 @@
                   }
                 },
                 "deviceVersion": -1
+              },
+              {
+                "id": 753,
+                "class": "art.lookingup.sirsasana.patterns.BasicBirdVol",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false,
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "BasicBirdVol",
+                  "recall": false,
+                  "midich": 1,
+                  "note": 49,
+                  "sing": false,
+                  "idle": false,
+                  "log": false,
+                  "trans": 0.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 754,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
               }
             ]
           },
@@ -1289,9 +1326,9 @@
           "receiveActive": false,
           "transmitHost": "localhost",
           "transmitPort": 3131,
-          "transmitActive": true,
+          "transmitActive": false,
           "logInput": false,
-          "logOutput": true
+          "logOutput": false
         },
         "children": {}
       }
@@ -1315,9 +1352,9 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 93.70027722006489,
-          "theta": 35.7212838139385,
-          "phi": 0.768772941082716,
+          "radius": 23.456331283063417,
+          "theta": 37.46693157590926,
+          "phi": 0.05503521300852299,
           "x": -0.5078704024199396,
           "y": 0.8703415393829346,
           "z": -0.2668661973439157
@@ -1325,9 +1362,9 @@
         "cue": [
           {
             "active": false,
-            "radius": 93.70027722006489,
-            "theta": 35.7212838139385,
-            "phi": 0.768772941082716,
+            "radius": 23.456331283063417,
+            "theta": 37.46693157590926,
+            "phi": 0.05503521300852299,
             "x": -0.5078704024199396,
             "y": 0.8703415393829346,
             "z": -0.2668661973439157

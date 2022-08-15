@@ -1,10 +1,9 @@
-// Load bird buffers, load bird midi, register OSC message handlers
+// This will be a more general purpose program that allows for multiple subdirectories so that people can package up
+// their own performances.  Also, we will use per-synth volume tracking so that each bird will receive it's own volume.
 Server.default = s = Server.internal.boot;
 thisProcess.nowExecutingPath;
 s.waitForBoot {
 	~projectPath = PathName(thisProcess.nowExecutingPath).parentPath;
-	"project path: ".post;
-	~projectPath.postln;
 	~speakerPaths = [~projectPath ++ "XC199847.wav", ~projectPath ++ "XC199849.wav"];
 	~speakerPathsAll = ~speakerPaths.dup(3);
 	~speakerPathsAll = ~speakerPathsAll.flatten();

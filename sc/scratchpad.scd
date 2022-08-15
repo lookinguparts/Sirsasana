@@ -1,6 +1,10 @@
 
 Quarks.gui
 m = SimpleMIDIFile.read( "C:\\Users\\Tracy\\Documents\\bird.mid" );
+m.tempo;
+SimpleMIDIFile.tempoScale;
+m.getTempo;
+
 t = m.generatePatternSeqs;
 MIDIClient.init;
 c = MIDIOut(0, MIDIClient.destinations.at(1).uid);
@@ -23,11 +27,37 @@ q.play();
 ~wrenmidis = [~wrenmidi];
 ~birdmidis = [~wrenmidi];
 ~wren = Buffer.read(s, "C:\\wren.wav");
-(
-{Out.ar(0, PlayBuf.ar(1, ~wren)* 0.8)}.play;
+~birdbus = Bus.control();  	// create a Bus to store amplitude data
+{
+	var sound = PlayBuf.ar(1, ~wren)* 0.8;
+	var amp = Amplitude.kr(sound, 0.05, 0.1) * 30.0;
+	Out.kr(~birdbus, amp);
+	Out.ar(0, sound);
+}.play;
+
+{
+	var sound = PlayBuf.ar(1, ~wren)* 0.8;
+	var amp = Amplitude.kr(sound);
+	Out.kr(~birdbus, amp);
+	Out.ar(1, sound);
+}.play;
+
+~birdhost = NetAddr("localhost", 7979);
+~birdbus.scope();
+
+~vollistener = fork{loop{
+	~birdbus.get({
+		arg value;
+		{
+			var z = if (value < 0.0000001, {0}, {value});
+			~birdhost.sendMsg("/sirsasana/birdvol", 0, z);
+		}.defer(); // schedule in the AppClock
+	});
+	0.05.wait; // indicator will be updated every .1 seconds
+}};
+
 {Out.ar(3, PlayBuf.ar(1, ~wren)* 0.8)}.play;
 {Out.ar(5, PlayBuf.ar(1, ~wren)* 0.8)}.play;
-)
 {Out.ar(0, PlayBuf.ar(1, ~wren, loop: 1)* 1.0)}.play;
 
 (
@@ -44,6 +74,7 @@ Synth("bird", [\channel, 4, \volume, 0.1]);
 
 
 ~host = NetAddr("localhost", 57123);
+
 
 ~host.sendMsg("/bird2", 0, 0.8);
 

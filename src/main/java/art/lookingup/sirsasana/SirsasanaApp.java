@@ -58,6 +58,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
   public static UIPixliteConfig pixliteConfig;
   public static PApplet pApplet;
   public static LXOscEngine.Transmitter superColliderOsc;
+  public static SirsasanaOSC sirsasanaOSC;
 
   static public float[] panelPosParams;
 
@@ -159,6 +160,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     loadModelParams();
     LXModel model = SirsasanaModel.createModelFromPositions();
     new LXStudio(this, flags, model);
+
     this.surface.setTitle(WINDOW_TITLE);
   }
 
@@ -172,6 +174,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     // you cannot assume you are working with an LXStudio class or that any UI will be
     // available.
     registerAll(lx);
+    sirsasanaOSC = new SirsasanaOSC(lx);
   }
 
   public void initializeUI(LXStudio lx, LXStudio.UI ui) {

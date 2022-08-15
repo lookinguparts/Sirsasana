@@ -13,7 +13,11 @@ import heronarts.lx.pattern.LXPattern;
 
 import java.util.logging.Logger;
 
-abstract public class BirdBase extends LXPattern implements LXMidiListener {
+/**
+ * Base class for mixing bird singing/idle looks by volume level received from SuperCollider.
+ * volume = 1 is full singing and volume = 0 is full idle.
+ */
+abstract public class BirdVol extends LXPattern implements LXMidiListener {
   private static final Logger logger = Logger.getLogger(BirdBase.class.getName());
 
   public DiscreteParameter midiChannel = new DiscreteParameter("midich", 1, 1, 17);
@@ -27,7 +31,7 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
   // We need to perform our own internal blending when transitioning from singing to idle and back
   public int[] blendBuffer;
 
-  public BirdBase(LX lx) {
+  public BirdVol(LX lx) {
     super(lx);
     addParameter("midich", midiChannel);
     addParameter("note", midiNote);
@@ -50,19 +54,12 @@ abstract public class BirdBase extends LXPattern implements LXMidiListener {
       runAllBirdsIdle(deltaMs);
     } else {
       for (Bird bird : SirsasanaModel.birds) {
-        if (bird.state == Bird.State.SINGING) {
-          renderBirdSinging(colors, bird, deltaMs);
-        } else if (bird.state == Bird.State.IDLE) {
-          renderBirdIdle(colors, bird, deltaMs);
-        } else {
-          renderBirdSinging(colors, bird, deltaMs);
-          renderBirdIdle(blendBuffer, bird, deltaMs);
-          // Ugh, we need to just go through per-bird points only and blend them.
-          for (LXPoint p : bird.points) {
-            colors[p.index] = LXColor.lerp(colors[p.index], blendBuffer[p.index], bird.getIdleWeight(transition.getValuef()));
-          }
+        renderBirdSinging(colors, bird, deltaMs);
+        renderBirdIdle(blendBuffer, bird, deltaMs);
+        // Ugh, we need to just go through per-bird points only and blend them.
+        for (LXPoint p : bird.points) {
+          colors[p.index] = LXColor.lerp(colors[p.index], blendBuffer[p.index], 1f - bird.getVolume());
         }
-        bird.updateState(deltaMs, transition.getValuef());
       }
     }
     afterRender(deltaMs);

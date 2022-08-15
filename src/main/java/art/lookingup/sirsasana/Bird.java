@@ -22,6 +22,11 @@ public class Bird {
   // look.
   public int look;
 
+  // This will be set by the SirsasanaOSC receiver when receiving /sirsasana/birdvol messages.
+  // SuperCollider will be tracking the volume and sending volume messages at some rate.  We should then
+  // mix the singing and idle animations by the volume percentage which should be between 0 and 1.
+  public float volume;
+
   // We will want to blend between the singing and idle animations so we need to track our progress in the transition.
   public float startSingingDuration;
   public float stopSingingDuration;
@@ -33,17 +38,20 @@ public class Bird {
     this.z = z;
     this.midiChannel = id + 1;
 
-    float metersPerSide = 4.5f / SirsasanaModel.INCHES_PER_METER;
+    // Adding in a factor to force the number of leds to be 13 instead of 16.
+    float metersPerSide = (4.5f * 13f/16f) / SirsasanaModel.INCHES_PER_METER;
     float ledSpacingMeters = 1f / 144f;
     float feetPerMeter = 3.28084f;
     float ledSpacingFeet = ledSpacingMeters / feetPerMeter;
+    float ledSpacingFudge = 40.0f; // Make them big enough to see.
+    float birdThicknessFudge = 10.0f;
     int ledsPerSide = (int)(metersPerSide * 144);
     for (int i = 0; i < ledsPerSide; i++) {
-      LXPoint point = new LXPoint(x, y + i * ledSpacingFeet, z);
+      LXPoint point = new LXPoint(x, y + i * ledSpacingFeet * ledSpacingFudge, z);
       side1Points.add(point);
     }
     for (int i = 0; i < ledsPerSide; i++) {
-      LXPoint point = new LXPoint(x, y + (ledsPerSide - 1) * ledSpacingFeet - (i * ledSpacingFeet), z + 0.25f/12f);
+      LXPoint point = new LXPoint(x, y + (ledsPerSide - 1) * ledSpacingFeet * ledSpacingFudge - (i * ledSpacingFeet * ledSpacingFudge), z + birdThicknessFudge * (0.25f/12f));
       side2Points.add(point);
     }
     points.addAll(side1Points);
@@ -118,5 +126,17 @@ public class Bird {
     }
     this.midiChannel = newChannel;
     SirsasanaModel.midiToBird.put(this.midiChannel, this);
+  }
+
+  /**
+   * Force the reported number between 0 and 1.
+   * @return
+   */
+  public float getVolume() {
+    if (volume < 0f)
+      return 0f;
+    if (volume > 1f)
+      return 1f;
+    return volume;
   }
 }
