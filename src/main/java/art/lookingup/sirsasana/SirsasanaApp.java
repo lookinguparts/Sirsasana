@@ -46,6 +46,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
 
   private static int pixelDensity = 1;
   private static boolean useUnity = false;
+  public static boolean stereo = false; // Allow for stereo override.
 
   private static final String WINDOW_TITLE = "Sirsasana";
 
@@ -217,6 +218,9 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
       logger.info("Error sending speaker trigger: " + ioex.getMessage());
     }
     */
+
+    // Start up bird synth trigger generator.
+    lx.engine.addLoopTask(new BirdSongGen());
   }
 
   @Override
@@ -282,6 +286,9 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
       File unityOut = new File("unity");
       if (unityOut.exists())
         useUnity = true;
+      File stereoFile = new File("stereo");
+      if (stereoFile.exists())
+        stereo = true;
       PApplet.main(concat(sketchArgs, args));
       //PApplet.runSketch(sketchArgs, null);
     }

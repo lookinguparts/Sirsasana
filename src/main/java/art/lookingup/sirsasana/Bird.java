@@ -31,6 +31,8 @@ public class Bird {
   public float startSingingDuration;
   public float stopSingingDuration;
 
+  public long lastSinging = 0;
+
   public Bird(int id, float x, float y, float z) {
     this.id = id;
     this.x = x;
@@ -75,6 +77,7 @@ public class Bird {
     if (state == State.SINGING || state == State.START_SINGING) {
       state = State.STOP_SINGING;
       stopSingingDuration = 0f;
+      lastSinging = System.currentTimeMillis();
     }
   }
 
