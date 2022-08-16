@@ -45,6 +45,7 @@ import processing.core.PApplet;
 public class SirsasanaApp extends PApplet implements LXPlugin {
 
   private static int pixelDensity = 1;
+  private static boolean useUnity = false;
 
   private static final String WINDOW_TITLE = "Sirsasana";
 
@@ -55,6 +56,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
   private static final int MAX_LOG_AGE_DAYS = 2;
   private static final int MAX_LOG_AGE_SECS = MAX_LOG_AGE_DAYS * 24 * 60 * 60;
 
+  public static OutputMapping outputMap;
   public static UIPixliteConfig pixliteConfig;
   public static PApplet pApplet;
   public static LXOscEngine.Transmitter superColliderOsc;
@@ -187,8 +189,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     // At this point, the LX Studio application UI has been built. You may now add
     // additional views and components to the Ui heirarchy.
     pixliteConfig = (UIPixliteConfig) new UIPixliteConfig(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
-    Output.configureUnityArtNet(lx);
-    logger.info("Model bounds: " + lx.getModel().xMin + "," + lx.getModel().yMin + " to " + lx.getModel().xMax + "," + lx.getModel().yMax);
+   logger.info("Model bounds: " + lx.getModel().xMin + "," + lx.getModel().yMin + " to " + lx.getModel().xMax + "," + lx.getModel().yMax);
 
     logger.info("Triggering SuperCollider");
     try {
@@ -196,6 +197,15 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     } catch (Exception ex) {
       logger.info("Exception creating OSC transmitter: " + ex.getMessage());
     }
+    outputMap = (OutputMapping) new OutputMapping(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
+
+    if (useUnity)
+      Output.configureUnityArtNet(lx);
+    else
+      Output.configurePixliteOutput(lx);
+
+
+    /*
     OscMessage speakerTrigger = new OscMessage("/speaker");
     OscInt speakerNum = new OscInt(1);
     OscFloat speakerVolume = new OscFloat(0.8f);
@@ -206,6 +216,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     } catch (IOException ioex) {
       logger.info("Error sending speaker trigger: " + ioex.getMessage());
     }
+    */
   }
 
   @Override
@@ -268,6 +279,9 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
       File hdpiFlag = new File("hdpi");
       if (hdpiFlag.exists())
         pixelDensity = 2;
+      File unityOut = new File("unity");
+      if (unityOut.exists())
+        useUnity = true;
       PApplet.main(concat(sketchArgs, args));
       //PApplet.runSketch(sketchArgs, null);
     }

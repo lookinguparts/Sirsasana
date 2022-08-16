@@ -83,12 +83,16 @@ import java.util.logging.Logger;
   public static List<LXPoint> topCrownSpikeLightsSorted = new ArrayList<LXPoint>();
   public static List<LXPoint> canopyFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> canopyFloodsSorted = new ArrayList<LXPoint>();
+  public static List<List<LXPoint>> canopyFloodGroups = new ArrayList<List<LXPoint>>();
 
   public static List<LXPoint> base1Floods;
   public static List<LXPoint> base2Floods;
   public static List<LXPoint> base3Floods;
   public static List<LXPoint> baseFloods = new ArrayList<LXPoint>();
   public static List<LXPoint> baseFloodsSorted = new ArrayList<LXPoint>();
+  // After sorting, we will divide up all the ground floods into 3 groups of three.  We do this to provide
+  // some flexibility in the output wiring mapping.
+  public static List<List<LXPoint>> groundFloodGroups = new ArrayList<List<LXPoint>>();
 
   public static List<Bird> birds = new ArrayList<Bird>();
   public static List<LXPoint> allBirdPoints = new ArrayList<LXPoint>();
@@ -112,6 +116,7 @@ import java.util.logging.Logger;
 
   public static final float INCHES_PER_METER = 39.37f;
 
+  /*
   static public LXModel createModel() {
     // Create the lights from top to bottom.
 
@@ -214,6 +219,7 @@ import java.util.logging.Logger;
 
     return new SirsasanaModel(allPoints);
   }
+*/
 
   /**
    * Creates the lighting model from positions exported from Rhino.
@@ -247,6 +253,12 @@ import java.util.logging.Logger;
     canopyFloods = csvToLXPoints("canopylights.txt", 1f/12f);
     canopyFloodsSorted.addAll(canopyFloods);
     Collections.sort(canopyFloodsSorted, comparator);
+    for (int i = 0; i < 6; i++) {
+      List<LXPoint> cfGroup = new ArrayList<LXPoint>();
+      cfGroup.add(canopyFloodsSorted.get(i * 2));
+      cfGroup.add(canopyFloodsSorted.get(i * 2 + 1));
+      canopyFloodGroups.add(cfGroup);
+    }
     allPoints.addAll(canopyFloods);
 
     // Preserve the original order so that the Unity output matches up
@@ -255,6 +267,14 @@ import java.util.logging.Logger;
     baseFloodsSorted.addAll(baseFloods);
     // Sort base floods by polar angle.
     Collections.sort(baseFloodsSorted, new LXPointAngleComparator());
+    // Put into groups of three
+    for (int i = 0; i < 3; i++) {
+      List<LXPoint> gfGroup = new ArrayList<LXPoint>();
+      gfGroup.add(baseFloodsSorted.get(i * 3));
+      gfGroup.add(baseFloodsSorted.get(i * 3 + 1));
+      gfGroup.add(baseFloodsSorted.get(i * 3 + 2));
+      groundFloodGroups.add(gfGroup);
+    }
 
     allFloodsNoBirds.addAll(allPoints);
 

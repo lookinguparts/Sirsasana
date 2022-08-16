@@ -66,16 +66,97 @@ public class Output {
     }
   }
 
-  /**
-   * TODO: Not designed yet.
-   * @param lx
-   */
   public static void configurePixliteOutput(LX lx) {
     List<ArtNetDatagram> datagrams = new ArrayList<ArtNetDatagram>();
     String artNetIpAddress = SirsasanaApp.pixliteConfig.getStringParameter(UIPixliteConfig.PIXLITE_IP).getString();
     int artNetIpPort = Integer.parseInt(SirsasanaApp.pixliteConfig.getStringParameter(UIPixliteConfig.PIXLITE_PORT).getString());
     logger.log(Level.INFO, "Using Pixlite ArtNet: " + artNetIpAddress + ":" + artNetIpPort);
 
+
+    int universesPerOutput = 2;
+
+    allOutputsPoints.clear();
+    outputDatagrams.clear();
+
+    for (int outputNum = 0; outputNum < 32; outputNum++) {
+      List<LXPoint> outputPoints = new ArrayList<LXPoint>();
+      allOutputsPoints.add(outputPoints);
+
+      List<LXPoint> pointsWireOrder = new ArrayList<LXPoint>();
+      // Output Number is 1 based in the UI.
+      String mapping = SirsasanaApp.outputMap.getOutputMapping(outputNum + 1);
+      logger.info("========== PIXLITE OUTPUT #" + (outputNum + 1) + "     ==============");
+
+      logger.info("mapping=" + mapping);
+      // Allow multiple components per output.  With a 1:1 mapping we are fully utilizing each long range receiver
+      // so there is no room for future expansion.
+      String[] components = mapping.split(",");
+      for (int ci = 0; ci < components.length; ci++) {
+        String ledSource = components[ci];
+        if (ledSource.startsWith("crown")) {
+          pointsWireOrder.addAll(SirsasanaModel.topCrownSpikeLightsSorted);
+        } else if (ledSource.startsWith("topring")) {
+          pointsWireOrder.addAll(SirsasanaModel.upperRingFloodsSorted);
+        } else if (ledSource.startsWith("bringdown")) {
+          pointsWireOrder.addAll(SirsasanaModel.lowerRingDownFloodsSorted);
+        } else if (ledSource.startsWith("bringup")) {
+          pointsWireOrder.addAll(SirsasanaModel.lowerRingUpFloodsSorted);
+        } else if (ledSource.startsWith("gf")) {
+          int groundFloodGroup = Integer.parseInt(ledSource.split("\\.")[1]) - 1;
+          // TODO(tracy): After we have sorted the ground floods, we need to put them in 3 groups of 3.
+          pointsWireOrder.addAll(SirsasanaModel.groundFloodGroups.get(groundFloodGroup));
+        } else if (ledSource.startsWith("cg")) {
+          // TODO(tracy): After we have sorted the canopy floods, we need to put them in 6 groups of 2.
+          int canopyGroup = Integer.parseInt(ledSource.split("\\.")[1]) - 1;
+          pointsWireOrder.addAll(SirsasanaModel.canopyFloodGroups.get(canopyGroup));
+        } else if (ledSource.startsWith("b")) {
+          int birdNum = Integer.parseInt(ledSource.split("\\.")[1]) - 1;
+          pointsWireOrder.addAll(SirsasanaModel.birds.get(birdNum).points);
+        }
+      }
+
+      outputPoints.addAll(pointsWireOrder);
+
+      int numUniversesThisWire = (int) Math.ceil((float) pointsWireOrder.size() / 170f);
+      int univStartNum = outputNum * universesPerOutput;
+      int lastUniverseCount = pointsWireOrder.size() - 170 * (numUniversesThisWire - 1);
+      int maxLedsPerUniverse = (pointsWireOrder.size()>170)?170:pointsWireOrder.size();
+      int[] thisUniverseIndices = new int[maxLedsPerUniverse];
+      int curIndex = 0;
+      int curUnivOffset = 0;
+      for (LXPoint pt : pointsWireOrder) {
+        thisUniverseIndices[curIndex] = pt.index;
+        curIndex++;
+        if (curIndex == 170 || (curUnivOffset == numUniversesThisWire - 1 && curIndex == lastUniverseCount)) {
+          logger.log(Level.INFO, "Adding datagram: for: " + mapping + " PixLite universe=" + (univStartNum + curUnivOffset + 1) + " ArtNet universe=" + (univStartNum + curUnivOffset) + " points=" + curIndex);
+          ArtNetDatagram datagram = new ArtNetDatagram(lx, thisUniverseIndices, univStartNum + curUnivOffset);
+          try {
+            datagram.setAddress(InetAddress.getByName(artNetIpAddress)).setPort(artNetIpPort);
+          } catch (UnknownHostException uhex) {
+            logger.log(Level.SEVERE, "Configuring ArtNet: " + artNetIpAddress + ":" + artNetIpPort, uhex);
+          }
+          datagrams.add(datagram);
+          curUnivOffset++;
+          curIndex = 0;
+          if (curUnivOffset == numUniversesThisWire - 1) {
+            thisUniverseIndices = new int[lastUniverseCount];
+          } else {
+            thisUniverseIndices = new int[maxLedsPerUniverse];
+          }
+        }
+      }
+    }
+    for (ArtNetDatagram dgram : datagrams) {
+      lx.engine.addOutput(dgram);
+      outputDatagrams.add(dgram);
+    }
+
+    try {
+      artSyncDatagram = new ArtSyncDatagram(lx).setAddress(InetAddress.getByName(artNetIpAddress)).setPort(artNetIpPort);
+      lx.engine.addOutput(artSyncDatagram);
+    } catch (UnknownHostException unhex) {
+      logger.info("Uknown host exception for Pixlite IP: " + artNetIpAddress + " msg: " + unhex.getMessage());
+    }
   }
 
   static public void restartOutput(LX lx) {
