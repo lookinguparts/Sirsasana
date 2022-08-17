@@ -33,12 +33,19 @@ public class Bird {
 
   public long lastSinging = 0;
 
+  // The bird scheduler will pick a random future time after the minimum wait time and assign this value.
+  // The bird will start playing when System.currentTimeMillis() > startPlayingAt.
+  public long startPlayingAt = 0;
+  public boolean waitingToPlay = false;
+  public boolean playing = false;
+
   public Bird(int id, float x, float y, float z) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.z = z;
     this.midiChannel = id + 1;
+    startPlayingAt = System.currentTimeMillis() + (int)(Math.random() * BirdSongGen.randomStartDelay * 1000f);
 
     // Adding in a factor to force the number of leds to be 13 instead of 16.
     float metersPerSide = (4.5f * 13f/16f) / SirsasanaModel.INCHES_PER_METER;
