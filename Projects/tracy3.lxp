@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660725310228,
+  "timestamp": 1660772175634,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -1287,15 +1287,24 @@
                   "color/brightness": 100.0,
                   "color/saturation": 0.0,
                   "color/hue": 0.0,
+                  "color2/brightness": 0.0,
+                  "color2/saturation": 0.0,
+                  "color2/hue": 0.0,
+                  "color3/brightness": 0.0,
+                  "color3/saturation": 0.0,
+                  "color3/hue": 0.0,
                   "bgi": 0.0,
                   "maxi": 1.0,
                   "sparkle": 0.0,
                   "usePal": false,
                   "ease": 0,
                   "swatch": 0,
+                  "swatch2": 0,
+                  "swatch3": 0,
                   "perlFreq": 1.0,
                   "idlei": 0.20000000298023224,
-                  "volScale": 1.0
+                  "volScale": 1.0,
+                  "idlfreq": 1.0
                 },
                 "children": {
                   "modulation": {
@@ -1445,6 +1454,7 @@
                   "modulationColor": 0,
                   "expanded": true,
                   "modulationExpanded": false,
+                  "presetFile": "palettebird",
                   "autoCycleEligible": true
                 },
                 "parameters": {
@@ -1457,17 +1467,26 @@
                   "log": false,
                   "trans": 0.0,
                   "color/brightness": 100.0,
-                  "color/saturation": 0.0,
-                  "color/hue": 0.0,
+                  "color/saturation": 51.66666793823242,
+                  "color/hue": 351.0,
+                  "color2/brightness": 100.0,
+                  "color2/saturation": 96.66666412353516,
+                  "color2/hue": 114.0,
+                  "color3/brightness": 100.0,
+                  "color3/saturation": 94.16666412353516,
+                  "color3/hue": 195.0,
                   "bgi": 0.0,
                   "maxi": 1.0,
                   "sparkle": 0.0,
                   "usePal": true,
                   "ease": 6,
                   "swatch": 1,
-                  "perlFreq": 3.0000003799796104,
-                  "idlei": 0.41999999806284904,
-                  "volScale": 1.7500000726431608
+                  "swatch2": 2,
+                  "swatch3": 3,
+                  "perlFreq": 16.800000071525574,
+                  "idlei": 0.25000000186264515,
+                  "volScale": 2.0499999541789293,
+                  "idlfreq": 0.40000000894069676
                 },
                 "children": {
                   "modulation": {
@@ -1536,10 +1555,10 @@
                 "parameters": {
                   "label": "AudioTracs",
                   "recall": false,
-                  "sngPaus": 30,
+                  "sngPaus": 44,
                   "minFgPaus": 30,
-                  "bVol": 0.03800000116229057,
-                  "bRndStart": 30,
+                  "bVol": 0.0420000010728836,
+                  "bRndStart": 0,
                   "fRndStart": 30,
                   "fVol": 0.008000001832842819
                 },
@@ -1757,22 +1776,22 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 19.395535419381083,
-          "theta": 45.486636572517455,
-          "phi": 0.23588673491030931,
-          "x": 23.372201550984755,
-          "y": 14.27120011486113,
-          "z": 2.37803421926219
+          "radius": 3.9965472329416905,
+          "theta": 45.70201083179563,
+          "phi": 0.011897464282810688,
+          "x": 24.94130899052834,
+          "y": 6.651490257587284,
+          "z": -0.5032181441929424
         },
         "cue": [
           {
             "active": false,
-            "radius": 19.395535419381083,
-            "theta": 45.486636572517455,
-            "phi": 0.23588673491030931,
-            "x": 23.372201550984755,
-            "y": 14.27120011486113,
-            "z": 2.37803421926219
+            "radius": 3.9965472329416905,
+            "theta": 45.70201083179563,
+            "phi": 0.011897464282810688,
+            "x": 24.94130899052834,
+            "y": 6.651490257587284,
+            "z": -0.5032181441929424
           },
           {
             "active": false,
@@ -1825,7 +1844,7 @@
           "pointSize": 3.0
         },
         "grid": {
-          "visible": true,
+          "visible": false,
           "spacing": 100.0,
           "planes": 1,
           "size": 10,
