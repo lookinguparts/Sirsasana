@@ -44,6 +44,22 @@ public class Synth {
   }
 
   static public void playSynth(String pkgName, String synthName, int channel, float volume, float ampScale) {
+    OscMessage synthTrigger = new OscMessage("/synth");
+    OscString pkg = new OscString(pkgName);
+    OscString synth = new OscString(synthName);
+    OscInt chan = new OscInt(channel);
+    OscFloat vol = new OscFloat(volume);
+    OscFloat ampS = new OscFloat(ampScale);
+    synthTrigger.add(pkg);
+    synthTrigger.add(synth);
+    synthTrigger.add(chan);
+    synthTrigger.add(vol);
+    synthTrigger.add(ampS);
 
+    try {
+      SirsasanaApp.superColliderOsc.send(synthTrigger);
+    } catch (IOException ioex) {
+      logger.info("Error sending synth trigger: " + ioex.getMessage());
+    }
   }
 }
