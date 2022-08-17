@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660699954044,
+  "timestamp": 1660701795043,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -842,20 +842,57 @@
             "children": {},
             "effects": [
               {
-                "id": 153,
-                "class": "art.lookingup.sirsasana.patterns.BirdMask",
+                "id": 1909,
+                "class": "art.lookingup.sirsasana.patterns.MultiMask",
                 "internal": {
                   "modulationColor": 0,
                   "expanded": true,
                   "modulationExpanded": false
                 },
                 "parameters": {
-                  "label": "BirdMask",
+                  "label": "MultiMask",
+                  "enabled": true,
+                  "crown": true,
+                  "topR": true,
+                  "lowRU": true,
+                  "lowRD": true,
+                  "canopy": true,
+                  "ground": true,
+                  "bird": true
+                },
+                "children": {
+                  "modulation": {
+                    "id": 1910,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 2040,
+                "class": "art.lookingup.sirsasana.patterns.LowerRingMask",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "LowerRingMask",
                   "enabled": false
                 },
                 "children": {
                   "modulation": {
-                    "id": 154,
+                    "id": 2041,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0
@@ -1550,9 +1587,9 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 58.37669251830903,
-          "theta": 37.82792713213712,
-          "phi": 0.2014268459752202,
+          "radius": 56.675675219461986,
+          "theta": 37.810697191394866,
+          "phi": 0.21004182007163763,
           "x": 8.403935525333509,
           "y": 9.842453144490719,
           "z": 4.027411371469498
@@ -1560,9 +1597,9 @@
         "cue": [
           {
             "active": false,
-            "radius": 58.37669251830903,
-            "theta": 37.82792713213712,
-            "phi": 0.2014268459752202,
+            "radius": 56.675675219461986,
+            "theta": 37.810697191394866,
+            "phi": 0.21004182007163763,
             "x": 8.403935525333509,
             "y": 9.842453144490719,
             "z": 4.027411371469498

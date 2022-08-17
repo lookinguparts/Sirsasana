@@ -1,16 +1,15 @@
-
 package art.lookingup.sirsasana.patterns;
-    import art.lookingup.sirsasana.SirsasanaModel;
-    import heronarts.lx.LX;
-    import heronarts.lx.color.LXColor;
-    import heronarts.lx.effect.LXEffect;
-    import heronarts.lx.model.LXPoint;
+
+import art.lookingup.sirsasana.SirsasanaModel;
+import heronarts.lx.LX;
+import heronarts.lx.color.LXColor;
+import heronarts.lx.effect.LXEffect;
+import heronarts.lx.model.LXPoint;
 
 public class BirdMask extends LXEffect {
 
   public BirdMask(LX lx) {
     super(lx);
-
   }
 
   public void run(double deltaMs, double damping) {
