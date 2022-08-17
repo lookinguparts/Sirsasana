@@ -279,6 +279,8 @@ import java.util.logging.Logger;
     allFloodsNoBirds.addAll(allPoints);
 
     List<Point3D> birdPositions = csvToPoint3Ds("birdlights.txt", 1f/12f);
+    Collections.sort(birdPositions, new Point3DAngleComparator());
+
     int birdId = 0;
     for (Point3D birdPos : birdPositions) {
       Bird bird = new Bird(birdId++, birdPos.x, birdPos.y, birdPos.z);
@@ -361,6 +363,19 @@ import java.util.logging.Logger;
     public double polar(LXPoint a) {
       double angle = Math.atan2(a.z, a.x);
       // Fix -PI to PI range to be 0 to 2 PI
+      if (angle > 0) return angle;
+      else return Math.PI * 2f + angle;
+    }
+  }
+
+  static public class Point3DAngleComparator implements Comparator<Point3D> {
+    @Override
+    public int compare(Point3D a, Point3D b) { return polar(a) < polar(b)? -1 : polar(a) == polar(b) ? 0 : 1; }
+
+    public double polar(Point3D a) {
+      double angle = Math.atan2(a.z, a.x);
+      // Fudge factor since the first bird is actually just slightly before 0 degrees ends up at 350 or whatever.
+      angle = angle + Math.toRadians(10);
       if (angle > 0) return angle;
       else return Math.PI * 2f + angle;
     }
