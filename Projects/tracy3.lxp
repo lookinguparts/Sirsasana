@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660725104676,
+  "timestamp": 1660725310228,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -681,7 +681,7 @@
           "scene-5": false,
           "crossfader": 0.5,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 4,
+          "focusedChannel": 3,
           "cueA": false,
           "cueB": false,
           "viewCondensed": false
@@ -1413,7 +1413,7 @@
             "parameters": {
               "label": "Birds",
               "arm": false,
-              "selected": false,
+              "selected": true,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -1464,7 +1464,7 @@
                   "sparkle": 0.0,
                   "usePal": true,
                   "ease": 6,
-                  "swatch": 4,
+                  "swatch": 1,
                   "perlFreq": 3.0000003799796104,
                   "idlei": 0.41999999806284904,
                   "volScale": 1.7500000726431608
@@ -1499,7 +1499,7 @@
             "parameters": {
               "label": "Audio",
               "arm": false,
-              "selected": true,
+              "selected": false,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -1757,22 +1757,22 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 4.755057268567725,
-          "theta": 45.26264731865376,
-          "phi": -0.04840731807053089,
-          "x": 24.540596035541967,
-          "y": 8.299765279516578,
-          "z": -1.6800234967377037
+          "radius": 19.395535419381083,
+          "theta": 45.486636572517455,
+          "phi": 0.23588673491030931,
+          "x": 23.372201550984755,
+          "y": 14.27120011486113,
+          "z": 2.37803421926219
         },
         "cue": [
           {
             "active": false,
-            "radius": 4.755057268567725,
-            "theta": 45.26264731865376,
-            "phi": -0.04840731807053089,
-            "x": 24.540596035541967,
-            "y": 8.299765279516578,
-            "z": -1.6800234967377037
+            "radius": 19.395535419381083,
+            "theta": 45.486636572517455,
+            "phi": 0.23588673491030931,
+            "x": 23.372201550984755,
+            "y": 14.27120011486113,
+            "z": 2.37803421926219
           },
           {
             "active": false,

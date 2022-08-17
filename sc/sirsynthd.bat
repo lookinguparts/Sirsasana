@@ -1,0 +1,1 @@
+C:\"Program Files"\SuperCollider-3.12.2\sclang.exe -d %cd% sirsasanasynthd.scd
