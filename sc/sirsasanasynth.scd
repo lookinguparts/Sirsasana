@@ -38,19 +38,33 @@ s.waitForBoot {
 		wavs.do({
 			arg filename, i;
 			var bird = Buffer.read(s, filename.fullPath);
-			var birdNum = PathName(filename.fileName).fileNameWithoutExtension.findRegexp("\\d+")[0][1].asInteger();
-			var synthName = dirname.folderName ++ "_" ++ birdNum;
-			"creating synth:".post;
-			synthName.postln;
-			SynthDef(synthName, {
-				arg channel = 0, volume = 0.8, ampScale = 1.0;
-				var playBuf = PlayBuf.ar(1, bird, BufRateScale.kr(bird), doneAction: Done.freeSelf);
-				// Set the attack 0.05 and release 0.1 on the Amplitude so that the signal isn't too spikey.
-				// Multiply by 30 to get to 0 to 1 range. LX Studio will clamp to 0 to 1.  Just get close.
-				var amp = Amplitude.kr(playBuf * volume * ampScale, 0.05, 0.1) * 30.0;
-				Out.kr(~cbusses[birdNum-1], amp);
-				Out.ar(channel, playBuf * volume);
-			}).add();
+			var birdNum;
+			var synthName;
+			var filebase = PathName(filename.fileName).fileNameWithoutExtension;
+			if (filebase.contains("bird"), {
+				birdNum = filebase.findRegexp("\\d+")[0][1].asInteger();
+				synthName = dirname.folderName ++ "_" ++ birdNum;
+				"creating bird synth:".post;
+				synthName.postln;
+				SynthDef(synthName, {
+					arg channel = 0, volume = 0.8, ampScale = 1.0;
+					var playBuf = PlayBuf.ar(1, bird, BufRateScale.kr(bird), doneAction: Done.freeSelf);
+					// Set the attack 0.05 and release 0.1 on the Amplitude so that the signal isn't too spikey.
+					// Multiply by 30 to get to 0 to 1 range. LX Studio will clamp to 0 to 1.  Just get close.
+					var amp = Amplitude.kr(playBuf * volume * ampScale, 0.05, 0.1) * 30.0;
+					Out.kr(~cbusses[birdNum-1], amp);
+					Out.ar(channel, playBuf * volume);
+				}).add();
+			}, {
+				synthName = dirname.folderName ++ "_" ++ filebase;
+				"creating generic synth: ".post;
+				synthName.postln;
+				SynthDef(synthName, {
+					arg channel = 0, volume = 0.8, ampScale = 1.0;
+					var playBuf = PlayBuf.ar(1, bird, BufRateScale.kr(bird), doneAction: Done.freeSelf);
+					Out.ar(channel, playBuf * volume);
+				}).add();
+			});
 		})
 	});
 
