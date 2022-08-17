@@ -43,13 +43,13 @@ public class Synth {
     }
   }
 
-  static public void playSynth(String pkgName, String synthName, int channel, float volume, float ampScale) {
+  static public void playSynth(String pkgName, String synthName, int channel, float volume) {
     OscMessage synthTrigger = new OscMessage("/synth");
     OscString pkg = new OscString(pkgName);
     OscString synth = new OscString(synthName);
     OscInt chan = new OscInt(channel);
     OscFloat vol = new OscFloat(volume);
-    OscFloat ampS = new OscFloat(ampScale);
+    OscFloat ampS = new OscFloat(1f);
     synthTrigger.add(pkg);
     synthTrigger.add(synth);
     synthTrigger.add(chan);

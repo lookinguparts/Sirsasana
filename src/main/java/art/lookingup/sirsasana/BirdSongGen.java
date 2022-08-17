@@ -42,7 +42,7 @@ public class BirdSongGen implements LXLoopTask {
     } else if (now > Frog.startPlayingAt && !Frog.playing) {
       int channel = ThreadLocalRandom.current().nextInt(0, 6);
       channel = remapStereo(channel);
-      Synth.playSynth("tracs", "frog", channel, frogVolume, 2);
+      Synth.playSynth("tracs", "frog", channel, frogVolume);
       Frog.lastSinging = now;
       Frog.waitingToPlay = false;
       Frog.playing = true;
