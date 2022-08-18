@@ -9,7 +9,7 @@ s.waitForBoot {
 	~dirs = [];
 	~files.do( {
 		arg file;
-		if (file.isFolder, {~dirs.add(file)},{});
+		if (file.isFolder, {~dirs = ~dirs.add(file)},{});
 	});
 
 	// ~dirs now has all directories.  For each directory, we will create a buffer for 1.wav through 12.wav.
@@ -29,6 +29,11 @@ s.waitForBoot {
 	~allBuffers = Dictionary();
 	//~allBufferPaths = Dictionary();
 
+	// Track the buffer objects created to play the dawn chorus.  It will be 1 file with 1 buffer
+	// multichannel expanded to 6 outs and 12 control busses.
+	~chorusBuffers = Dictionary();
+
+	"Found directories: ".post;
 	~dirs.postln;
 	// For each directory, collect all entries which should be wav files.
 	~dirs.do ({
@@ -77,6 +82,29 @@ s.waitForBoot {
 					Out.ar(channel, diskin * volume);
 				}).add();
 			}, {
+				if (dirname.folderName.contains("chorus"), {
+					// For the dawn chorus, we have 1 file that will be replicated to 6 outputs.
+					synthName = dirname.folderName ++ "_" ++ filebase;
+					"creating chorus synth:".post;
+				    synthName.postln;
+					// This will allocate the buffer on the server.
+				    synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1);
+					// We need to re-cue the buffer with our synthBuf instance to get it to bind the filename in synthBuf
+				    // Not sure why this is required but it is.
+				    bufReady = { arg buf; "buffer ready".postln;};
+				    synthBuf.cueSoundFile(filename.fullPath, 0, 1, completionMessage: bufReady);
+					~allBuffers.put(synthName, synthBuf);
+					// We can use multichannel expansion on the Out.kr and Out.ar
+					SynthDef(synthName, {
+						arg volume = 0.3, ampScale = 1.0, bufnum = 0;
+						var diskin = DiskIn.ar(1, bufnum, 0);
+						var amp = Amplitude.kr(diskin * volume * ampScale, 0.05, 0.1) * 30.0;
+						FreeSelfWhenDone.kr(diskin);
+						Out.kr(~cbusses, amp);
+						Out.ar([0,1,2,3,4,5], diskin * volume);
+					}).add();
+			    },
+				{
 				synthName = dirname.folderName ++ "_" ++ filebase;
 				"creating generic synth: ".post;
 				synthName.postln;
@@ -100,9 +128,12 @@ s.waitForBoot {
 					Out.ar(channel, diskin * volume);
 				}).add();
 			});
+			});
 		})
 	});
 
+	"All Buffers: ".postln;
+	~allBuffers.postln;
 
 	o = OSCFunc({ arg message, time, addr, recvPort;
 		var channel = message[3];
@@ -126,6 +157,28 @@ s.waitForBoot {
 		synthBuf.cueSoundFile(synthBuf.path, 0, 1, completionMessage: bufReady);
 
 	}, '/synth', nil, 5757);
+
+    OSCFunc({ arg message, time, addr, recvPort;
+		var synthName = message[1] ++ "_" ++ message[2];
+		var synthBuf;
+		var bufReady;
+		[message, time, addr, recvPort].postln;
+		"triggering chorus synth: ".post;
+		synthName.postln;
+		synthBuf = ~allBuffers.at(synthName);
+		//"synthBuf path: ".post;
+		//synthBuf.path.postln;
+		//~allBufferPaths.at(synthName).postln;
+		//File.getcwd.postln;
+		bufReady = { arg buf;
+			//"buffer ready".postln;
+			//buf.postln;
+			Synth(synthName, [\volume, message[3], \ampScale, message[4], \bufnum, buf.bufnum]);
+			1;
+		};
+		synthBuf.cueSoundFile(synthBuf.path, 0, 1, completionMessage: bufReady);
+
+	}, '/chorus', nil, 5757);
 
 	~lxstudiohost = NetAddr("localhost", 7979);
 

@@ -34,6 +34,7 @@ public class BasicBirdVol extends BirdVol {
   CompoundParameter idleIntensity = new CompoundParameter("idlei", 0.2f, 0f, 1f).setDescription("Idle intensity");
   CompoundParameter volScale = new CompoundParameter("volScl", 1f, 0f, 5f).setDescription("Volume feedback scale");
   CompoundParameter idleFreq = new CompoundParameter("idlfreq", 1f, 0f, 5f).setDescription("Freq when idle");
+  CompoundParameter minFreq = new CompoundParameter("minfreq", 1f, 0f, 5f).setDescription("Min freq when singing");
 
   double totalSecs = 0f;
   EaseUtil ease = new EaseUtil(0);
@@ -56,6 +57,7 @@ public class BasicBirdVol extends BirdVol {
     addParameter("idlei", idleIntensity);
     addParameter("volScale", volScale);
     addParameter("idlfreq", idleFreq);
+    addParameter("minFreq", minFreq);
     color.brightness.setValue(100);
     color2.brightness.setValue(100);
     color3.brightness.setValue(100);
@@ -83,8 +85,13 @@ public class BasicBirdVol extends BirdVol {
     ease.easeNum = easeParam.getValuei();
     if (ease.easeNum == 8) {
       ease.perlinFreq = perlinFreq.getValuef() * bird.getVolume() * volScale.getValuef();
+      if (ease.perlinFreq < minFreq.getValuef())
+        ease.perlinFreq = minFreq.getValuef();
     } else if (ease.easeNum == 6) {
       ease.freq = perlinFreq.getValuef() * bird.getVolume() * volScale.getValuef();
+      if (ease.freq < minFreq.getValuef()) {
+        ease.freq = minFreq.getValuef();
+      }
     }
     for (LXPoint p : bird.points) {
       int clr = getColor(p, bird);
