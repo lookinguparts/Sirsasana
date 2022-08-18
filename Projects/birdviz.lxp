@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660854649778,
+  "timestamp": 1660855983048,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -681,7 +681,7 @@
           "scene-5": false,
           "crossfader": 0.5,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 2,
+          "focusedChannel": 0,
           "cueA": false,
           "cueB": false,
           "viewCondensed": false
@@ -714,7 +714,7 @@
             "parameters": {
               "label": "Sculpture",
               "arm": false,
-              "selected": false,
+              "selected": true,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -731,7 +731,7 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 8,
+              "focusedPattern": 9,
               "triggerPatternCycle": false
             },
             "children": {},
@@ -805,7 +805,7 @@
               }
             ],
             "clips": [],
-            "patternIndex": 8,
+            "patternIndex": 9,
             "patterns": [
               {
                 "id": 104,
@@ -1232,6 +1232,105 @@
                   }
                 },
                 "deviceVersion": -1
+              },
+              {
+                "id": 2584,
+                "class": "art.lookingup.sirsasana.patterns.OutputTest",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": true,
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "OutputTest",
+                  "recall": false,
+                  "section": 7,
+                  "group": 0.0,
+                  "color/brightness": 100.0,
+                  "color/saturation": 0.0,
+                  "color/hue": 0.0,
+                  "palette": true,
+                  "ease": 0,
+                  "swatch": 0,
+                  "speed": 0.5999999865889549,
+                  "perlFreq": 1.0,
+                  "iterate": false,
+                  "iDur": 200.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 2585,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [
+                      {
+                        "id": 2709,
+                        "class": "heronarts.lx.modulator.MultiStageEnvelope",
+                        "internal": {
+                          "modulationColor": 0
+                        },
+                        "parameters": {
+                          "label": "Env",
+                          "running": true,
+                          "trigger": false,
+                          "loop": true,
+                          "tempoSync": false,
+                          "tempoMultiplier": 5,
+                          "tempoLock": true,
+                          "period": 5253.728207396258
+                        },
+                        "children": {},
+                        "basis": 0.7495364568806349,
+                        "stages": [
+                          {
+                            "basis": 0.0,
+                            "value": 0.0,
+                            "shape": 1.0
+                          },
+                          {
+                            "basis": 1.0,
+                            "value": 1.0,
+                            "shape": 1.0
+                          }
+                        ]
+                      }
+                    ],
+                    "modulations": [
+                      {
+                        "source": {
+                          "id": 2709,
+                          "path": "/modulation/modulator/1"
+                        },
+                        "target": {
+                          "componentId": 2584,
+                          "parameterPath": "group",
+                          "path": "/group"
+                        },
+                        "id": 2710,
+                        "class": "heronarts.lx.modulation.LXCompoundModulation",
+                        "internal": {
+                          "modulationColor": 0
+                        },
+                        "parameters": {
+                          "label": "LX",
+                          "enabled": true,
+                          "Polarity": 0,
+                          "Range": 1.0
+                        },
+                        "children": {}
+                      }
+                    ],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
               }
             ]
           },
@@ -1341,7 +1440,7 @@
             "parameters": {
               "label": "Audio",
               "arm": false,
-              "selected": true,
+              "selected": false,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -1634,9 +1733,9 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 2.624072425736704,
-          "theta": 44.79743885714561,
-          "phi": 0.14112203754484653,
+          "radius": 41.560062828613134,
+          "theta": 44.87497358582914,
+          "phi": 0.41680111829191446,
           "x": 18.413233793282416,
           "y": 8.71737278578803,
           "z": -19.641762112281867
@@ -1644,9 +1743,9 @@
         "cue": [
           {
             "active": false,
-            "radius": 2.624072425736704,
-            "theta": 44.79743885714561,
-            "phi": 0.14112203754484653,
+            "radius": 41.560062828613134,
+            "theta": 44.87497358582914,
+            "phi": 0.41680111829191446,
             "x": 18.413233793282416,
             "y": 8.71737278578803,
             "z": -19.641762112281867
