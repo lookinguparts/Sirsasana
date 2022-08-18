@@ -18,15 +18,7 @@ overview.html
 *.lck
 *.tmp
 *~
-panelpoints_*.csv
 pixliteconfig.json
-boothparams.json
-panelpos.json
-lxpoints.ply
-panel.svg
-points_panel_*.csv
-shaders/*
-sixteenth_*.html
 build/*
 fboffsets.json
 gfloodoffsets.json
@@ -34,5 +26,6 @@ fpetaloffsets.json
 outputmap.json
 unity
 stereo
+mapoffsets.json
 
 

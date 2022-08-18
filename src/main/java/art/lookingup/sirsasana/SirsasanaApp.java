@@ -58,6 +58,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
   private static final int MAX_LOG_AGE_SECS = MAX_LOG_AGE_DAYS * 24 * 60 * 60;
 
   public static OutputMapping outputMap;
+  public static MapOffsets mapOffsets;
   public static UIPixliteConfig pixliteConfig;
   public static PApplet pApplet;
   public static LXOscEngine.Transmitter superColliderOsc;
@@ -199,28 +200,12 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
       logger.info("Exception creating OSC transmitter: " + ex.getMessage());
     }
     outputMap = (OutputMapping) new OutputMapping(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
+    mapOffsets = (MapOffsets) new MapOffsets(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
 
     if (useUnity)
       Output.configureUnityArtNet(lx);
     else
       Output.configurePixliteOutput(lx);
-
-
-    /*
-    OscMessage speakerTrigger = new OscMessage("/speaker");
-    OscInt speakerNum = new OscInt(1);
-    OscFloat speakerVolume = new OscFloat(0.8f);
-    speakerTrigger.add(speakerNum);
-    speakerTrigger.add(speakerVolume);
-    try {
-      superColliderOsc.send(speakerTrigger);
-    } catch (IOException ioex) {
-      logger.info("Error sending speaker trigger: " + ioex.getMessage());
-    }
-    */
-
-    // Start up bird synth trigger generator.
-    lx.engine.addLoopTask(new BirdSongGen());
   }
 
   @Override
