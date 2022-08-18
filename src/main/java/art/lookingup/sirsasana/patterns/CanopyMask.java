@@ -9,21 +9,21 @@ import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrownMask extends LXEffect {
+public class CanopyMask extends LXEffect {
 
   public List<LXPoint> blockPoints;
 
-  public CrownMask(LX lx) {
+  public CanopyMask(LX lx) {
     super(lx);
     blockPoints = getBlockPoints(lx);
   }
 
-  static public List<LXPoint> getBlockPoints(LX lx) {
+  public static List<LXPoint> getBlockPoints(LX lx) {
     List<LXPoint> points = new ArrayList<LXPoint>();
     for (LXPoint p : lx.getModel().points) {
       points.add(p);
     }
-    for (LXPoint p : SirsasanaModel.topCrownSpikeLights) {
+    for (LXPoint p : SirsasanaModel.canopyFloods) {
       points.remove(p);
     }
     return points;

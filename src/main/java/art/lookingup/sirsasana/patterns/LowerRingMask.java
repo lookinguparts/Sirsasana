@@ -18,7 +18,7 @@ public class LowerRingMask extends LXEffect {
     blockPoints = getBlockPoints(lx);
   }
 
-  public List<LXPoint> getBlockPoints(LX lx) {
+  static public List<LXPoint> getBlockPoints(LX lx) {
     List<LXPoint> points = new ArrayList<LXPoint>();
     for (LXPoint p : lx.getModel().points) {
       points.add(p);

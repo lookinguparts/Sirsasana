@@ -15,10 +15,10 @@ public class GroundMask extends LXEffect {
 
   public GroundMask(LX lx) {
     super(lx);
-    allPointsButGround = getAllPointsButGround(lx);
+    allPointsButGround = getBlockPoints(lx);
   }
 
-  public List<LXPoint> getAllPointsButGround(LX lx) {
+  public static List<LXPoint> getBlockPoints(LX lx) {
     List<LXPoint> points = new ArrayList<LXPoint>();
     for (LXPoint p : lx.getModel().points) {
       points.add(p);
