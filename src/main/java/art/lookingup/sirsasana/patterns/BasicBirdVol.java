@@ -95,6 +95,15 @@ public class BasicBirdVol extends BirdVol {
     }
     for (LXPoint p : bird.points) {
       int clr = getColor(p, bird);
+      float intensity = bird.getVolume();
+      // If we are not mixing singing and idle, map the volume to the brightness also and use
+      // background intensity as the minimum value.
+      if (!mix.isOn()) {
+        intensity += bgintensity.getValuef();
+        if (intensity > 1f)
+          intensity = 1f;
+        clr = Colors.getWeightedColor(clr, intensity);
+      }
       //float intensity = (((1f - sparkle.getValuef() ) + sparkle.getValuef() * (float) Math.random())* intensity);
       // intensity = intensity * maxIntensity.getValuef();
       clr = Colors.getWeightedColor(clr, maxIntensity.getValuef());
