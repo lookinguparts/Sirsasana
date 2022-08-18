@@ -180,6 +180,11 @@ s.waitForBoot {
 
 	}, '/chorus', nil, 5757);
 
+	OSCFunc({ arg message, time, addr, recvPort;
+		thisProcess.shutdown;
+		0.exit;
+	}, '/exit', nil, 5757);
+
 	~lxstudiohost = NetAddr("localhost", 7979);
 
 	// Create control bus listeners.  For each of the 12 control busses, create a listener that
