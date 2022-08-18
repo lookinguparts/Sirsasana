@@ -11,7 +11,7 @@ Loop
     Process, Exist, sclang.exe
 
     if not Errorlevel {
-	Run, C:\Users\Tracy\Documents\GitHub\sirsasana\sc\sirsynthd.bat, C:\Users\Tracy\Documents\GitHub\sirsasana\sc
+	Run, C:\Users\accou\Documents\GitHub\Sirsasana\sc\sirsynthd.bat, C:\Users\accou\Documents\GitHub\Sirsasana\sc
 	  Sleep 30000
 	}
 }
