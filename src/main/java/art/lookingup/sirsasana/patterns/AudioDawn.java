@@ -11,10 +11,10 @@ import heronarts.lx.pattern.LXPattern;
  * track.
  */
 public class AudioDawn extends LXPattern {
-  // This should never be shorter than the track length, which is currently 2 minutes and 7 seconds.
-  DiscreteParameter minSingingPause = new DiscreteParameter("sngPaus", 129, 127, 1200).setDescription("Minimum time between bird re-singing");
-  CompoundParameter perBirdVolume = new CompoundParameter("bVol", 0.09, 0.00, 0.2).setDescription("Bird volume");
-  DiscreteParameter randomStartDelay = new DiscreteParameter("bRndStart", 30, 0, 300).setDescription("Random start delay for birds");
+  // This should never be shorter than the track length, which is currently 2 minutes and 5.75 seconds.
+  DiscreteParameter minSingingPause = new DiscreteParameter("sngPaus", 126, 126, 1200).setDescription("Minimum time between bird re-singing");
+  CompoundParameter perBirdVolume = new CompoundParameter("bVol", 0.25, 0.00, 0.3).setDescription("Bird volume");
+  DiscreteParameter randomStartDelay = new DiscreteParameter("bRndStart", 0, 0, 300).setDescription("Random start delay for birds");
   CompoundParameter ampScaleP = new CompoundParameter("ampScale", 1f, 0f, 10f).setDescription("Amplitude control signal scale");
 
   protected boolean waitingToPlay = true;

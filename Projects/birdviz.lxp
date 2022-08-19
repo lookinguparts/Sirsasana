@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660936410833,
+  "timestamp": 1660950995781,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -1328,7 +1328,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.5571449544008256
+                        "basis": 0.39367891606776323
                       }
                     ],
                     "modulations": [
@@ -1486,13 +1486,13 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 2,
+              "focusedPattern": 1,
               "triggerPatternCycle": false
             },
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 2,
+            "patternIndex": 1,
             "patterns": [
               {
                 "id": 2183,
@@ -1543,10 +1543,10 @@
                 "parameters": {
                   "label": "AudioDawn",
                   "recall": false,
-                  "sngPaus": 129,
-                  "bVol": 0.06400000058114529,
-                  "bRndStart": 30,
-                  "ampScale": 4.399999924004078
+                  "sngPaus": 126,
+                  "bVol": 0.3,
+                  "bRndStart": 0,
+                  "ampScale": 2.4999999664723873
                 },
                 "children": {
                   "modulation": {
@@ -1801,22 +1801,22 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 10.84280257839377,
-          "theta": 44.77868152176961,
-          "phi": 0.35969846276566386,
-          "x": 18.413233793282416,
-          "y": 8.71737278578803,
-          "z": -19.641762112281867
+          "radius": 6.597814549592588,
+          "theta": 45.08648922853172,
+          "phi": 0.3303834465332329,
+          "x": 27.604413881374057,
+          "y": 10.254130102228373,
+          "z": -12.957615887295105
         },
         "cue": [
           {
             "active": false,
-            "radius": 10.84280257839377,
-            "theta": 44.77868152176961,
-            "phi": 0.35969846276566386,
-            "x": 18.413233793282416,
-            "y": 8.71737278578803,
-            "z": -19.641762112281867
+            "radius": 6.597814549592588,
+            "theta": 45.08648922853172,
+            "phi": 0.3303834465332329,
+            "x": 27.604413881374057,
+            "y": 10.254130102228373,
+            "z": -12.957615887295105
           },
           {
             "active": false,

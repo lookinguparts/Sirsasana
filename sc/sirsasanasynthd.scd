@@ -1,6 +1,11 @@
 Server.default = s = Server.internal.boot;
 
-~oscUpdateSecs = 0.06;
+// Currently 20 times per second.  Increase the number below to reduce the OSC load.
+// For example, 0.06 is 16 times per second, etc.  This will affect the smoothness of
+// the bird animations.  This equates to every 50ms which is still about 10 times the 5ms
+// control rate based on a blockSize of 256.  Since we have 12 birds, this generates
+// 240 osc messages/sec at 20 times per second.
+~oscUpdateSecs = 0.05;
 
 s.waitForBoot {
 	// File for iteratively developing sirsasanagen.scd
@@ -61,7 +66,7 @@ s.waitForBoot {
 				"creating bird synth:".post;
 				synthName.postln;
 				// This will allocate the buffer on the server.
-				synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1, bufferSize: 65536);
+				synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1, bufferSize: 131072);
 				// We need to re-cue the buffer with our synthBuf instance to get it to bind the filename in synthBuf
 				// Not sure why this is required but it is.
 				bufReady = { arg buf; "buffer ready".postln;};
@@ -101,9 +106,10 @@ s.waitForBoot {
 						arg volume = 0.3, ampScale = 1.0, bufnum = 0;
 						var diskin = DiskIn.ar(1, bufnum, 0);
 						var amp = Amplitude.kr(diskin * volume * ampScale, 0.05, 0.1) * 30.0;
+						var env = Line.kr(0, 1, 0.5);
 						FreeSelfWhenDone.kr(diskin);
 						Out.kr(~cbusses, amp);
-						Out.ar([0,1,2,3,4,5], diskin * volume);
+						Out.ar([0,1,2,3,4,5], diskin * volume * env);
 					}).add();
 			    },
 				{
