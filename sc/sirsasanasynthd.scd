@@ -1,5 +1,7 @@
 Server.default = s = Server.internal.boot;
 
+~oscUpdateSecs = 0.06;
+
 s.waitForBoot {
 	// File for iteratively developing sirsasanagen.scd
 	~projectPath = PathName(thisProcess.nowExecutingPath).parentPath;
@@ -59,7 +61,7 @@ s.waitForBoot {
 				"creating bird synth:".post;
 				synthName.postln;
 				// This will allocate the buffer on the server.
-				synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1);
+				synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1, bufferSize: 65536);
 				// We need to re-cue the buffer with our synthBuf instance to get it to bind the filename in synthBuf
 				// Not sure why this is required but it is.
 				bufReady = { arg buf; "buffer ready".postln;};
@@ -88,7 +90,7 @@ s.waitForBoot {
 					"creating chorus synth:".post;
 				    synthName.postln;
 					// This will allocate the buffer on the server.
-				    synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1);
+				    synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1, bufferSize: 131072);
 					// We need to re-cue the buffer with our synthBuf instance to get it to bind the filename in synthBuf
 				    // Not sure why this is required but it is.
 				    bufReady = { arg buf; "buffer ready".postln;};
@@ -111,7 +113,7 @@ s.waitForBoot {
 				// NOTE(tracy): This is copied from above. It would be good to refactor this a bit.  Birds have both
 				// specific synth names like tracs_1, etc. and also get Amplitude followers routed to control busses.
 				// This will allocate the buffer on the server.
-				synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1);
+				synthBuf = Buffer.cueSoundFile(s, filename.fullPath, 0, 1, bufferSize: 131072);
 				// We need to re-cue the buffer with our synthBuf instance to get it to bind the filename in synthBuf
 				// Not sure why this is required but it is.
 				bufReady = { arg buf; "buffer ready".postln;};
@@ -140,21 +142,24 @@ s.waitForBoot {
 		var synthName = message[1] ++ "_" ++ message[2];
 		var synthBuf;
 		var bufReady;
+		var fname;
 		[message, time, addr, recvPort].postln;
 		"triggering synth: ".post;
 		synthName.postln;
 		synthBuf = ~allBuffers.at(synthName);
 		//"synthBuf path: ".post;
 		//synthBuf.path.postln;
+		fname = synthBuf.path;
 		//~allBufferPaths.at(synthName).postln;
 		//File.getcwd.postln;
+		synthBuf.close();
 		bufReady = { arg buf;
 			//"buffer ready".postln;
 			//buf.postln;
 			Synth(synthName, [\channel,channel, \volume, message[4], \ampScale, message[5], \bufnum, buf.bufnum]);
 			1;
 		};
-		synthBuf.cueSoundFile(synthBuf.path, 0, 1, completionMessage: bufReady);
+		synthBuf.cueSoundFile(fname, 0, 1, completionMessage: bufReady);
 
 	}, '/synth', nil, 5757);
 
@@ -162,21 +167,24 @@ s.waitForBoot {
 		var synthName = message[1] ++ "_" ++ message[2];
 		var synthBuf;
 		var bufReady;
+		var fname;
 		[message, time, addr, recvPort].postln;
 		"triggering chorus synth: ".post;
 		synthName.postln;
 		synthBuf = ~allBuffers.at(synthName);
+		fname = synthBuf.path;
 		//"synthBuf path: ".post;
 		//synthBuf.path.postln;
 		//~allBufferPaths.at(synthName).postln;
 		//File.getcwd.postln;
+		synthBuf.close();
 		bufReady = { arg buf;
 			//"buffer ready".postln;
 			//buf.postln;
 			Synth(synthName, [\volume, message[3], \ampScale, message[4], \bufnum, buf.bufnum]);
 			1;
 		};
-		synthBuf.cueSoundFile(synthBuf.path, 0, 1, completionMessage: bufReady);
+		synthBuf.cueSoundFile(fname, 0, 1, completionMessage: bufReady);
 
 	}, '/chorus', nil, 5757);
 
@@ -196,10 +204,12 @@ s.waitForBoot {
 				arg value;
 				{
 					var z = if (value < 0.0000001, {0}, {value});
-					~lxstudiohost.sendMsg("/sirsasana/birdvol", i, z);
+					if (z > 0.01, {
+						~lxstudiohost.sendMsg("/sirsasana/birdvol", i, z);
+					},{});
 				}.defer(); // shcedule in the AppClock
 			});
-			0.05.wait; // indicator will be updated every 0.05 seconds (20 times per second)
+			~oscUpdateSecs.wait; // indicator will be updated every 0.05 seconds (20 times per second)
 		}};
 	});
 }

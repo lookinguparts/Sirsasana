@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660879230875,
+  "timestamp": 1660936410833,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -681,7 +681,7 @@
           "scene-5": false,
           "crossfader": 0.5,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 0,
+          "focusedChannel": 2,
           "cueA": false,
           "cueB": false,
           "viewCondensed": false
@@ -714,7 +714,7 @@
             "parameters": {
               "label": "Sculpture",
               "arm": false,
-              "selected": true,
+              "selected": false,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -1281,7 +1281,6 @@
                   "slope": 1.0,
                   "width": 0.0,
                   "speed": 1.0,
-                  "angleW": 45.0,
                   "bgi": 0.29999999329447746,
                   "maxi": 1.0,
                   "color/brightness": 100.0,
@@ -1329,7 +1328,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.07363942274111493
+                        "basis": 0.5571449544008256
                       }
                     ],
                     "modulations": [
@@ -1470,7 +1469,7 @@
             "parameters": {
               "label": "Audio",
               "arm": false,
-              "selected": false,
+              "selected": true,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -1487,13 +1486,13 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 0,
+              "focusedPattern": 2,
               "triggerPatternCycle": false
             },
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 0,
+            "patternIndex": 2,
             "patterns": [
               {
                 "id": 2183,
@@ -1552,6 +1551,45 @@
                 "children": {
                   "modulation": {
                     "id": 2462,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 3084,
+                "class": "art.lookingup.sirsasana.patterns.AudioTyson",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false,
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "AudioTyson",
+                  "recall": false,
+                  "loop": 362,
+                  "bVol": 0.09,
+                  "treeVol": 1.0,
+                  "treelp": 362,
+                  "wfrVol": 0.09,
+                  "ampScale": 1.0,
+                  "treeCh": 6,
+                  "wfrCh": 7
+                },
+                "children": {
+                  "modulation": {
+                    "id": 3085,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0
@@ -1763,9 +1801,9 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 41.560062828613134,
-          "theta": 45.06450295448303,
-          "phi": 0.13250706810504198,
+          "radius": 10.84280257839377,
+          "theta": 44.77868152176961,
+          "phi": 0.35969846276566386,
           "x": 18.413233793282416,
           "y": 8.71737278578803,
           "z": -19.641762112281867
@@ -1773,9 +1811,9 @@
         "cue": [
           {
             "active": false,
-            "radius": 41.560062828613134,
-            "theta": 45.06450295448303,
-            "phi": 0.13250706810504198,
+            "radius": 10.84280257839377,
+            "theta": 44.77868152176961,
+            "phi": 0.35969846276566386,
             "x": 18.413233793282416,
             "y": 8.71737278578803,
             "z": -19.641762112281867
@@ -1831,7 +1869,7 @@
           "pointSize": 3.0
         },
         "grid": {
-          "visible": false,
+          "visible": true,
           "spacing": 100.0,
           "planes": 1,
           "size": 10,

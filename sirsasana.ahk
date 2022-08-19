@@ -10,14 +10,14 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 Loop
 {
-    ;Process, Exist, Sirsasana
-    ;IfWinExist Sirsasana
-    Sleep 30000  ; Sleep first to avoid machine startup timing issues.
+    ; Wait 35 seconds.  SuperCollider is 30 seconds so hopefully this will help SuperCollider
+    ; start first so it doesn't miss the first playing.
+    Sleep 35000  ; Sleep first to avoid machine startup timing issues.
 
     Process, Exist, java.exe
     
     if not Errorlevel {    
 	Run, C:\Users\accou\Documents\GitHub\Sirsasana\sirsasana.bat, C:\Users\accou\Documents\GitHub\Sirsasana
-	  Sleep 30000
+	  Sleep 35000
 	}
 }
