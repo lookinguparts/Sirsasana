@@ -11,6 +11,7 @@ import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
+// TODO(tracy): Implement speed for not requiring an LFO?
 public class Vertical extends LXPattern {
 
   public String waves[] = { "tri", "step", "stepr", "square"};
@@ -20,7 +21,6 @@ public class Vertical extends LXPattern {
   CompoundParameter slope = new CompoundParameter("slope", 1f, 0f, 30f).setDescription("Slope if applicable");
   CompoundParameter width = new CompoundParameter("width", 0.1f, 0, 4f).setDescription("Width of square wave");
   CompoundParameter speed = new CompoundParameter("speed", 1f, 0f, 30f).setDescription("Sweep speed");
-  CompoundParameter angleWidth = new CompoundParameter("angleW", 45, 0, 360).setDescription("Angle width");
   CompoundParameter bgintensity = new CompoundParameter("bgi", 0, 0, 1 ).setDescription("Background Intensity");
   ColorParameter color = new ColorParameter("color");
   CompoundParameter maxIntensity = new CompoundParameter("maxi", 1f, 0f, 1f).setDescription("Max intensity");
@@ -40,7 +40,6 @@ public class Vertical extends LXPattern {
     addParameter("width", width);
 
     addParameter("speed", speed);
-    addParameter("angleW", angleWidth);
     addParameter("bgi", bgintensity);
     addParameter("maxi", maxIntensity);
     addParameter("color", color);
@@ -73,6 +72,7 @@ public class Vertical extends LXPattern {
       } else if (wave.getValuei() == 3) {
         val = AnimUtils.squareWave(pos.getValuef(), width.getValuef(), t);
       }
+      val = ease.ease(val);
       if (val < bgintensity.getValuef())
         val = bgintensity.getValuef();
       int clr = getColor(p, val);

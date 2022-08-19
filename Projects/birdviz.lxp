@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1660878296509,
+  "timestamp": 1660879230875,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -1282,7 +1282,7 @@
                   "width": 0.0,
                   "speed": 1.0,
                   "angleW": 45.0,
-                  "bgi": 0.36999999172985554,
+                  "bgi": 0.29999999329447746,
                   "maxi": 1.0,
                   "color/brightness": 100.0,
                   "color/saturation": 100.0,
@@ -1290,7 +1290,7 @@
                   "usePal": true,
                   "ease": 0,
                   "swatch": 0,
-                  "perlFreq": 1.0
+                  "perlFreq": 11.599999763071537
                 },
                 "children": {
                   "modulation": {
@@ -1329,7 +1329,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.6952912019607347
+                        "basis": 0.07363942274111493
                       }
                     ],
                     "modulations": [
