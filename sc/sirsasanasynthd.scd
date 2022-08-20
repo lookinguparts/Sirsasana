@@ -83,6 +83,7 @@ s.waitForBoot {
 				SynthDef(synthName, {
 					arg channel = 0, volume = 0.8, ampScale = 1.0, bufnum = 0;
 					var diskin = DiskIn.ar(1, bufnum, 0);
+					var env = Line.kr(0, 1, 0.5);
 					// var playBuf = PlayBuf.ar(1, bird, BufRateScale.kr(bird), doneAction: Done.freeSelf);
 					// Set the attack 0.05 and release 0.1 on the Amplitude so that the signal isn't too spikey.
 					// Multiply by 30 to get to 0 to 1 range. LX Studio will clamp to 0 to 1.  Just get close.
@@ -90,7 +91,7 @@ s.waitForBoot {
 
 					FreeSelfWhenDone.kr(diskin);
 					Out.kr(~cbusses[birdNum-1], amp);
-					Out.ar(channel, diskin * volume);
+					Out.ar(channel, diskin * volume * env);
 				}).add();
 			}, {
 				if (dirname.folderName.contains("chorus"), {
@@ -136,8 +137,9 @@ s.waitForBoot {
 					arg channel = 0, volume = 0.8, ampScale = 1.0, bufnum = 0;
 					//var playBuf = PlayBuf.ar(1, bird, BufRateScale.kr(bird), doneAction: Done.freeSelf);
 					var diskin = DiskIn.ar(1, bufnum, 0);
+					var env = Line.kr(0, 1, 0.2);
 	                FreeSelfWhenDone.kr(diskin);
-					Out.ar(channel, diskin * volume);
+					Out.ar(channel, diskin * volume * env);
 				}).add();
 			});
 			});
