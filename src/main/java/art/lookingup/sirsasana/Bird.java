@@ -10,9 +10,9 @@ public class Bird {
   public int id;
   public int midiChannel;
   public float x, y, z;
-  public List<LXPoint> side1Points = new ArrayList<LXPoint>();
-  public List<LXPoint> side2Points = new ArrayList<LXPoint>();
-  public List<LXPoint> points = new ArrayList<LXPoint>();
+  public ArrayList<LXPoint> side1Points = new ArrayList<LXPoint>();
+  public ArrayList<LXPoint> side2Points = new ArrayList<LXPoint>();
+  public ArrayList<LXPoint> points = new ArrayList<LXPoint>();
 
   public enum State {
     IDLE, SINGING, START_SINGING, STOP_SINGING
