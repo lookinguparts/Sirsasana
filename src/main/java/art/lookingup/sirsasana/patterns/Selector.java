@@ -14,7 +14,7 @@ import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
 @LXCategory(LXCategory.FORM)
-public class Selector extends LXPattern {
+public class Selector extends FPSPattern {
 
   static public String[] sections = {
       "Spike",
@@ -36,6 +36,7 @@ public class Selector extends LXPattern {
   CompoundParameter perlinFreq = new CompoundParameter("perlFreq", 1f, 0f, 20f);
   BooleanParameter iterate = new BooleanParameter("iterate", false);
   CompoundParameter iDur = new CompoundParameter("iDur", 200f, 0f, 20000f);
+  CompoundParameter maxIntensity = new CompoundParameter("maxIntns", 1.0f, 0.0f, 1.0f).setDescription("Max intensity");
 
   int currentLight = 0;
   float currentLightTime = 0f;
@@ -54,6 +55,7 @@ public class Selector extends LXPattern {
     addParameter("perlFreq", perlinFreq);
     addParameter("iterate", iterate);
     addParameter("iDur", iDur);
+    addParameter("maxIntns", maxIntensity);
 
     color.brightness.setValue(100f);
   }
@@ -75,6 +77,7 @@ public class Selector extends LXPattern {
       }
       clr = Colors.getParameterizedPaletteColor(lx, swatch.getValuei(), angle, ease);
     }
+    clr = Colors.getWeightedColor(clr, maxIntensity.getValuef());
     return clr;
   }
 
@@ -84,7 +87,7 @@ public class Selector extends LXPattern {
     curAngle = 0f;
   }
 
-  public void run(double deltaMs) {
+  public void renderFrame(double deltaMs) {
     ease.easeNum = easeParam.getValuei();
     if (ease.easeNum == 8) {
       ease.perlinFreq = perlinFreq.getValuef();

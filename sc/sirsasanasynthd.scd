@@ -7,6 +7,10 @@ Server.default = s = Server.internal.boot;
 // 240 osc messages/sec at 20 times per second.
 ~oscUpdateSecs = 0.05;
 
+// Don't trigger an OSC amplitude update to LX Studio unless the amplitude value is
+// greater than this number.  This can help reduce the amount of OSC traffic.
+~oscUpdateGate = 0.01;
+
 s.waitForBoot {
 	// File for iteratively developing sirsasanagen.scd
 	~projectPath = PathName(thisProcess.nowExecutingPath).parentPath;
@@ -210,7 +214,7 @@ s.waitForBoot {
 				arg value;
 				{
 					var z = if (value < 0.0000001, {0}, {value});
-					if (z > 0.01, {
+					if (z > ~oscUpdateGate, {
 						~lxstudiohost.sendMsg("/sirsasana/birdvol", i, z);
 					},{});
 				}.defer(); // shcedule in the AppClock

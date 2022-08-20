@@ -12,7 +12,7 @@ import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
 // TODO(tracy): Implement speed for not requiring an LFO?
-public class Vertical extends LXPattern {
+public class Vertical extends FPSPattern {
 
   public String waves[] = { "tri", "step", "stepr", "square"};
 
@@ -29,11 +29,13 @@ public class Vertical extends LXPattern {
   DiscreteParameter easeParam = new DiscreteParameter("ease", 0, 0, EaseUtil.MAX_EASE + 1);
   DiscreteParameter swatch = new DiscreteParameter("swatch", 0, 0, 20);
   CompoundParameter perlinFreq = new CompoundParameter("perlFreq", 1f, 0f, 20f);
+  BooleanParameter bgIntPalStop = new BooleanParameter("bgIPalStp", true).setDescription("Use the bg intensity as palette min");
 
   public EaseUtil ease = new EaseUtil(0);
 
   public Vertical(LX lx) {
     super(lx);
+    addParameter("fps", fpsKnob);
     addParameter("pos", pos);
     addParameter("wave", wave);
     addParameter("slope", slope);
@@ -44,9 +46,11 @@ public class Vertical extends LXPattern {
     addParameter("maxi", maxIntensity);
     addParameter("color", color);
     addParameter("usePal", usePal);
+    addParameter("bgIPalStp", bgIntPalStop);
     addParameter("ease", easeParam);
     addParameter("swatch", swatch);
     addParameter("perlFreq", perlinFreq);
+    color.brightness.setValue(100f);
   }
 
   public int getColor(LXPoint p, float t) {
@@ -59,7 +63,7 @@ public class Vertical extends LXPattern {
     return clr;
   }
 
-  public void run(double deltaMs) {
+  public void renderFrame(double deltaMs) {
     for (LXPoint p : lx.getModel().points) {
       float t = (p.y - lx.getModel().yMin) / (lx.getModel().yMax - lx.getModel().yMin);
       float val = 0f;
@@ -73,10 +77,12 @@ public class Vertical extends LXPattern {
         val = AnimUtils.squareWave(pos.getValuef(), width.getValuef(), t);
       }
       val = ease.ease(val);
-      if (val < bgintensity.getValuef())
+      if (val < bgintensity.getValuef() && bgIntPalStop.isOn())
         val = bgintensity.getValuef();
       int clr = getColor(p, val);
       val = val * maxIntensity.getValuef();
+      if (val < bgintensity.getValuef())
+        val = bgintensity.getValuef();
       clr = Colors.getWeightedColor(clr, val);
       colors[p.index] = clr;
     }
