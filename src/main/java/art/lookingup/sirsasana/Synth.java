@@ -43,7 +43,49 @@ public class Synth {
     }
   }
 
-  static public void playSynth(String pkgName, String synthName, int channel, float volume, float ampScale) {
+  static public void playSynth(String pkgName, String synthName, int channel, float volume) {
+    OscMessage synthTrigger = new OscMessage("/synth");
+    OscString pkg = new OscString(pkgName);
+    OscString synth = new OscString(synthName);
+    OscInt chan = new OscInt(channel);
+    OscFloat vol = new OscFloat(volume);
+    OscFloat ampS = new OscFloat(1f);
+    synthTrigger.add(pkg);
+    synthTrigger.add(synth);
+    synthTrigger.add(chan);
+    synthTrigger.add(vol);
+    synthTrigger.add(ampS);
 
+    try {
+      SirsasanaApp.superColliderOsc.send(synthTrigger);
+    } catch (IOException ioex) {
+      logger.info("Error sending synth trigger: " + ioex.getMessage());
+    }
+  }
+
+  /**
+   * For playing the dawn chorus.  This will play the same audio track out all 6 speakers and route the
+   * amplitude data back to all 12 birds.
+   * TODO(tracy): Allow for some factor of 6 audio tracks that get distributed around all 6 speakers.
+   * @param pkgName
+   * @param synthName
+   * @param volume
+   */
+  static public void playChorus(String pkgName, String synthName, float volume, float ampScale) {
+    OscMessage synthTrigger = new OscMessage("/chorus");
+    OscString pkg = new OscString(pkgName);
+    OscString synth = new OscString(synthName);
+    OscFloat vol = new OscFloat(volume);
+    OscFloat ampS = new OscFloat(ampScale);
+    synthTrigger.add(pkg);
+    synthTrigger.add(synth);
+    synthTrigger.add(vol);
+    synthTrigger.add(ampS);
+
+    try {
+      SirsasanaApp.superColliderOsc.send(synthTrigger);
+    } catch (IOException ioex) {
+      logger.info("Error sending synth trigger: " + ioex.getMessage());
+    }
   }
 }

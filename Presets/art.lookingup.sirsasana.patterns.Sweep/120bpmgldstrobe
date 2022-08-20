@@ -1,0 +1,48 @@
+{
+  "version": "0.4.1-SNAPSHOT",
+  "timestamp": 1660958520026,
+  "id": 1104,
+  "class": "art.lookingup.sirsasana.patterns.Sweep",
+  "internal": {
+    "modulationColor": 0,
+    "expanded": true,
+    "modulationExpanded": false,
+    "presetFile": "gold2",
+    "autoCycleEligible": true
+  },
+  "parameters": {
+    "label": "Sweep",
+    "recall": false,
+    "fps": 2.0,
+    "speed": 0.20000000670552243,
+    "angleW": 120.59999831020832,
+    "bgi": 1.0,
+    "maxi": 0.8300000037997961,
+    "sparkle": 1.0,
+    "color/brightness": 100.0,
+    "color/saturation": 95.0,
+    "color/hue": 30.0,
+    "usePal": false,
+    "bgIPalStp": true,
+    "ease": 0,
+    "swatch": 3,
+    "perlFreq": 0.9999999999999998
+  },
+  "children": {
+    "modulation": {
+      "id": 1105,
+      "class": "heronarts.lx.modulation.LXModulationEngine",
+      "internal": {
+        "modulationColor": 0
+      },
+      "parameters": {
+        "label": "Modulation"
+      },
+      "children": {},
+      "modulators": [],
+      "modulations": [],
+      "triggers": []
+    }
+  },
+  "deviceVersion": -1
+}

@@ -45,7 +45,6 @@ public class Bird {
     this.y = y;
     this.z = z;
     this.midiChannel = id + 1;
-    startPlayingAt = System.currentTimeMillis() + (int)(Math.random() * BirdSongGen.randomStartDelay * 1000f);
 
     // Adding in a factor to force the number of leds to be 13 instead of 16.
     float metersPerSide = (4.5f * 13f/16f) / SirsasanaModel.INCHES_PER_METER;

@@ -1,6 +1,7 @@
 package art.lookingup.sirsasana.patterns;
 
 import art.lookingup.EaseUtil;
+import art.lookingup.colors.Colors;
 import art.lookingup.sirsasana.SirsasanaModel;
 import heronarts.lx.LX;
 import heronarts.lx.color.ColorParameter;
@@ -17,10 +18,12 @@ public class GlowUp extends AnimT {
   ColorParameter color = new ColorParameter("color");
   CompoundParameter freq = new CompoundParameter("freq", 1f, 0f, 5f).setDescription("sine ease frequency");
   DiscreteParameter ease = new DiscreteParameter("ease", 0, 0, EaseUtil.MAX_EASE + 1);
+  CompoundParameter maxIntensity = new CompoundParameter("maxI", 1f, 0f, 1f).setDescription("Max intensity");
+  CompoundParameter bgIntensity = new CompoundParameter("bgI", 0.5f, 0f, 1f).setDescription("Background intensity");
 
   public GlowUp(LX lx) {
     super(lx);
-    addParameter(color);
+    addParameter("color", color);
     // 0
     registerPhase("base",1f, 3f, "Base");
     // 1
@@ -32,13 +35,15 @@ public class GlowUp extends AnimT {
     // 4
     registerPhase("crown", 1f, 3f, "Crown");
     color.brightness.setValue(100.0);
-    addParameter(ease);
-    addParameter(freq);
+    addParameter("maxI", maxIntensity);
+    addParameter("bgI", bgIntensity);
+    addParameter("ease", ease);
+    addParameter("freq", freq);
   }
 
   public void renderPhase(int curAnimPhase, float phaseLocalT) {
     for (LXPoint p : SirsasanaModel.allPoints) {
-      colors[p.index] = LXColor.BLACK;
+      colors[p.index] = Colors.getWeightedColor(color.getColor(), bgIntensity.getValuef());
     }
     float brightness = 1.0f - 2f * Math.abs(EaseUtil.ease(phaseLocalT, ease.getValuei()) - 0.5f);
 
@@ -47,33 +52,39 @@ public class GlowUp extends AnimT {
       brightness = 1.0f - 2f * Math.abs(EaseUtil.ease6(phaseLocalT, freq.getValuef()) - 0.5f);
     }
 
+    if (brightness < bgIntensity.getValuef())
+      brightness = bgIntensity.getValuef();
+
+    brightness = maxIntensity.getValuef() * brightness;
+
+    int clr = Colors.getWeightedColor(color.getColor(), brightness);
     switch (curAnimPhase) {
       case 4:
-        color.brightness.setValue(100f * brightness);
+        //color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.topCrownSpikeLights)
-          colors[p.index] = color.getColor();
+          colors[p.index] = clr;
         break;
       case 3:
-        color.brightness.setValue(100f * brightness);
+        //color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.upperRingFloods)
-          colors[p.index] = color.getColor();
+          colors[p.index] = clr;
         break;
       case 2:
-        color.brightness.setValue(100f * brightness);
+        //color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.lowerRingDownFloods)
-          colors[p.index] = color.getColor();
+          colors[p.index] = clr;
         for (LXPoint p : SirsasanaModel.lowerRingUpFloods)
-          colors[p.index] = color.getColor();
+          colors[p.index] = clr;
         break;
       case 1:
-        color.brightness.setValue(100f * brightness);
+        //color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.canopyFloods)
-          colors[p.index] = color.getColor();
+          colors[p.index] = clr;
         break;
       case 0:
-        color.brightness.setValue(100f * brightness);
+        //color.brightness.setValue(100f * brightness);
         for (LXPoint p : SirsasanaModel.baseFloods)
-          colors[p.index] = color.getColor();
+          colors[p.index] = clr;
         break;
     }
   }

@@ -4,11 +4,9 @@ import art.lookingup.sirsasana.Bird;
 import art.lookingup.sirsasana.SirsasanaModel;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
-import heronarts.lx.midi.*;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.CompoundParameter;
-import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
 import java.util.logging.Logger;
@@ -17,11 +15,10 @@ import java.util.logging.Logger;
  * Base class for mixing bird singing/idle looks by volume level received from SuperCollider.
  * volume = 1 is full singing and volume = 0 is full idle.
  */
-abstract public class BirdVol extends LXPattern implements LXMidiListener {
+abstract public class BirdVol extends LXPattern {
   private static final Logger logger = Logger.getLogger(BirdBase.class.getName());
 
-  public DiscreteParameter midiChannel = new DiscreteParameter("midich", 1, 1, 17);
-  public DiscreteParameter midiNote = new DiscreteParameter("note", 49, 0, 127);
+  public BooleanParameter mix = new BooleanParameter("mix", false);
   public BooleanParameter allSinging = new BooleanParameter("sing", false);
   public BooleanParameter allIdle = new BooleanParameter("idle", false);
   public BooleanParameter logNotes = new BooleanParameter("log", false);
@@ -33,8 +30,7 @@ abstract public class BirdVol extends LXPattern implements LXMidiListener {
 
   public BirdVol(LX lx) {
     super(lx);
-    addParameter("midich", midiChannel);
-    addParameter("note", midiNote);
+    addParameter("mix", mix);
     addParameter("sing", allSinging);
     addParameter("idle", allIdle);
     addParameter("log", logNotes);
@@ -55,10 +51,12 @@ abstract public class BirdVol extends LXPattern implements LXMidiListener {
     } else {
       for (Bird bird : SirsasanaModel.birds) {
         renderBirdSinging(colors, bird, deltaMs);
-        renderBirdIdle(blendBuffer, bird, deltaMs);
-        // Ugh, we need to just go through per-bird points only and blend them.
-        for (LXPoint p : bird.points) {
-          colors[p.index] = LXColor.lerp(colors[p.index], blendBuffer[p.index], 1f - bird.getVolume());
+        if (mix.isOn()) {
+          renderBirdIdle(blendBuffer, bird, deltaMs);
+          // Ugh, we need to just go through per-bird points only and blend them.
+          for (LXPoint p : bird.points) {
+            colors[p.index] = LXColor.lerp(colors[p.index], blendBuffer[p.index], 1f - bird.getVolume());
+          }
         }
       }
     }
@@ -87,7 +85,6 @@ abstract public class BirdVol extends LXPattern implements LXMidiListener {
   abstract public void renderBirdSinging(int[] colors, Bird bird, double deltaMs);
 
   /**
-   * TODO(tracy): A decent default bird idle animation should go here.
    * @param colors
    * @param bird
    * @param deltaMs
@@ -96,38 +93,5 @@ abstract public class BirdVol extends LXPattern implements LXMidiListener {
     for (LXPoint p : bird.points) {
       colors[p.index] = LXColor.gray(20);
     }
-  }
-
-
-  public void noteOffReceived(MidiNote note) {
-    Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
-    if (logNotes.isOn())
-      logger.info("Note OFF for channel: " + note.getChannel() + " note val: " + note.getPitch());
-    if (bird != null) {
-      bird.stopSinging();
-    }
-  }
-
-  // When we receive a note on, look up the bird and add it to singing birds.
-  public void noteOnReceived(MidiNoteOn note) {
-    Bird bird = SirsasanaModel.midiToBird.get(note.getChannel());
-    if (logNotes.isOn())
-      logger.info("Note ON for channel: " + note.getChannel() + " note val: " + note.getPitch());
-    if (bird != null) {
-      //logger.info("Changing bird to singing");
-      bird.startSinging(note.getPitch());
-    }
-  }
-
-  public void aftertouchReceived(MidiAftertouch aftertouch) {
-  }
-
-  public void controlChangeReceived(MidiControlChange cc) {
-  }
-
-  public void pitchBendReceived(MidiPitchBend pitchBend) {
-  }
-
-  public void programChangeReceived(MidiProgramChange pc) {
   }
 }

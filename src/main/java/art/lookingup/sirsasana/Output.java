@@ -94,23 +94,44 @@ public class Output {
       for (int ci = 0; ci < components.length; ci++) {
         String ledSource = components[ci];
         if (ledSource.startsWith("crown")) {
-          pointsWireOrder.addAll(SirsasanaModel.topCrownSpikeLightsSorted);
+          int crownOffset = SirsasanaApp.mapOffsets.getCrownOffset();
+          logger.info("Crown Offset: " + crownOffset);
+          pointsWireOrder.addAll(remapWithOffset(SirsasanaModel.topCrownSpikeLightsSorted, crownOffset));
         } else if (ledSource.startsWith("topring")) {
-          pointsWireOrder.addAll(SirsasanaModel.upperRingFloodsSorted);
+          int topRingOffset = SirsasanaApp.mapOffsets.getUpperRingOffset();
+          logger.info("Upper Ring Offset: " + topRingOffset);
+          pointsWireOrder.addAll(remapWithOffset(SirsasanaModel.upperRingFloodsSorted, topRingOffset));
         } else if (ledSource.startsWith("bringdown")) {
-          pointsWireOrder.addAll(SirsasanaModel.lowerRingDownFloodsSorted);
+          int lowerRingDownOffset = SirsasanaApp.mapOffsets.getLowerRingDownOffset();
+          logger.info("Lower Ring Down Offset: " + lowerRingDownOffset);
+          pointsWireOrder.addAll(remapWithOffset(SirsasanaModel.lowerRingDownFloodsSorted, lowerRingDownOffset));
         } else if (ledSource.startsWith("bringup")) {
-          pointsWireOrder.addAll(SirsasanaModel.lowerRingUpFloodsSorted);
+          int lowerRingUpOffset = SirsasanaApp.mapOffsets.getLowerRingUpOffset();
+          logger.info("Lower Ring Up Offset: " + lowerRingUpOffset);
+          pointsWireOrder.addAll(remapWithOffset(SirsasanaModel.lowerRingUpFloodsSorted, lowerRingUpOffset));
         } else if (ledSource.startsWith("gf")) {
           int groundFloodGroup = Integer.parseInt(ledSource.split("\\.")[1]) - 1;
-          // TODO(tracy): After we have sorted the ground floods, we need to put them in 3 groups of 3.
+          int groundFloodOffset = SirsasanaApp.mapOffsets.getGroundOffset();
+          logger.info("Ground Flood Offset: " + groundFloodOffset);
+          // To allow for rotation of the ground floods in case of a miswiring, we will just adjust the entire
+          // set of 3 ground floods since it shouldn't be the case that everything is off by just a single
+          // ground flood.  So just remap the group.
+          groundFloodGroup = (groundFloodGroup + groundFloodOffset) % 3;
           pointsWireOrder.addAll(SirsasanaModel.groundFloodGroups.get(groundFloodGroup));
         } else if (ledSource.startsWith("cg")) {
-          // TODO(tracy): After we have sorted the canopy floods, we need to put them in 6 groups of 2.
           int canopyGroup = Integer.parseInt(ledSource.split("\\.")[1]) - 1;
+          int canopyGroupOffset = SirsasanaApp.mapOffsets.getCanopyOffset();
+          logger.info("Canopy Group Offset: " + canopyGroupOffset);
+          // Same as with ground floods, individual canopy lights should not be wired with the wrong starting location
+          // but all the sets-of-2 lights might need to be shifted.
+          canopyGroup = (canopyGroup + canopyGroupOffset) % 6;  // 6 sets of 2-per-group canopy lights.
           pointsWireOrder.addAll(SirsasanaModel.canopyFloodGroups.get(canopyGroup));
         } else if (ledSource.startsWith("b")) {
           int birdNum = Integer.parseInt(ledSource.split("\\.")[1]) - 1;
+          int birdOffset = SirsasanaApp.mapOffsets.getBirdOffset();
+          logger.info("Bird offset: " + birdOffset);
+          // Also allow the bird #'s to be rotated for mapping purposes but this probably won't be necessary.
+          birdNum = (birdNum + birdOffset) % 12;
           pointsWireOrder.addAll(SirsasanaModel.birds.get(birdNum).points);
         }
       }
@@ -157,6 +178,25 @@ public class Output {
     } catch (UnknownHostException unhex) {
       logger.info("Uknown host exception for Pixlite IP: " + artNetIpAddress + " msg: " + unhex.getMessage());
     }
+  }
+
+  /**
+   * Since this is a rotationally symmetric installation, provide a utility function for mapping that allows for
+   * the starting point for the data wiring to be different than expected.  Ideally all wiring would start at
+   * polar angle >=0 but this allows for a remapping should they not be installed correctly.
+   * @param points
+   * @param offset
+   * @return
+   */
+  static public List<LXPoint> remapWithOffset(List<LXPoint> points, int offset) {
+    List<LXPoint> pointsWireOrder = new ArrayList<LXPoint>();
+    if (offset > 0) {
+      pointsWireOrder.addAll(points.subList(offset, points.size()));
+      pointsWireOrder.addAll(points.subList(0, offset));
+    } else {
+      pointsWireOrder.addAll(points);
+    }
+    return pointsWireOrder;
   }
 
   static public void restartOutput(LX lx) {

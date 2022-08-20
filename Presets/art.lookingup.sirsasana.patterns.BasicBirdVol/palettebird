@@ -1,0 +1,61 @@
+{
+  "version": "0.4.1-SNAPSHOT",
+  "timestamp": 1660772133299,
+  "id": 876,
+  "class": "art.lookingup.sirsasana.patterns.BasicBirdVol",
+  "internal": {
+    "modulationColor": 0,
+    "expanded": true,
+    "modulationExpanded": false,
+    "presetFile": "redbird.lxd",
+    "autoCycleEligible": true
+  },
+  "parameters": {
+    "label": "BasicBirdVol",
+    "recall": false,
+    "midich": 1,
+    "note": 49,
+    "sing": false,
+    "idle": false,
+    "log": false,
+    "trans": 0.0,
+    "color/brightness": 100.0,
+    "color/saturation": 51.66666793823242,
+    "color/hue": 351.0,
+    "color2/brightness": 100.0,
+    "color2/saturation": 96.66666412353516,
+    "color2/hue": 114.0,
+    "color3/brightness": 100.0,
+    "color3/saturation": 94.16666412353516,
+    "color3/hue": 195.0,
+    "bgi": 0.0,
+    "maxi": 1.0,
+    "sparkle": 0.0,
+    "usePal": true,
+    "ease": 6,
+    "swatch": 1,
+    "swatch2": 2,
+    "swatch3": 3,
+    "perlFreq": 16.800000071525574,
+    "idlei": 0.25000000186264515,
+    "volScale": 2.0499999541789293,
+    "idlfreq": 0.40000000894069676
+  },
+  "children": {
+    "modulation": {
+      "id": 877,
+      "class": "heronarts.lx.modulation.LXModulationEngine",
+      "internal": {
+        "modulationColor": 0
+      },
+      "parameters": {
+        "label": "Modulation"
+      },
+      "children": {},
+      "modulators": [],
+      "modulations": [],
+      "triggers": []
+    }
+  },
+  "deviceVersion": -1
+}

@@ -15,6 +15,7 @@ public class EaseUtil {
   public boolean perlin2D = false;
   public float perlinFreq = 1f;
   public float t2 = 0f;
+  public float freq = 1f;
 
   public EaseUtil(int easeNum) {
     this.easeNum = easeNum;
@@ -25,6 +26,8 @@ public class EaseUtil {
       return ease8(t, t2, perlinFreq);
     } else if (easeNum == 8) {
       return ease8(t, perlinFreq);
+    } else if (easeNum == 6) {
+      return ease6(t, freq);
     }
 
     return ease(t, easeNum);

@@ -26,6 +26,8 @@ public class CanopySweep extends LXPattern {
   DiscreteParameter easeParam = new DiscreteParameter("ease", 0, 0, EaseUtil.MAX_EASE + 1);
   DiscreteParameter swatch = new DiscreteParameter("swatch", 0, 0, 20);
   CompoundParameter perlinFreq = new CompoundParameter("perlFreq", 1f, 0f, 20f);
+  CompoundParameter treeIntensity = new CompoundParameter("treeI", 0.5f, 0f, 1f).setDescription("Tree trunk brightness");
+  BooleanParameter bgIntPalStop = new BooleanParameter("bgIPalStp", true).setDescription("Use the bg intensity as palette min");
 
   EaseUtil ease = new EaseUtil(0);
   float currentAngle = 0f;
@@ -36,9 +38,11 @@ public class CanopySweep extends LXPattern {
     addParameter("angleW", angleWidth);
     addParameter("bgi", bgintensity);
     addParameter("maxi", maxIntensity);
+    addParameter("treeI", treeIntensity);
     addParameter("sparkle",sparkle);
     addParameter("color", color);
     addParameter("usePal", usePal);
+    addParameter("bgIPalStp", bgIntPalStop);
     addParameter("ease", easeParam);
     addParameter("swatch", swatch);
     addParameter("perlFreq", perlinFreq);
@@ -80,8 +84,13 @@ public class CanopySweep extends LXPattern {
   }
   public float intensityat(float pointangle) {
     float distancefromhead = distancefromhead(pointangle);
-    if (distancefromhead > 1)
-      return bgintensity.getValuef();
+    if (distancefromhead > 1) {
+      if (!usePal.isOn() || (usePal.isOn() && !bgIntPalStop.isOn())) {
+        return bgintensity.getValuef();
+      } else {
+        return 0f; // If we are using the palette we will use this to grab lerp'd swatch color.
+      }
+    }
     return bgintensity.getValuef() + (1- distancefromhead) * ( 1 - bgintensity.getValuef());
 
   }
@@ -117,7 +126,13 @@ public class CanopySweep extends LXPattern {
       ease.perlinFreq = perlinFreq.getValuef();
     }
     for (LXPoint p : lx.getModel().points) {
-      colors[p.index] = LXColor.BLACK;
+      float t = (p.y - lx.getModel().yMin) / (lx.getModel().yMax - lx.getModel().yMin);
+      int clr = color.getColor();
+      if (usePal.getValueb()) {
+        clr = Colors.getParameterizedPaletteColor(lx, swatch.getValuei(), t, ease);
+      }
+      clr = Colors.getWeightedColor(clr, treeIntensity.getValuef());
+      colors[p.index] = clr;
     }
     for (LXPoint p : SirsasanaModel.canopyFloods) {
       float angleDegrees = angle(p);

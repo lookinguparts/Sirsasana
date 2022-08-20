@@ -4,6 +4,8 @@ m = SimpleMIDIFile.read( "C:\\Users\\Tracy\\Documents\\bird.mid" );
 m.tempo;
 SimpleMIDIFile.tempoScale;
 m.getTempo;
+m = SimpleMIDIFile.read("C:\\Users\\Tracy\\Documents\\GitHub\\sirsasana\\sc\\tyler1.mid");
+m.getTempo();
 
 t = m.generatePatternSeqs;
 MIDIClient.init;
@@ -26,6 +28,10 @@ q.play();
 ~wrenmidi.play();
 ~wrenmidis = [~wrenmidi];
 ~birdmidis = [~wrenmidi];
+
+
+x = { Out.ar(1, DiskIn.ar(1, ~wrencue.bufnum)) }.play;
+
 ~wren = Buffer.read(s, "C:\\wren.wav");
 ~birdbus = Bus.control();  	// create a Bus to store amplitude data
 {
@@ -59,7 +65,39 @@ q.play();
 {Out.ar(3, PlayBuf.ar(1, ~wren)* 0.8)}.play;
 {Out.ar(5, PlayBuf.ar(1, ~wren)* 0.8)}.play;
 {Out.ar(0, PlayBuf.ar(1, ~wren, loop: 1)* 1.0)}.play;
+{Out.ar(3, DiskIn.ar(1, ~wrencue) * 0.5)}.play;
 
+m = { arg buf; "buffer ready".postln;};
+// Do this at startup to create our buffer objects.
+~wrencue = Buffer.cueSoundFile(s, "C:\\Users\\Tracy\\Documents\\GitHub\\sirsasana\\sc\\tysontrack1.wav", 0, 1);
+// Do this each time we go to play so that we know the buffer is rewound.
+// We should also do this once when first loading so that we get ~wrencue.path properly bound.  For some reason, the
+// previous cueSoundFile doesn't set the path.
+~wrencue.cueSoundFile("C:\\Users\\Tracy\\Documents\\GitHub\\sirsasana\\sc\\tysontrack1.wav", 0, 1, completionMessage: m);
+~wrencue.cueSoundFile(~wrencue.path, 0, 1, completionMessage: m);
+(
+SynthDef("bdisk", { |bufnum|
+	var diskin = DiskIn.ar(1, bufnum, 0);
+	FreeSelfWhenDone.kr(diskin);
+	Out.ar(1, diskin * 0.01);
+}).add();
+)
+(
+SynthDef("vbdisk", { |bufnum|
+	var diskin = VDiskIn.ar(1, bufnum);
+	FreeSelfWhenDone.kr(diskin);
+	Out.ar(1, diskin * 0.1);
+}).add();
+)
+Synth("bdisk", [\bufnum, ~wrencue.bufnum]);
+Synth("vbdisk", [\bufnum, ~wrencue.bufnum]);
+~wrencue.close();
+~wrencue;
+~wrencue.free;
+~wrencue.startFrame;
+~wrencue.startFrame = 0;
+~wrencue.pos = 0;
+s.plotTree;
 (
 SynthDef("bird", {
 	arg channel = 0, volume = 0.3;
@@ -125,5 +163,6 @@ Synth("bird",[\channel, 4, \volume, 0.7]);
 	Synth("bird1").play();
 
 
-
+{ SinOsc.ar(440, 0, 0.05) }.play;
+{ SinOsc.ar(4400, 0, 0.05) }.play;
 

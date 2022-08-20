@@ -273,6 +273,10 @@ public final class Colors {
     return  (0xFF << 24) | (red << 16) | (green << 8) | blue;
   }
 
+  public static int getWeightedColor2(int clr, float weight) {
+    return LXColor.lerp(LXColor.BLACK, clr, weight);
+  }
+
 
   public static int HSBtoRGB(float[] hsb) {
     return Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
@@ -280,7 +284,7 @@ public final class Colors {
 
   static public int getParameterizedPaletteColor(LX lx, int swatchIndex, float t, EaseUtil ease) {
     if (swatchIndex >= lx.engine.palette.swatches.size())
-      return 0;
+      swatchIndex = lx.engine.palette.swatches.size() - 1;
     LXSwatch swatch = lx.engine.palette.swatches.get(swatchIndex);
     if (swatch.colors.size() == 0)
       return LXColor.BLACK;
