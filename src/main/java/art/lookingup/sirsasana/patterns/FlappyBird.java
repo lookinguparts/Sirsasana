@@ -20,6 +20,12 @@ import java.util.Random;
 
 @LXCategory(LXCategory.FORM)
 public class FlappyBird extends LXPattern {
+
+	CompoundParameter speed = new CompoundParameter("speed", 1f, 0f, 10f).setDescription("Base animation speed");
+	CompoundParameter bgIntensity = new CompoundParameter("bgI", 0.5f, 0f, 1f).setDescription("Background intensity");
+	CompoundParameter volScale = new CompoundParameter("volScale", 1f, 0f, 5f).setDescription("Volume feedback scaling");
+	CompoundParameter shimScale = new CompoundParameter("shimScale", 1f, 0f, 5f).setDescription("Scale factor for vol-based shimmer");
+
     public static final double radius = 200.0;
 
     public static final int centerX = 200;
@@ -133,6 +139,11 @@ public class FlappyBird extends LXPattern {
   public FlappyBird(LX lx) {
     super(lx);
 
+    addParameter("speed", speed);
+    addParameter("bgI", bgIntensity);
+    addParameter("volScale", volScale);
+    addParameter("jitScale", shimScale);
+
     this.rnd = new Random();
     this.ctexture = new PImage[4];
     this.ctexture[0] = SirsasanaApp.pApplet.loadImage("lch-disc-level=0.60-sat=1.00.png");
@@ -154,7 +165,7 @@ public class FlappyBird extends LXPattern {
   double simtime;
 
   public void run(double deltaMs) {
-      simtime += deltaMs * timescale;
+      simtime += deltaMs * timescale * speed.getValuef();
 
       for (int bno = 0; bno < SirsasanaModel.birds.size(); bno++) {
 	  Bird bird = SirsasanaModel.birds.get(bno);
@@ -168,10 +179,12 @@ public class FlappyBird extends LXPattern {
 		  
 	      for (int part = 0; part < seg.count; part++, pno++) {
 
+			  shimmer = shimmer * bird.getVolume() * shimScale.getValuef();
 		  double a = seg.angle + part * per + shimmer;
 
 		  double cos = Math.cos(a);
 		  double sin = Math.sin(a);
+
 
 		  LXPoint l = bird.side1Points.get(pno);
 
@@ -185,8 +198,12 @@ public class FlappyBird extends LXPattern {
 		  int x = (int)(centerX + dx);
 		  int y = (int)(centerY + dy);
 
-		  colors[l.index] = c.leftTexture().pixels[y*400+x];
-		  colors[r.index] = c.rightTexture().pixels[y*400+x];
+		  int clrLeft = c.leftTexture().pixels[y*400+x];
+		  int clrRight = c.rightTexture().pixels[y*400+x];
+		  float intensity = bgIntensity.getValuef() + (1f - bgIntensity.getValuef()) * bird.getVolume() * volScale.getValuef();
+		  intensity = (float) Math.min(1.0, intensity);
+		  colors[l.index] = Colors.getWeightedColor(clrLeft, intensity);
+		  colors[r.index] = Colors.getWeightedColor(clrRight, intensity);
 	      }
 	  }
       }
