@@ -26,10 +26,11 @@ public class Vertical extends FPSPattern {
   CompoundParameter maxIntensity = new CompoundParameter("maxi", 1f, 0f, 1f).setDescription("Max intensity");
 
   BooleanParameter usePal = new BooleanParameter("usePal", false);
+  CompoundParameter palStrt = new CompoundParameter("palStrt", 0f, 0f, 1f).setDescription("Palette start");
   DiscreteParameter easeParam = new DiscreteParameter("ease", 0, 0, EaseUtil.MAX_EASE + 1);
   DiscreteParameter swatch = new DiscreteParameter("swatch", 0, 0, 20);
+  CompoundParameter sinFreq = new CompoundParameter("sinFreq", 1f, 0f, 10f).setDescription("Freq for sine easing");
   CompoundParameter perlinFreq = new CompoundParameter("perlFreq", 1f, 0f, 20f);
-  BooleanParameter bgIntPalStop = new BooleanParameter("bgIPalStp", true).setDescription("Use the bg intensity as palette min");
 
   public EaseUtil ease = new EaseUtil(0);
 
@@ -46,24 +47,36 @@ public class Vertical extends FPSPattern {
     addParameter("maxi", maxIntensity);
     addParameter("color", color);
     addParameter("usePal", usePal);
-    addParameter("bgIPalStp", bgIntPalStop);
+    addParameter("palStrt", palStrt);
     addParameter("ease", easeParam);
     addParameter("swatch", swatch);
+    addParameter("sinFreq", sinFreq);
     addParameter("perlFreq", perlinFreq);
     color.brightness.setValue(100f);
   }
 
-  public int getColor(LXPoint p, float t) {
+  public int getColor(float t) {
     int clr = color.getColor();
-    clr = Colors.getWeightedColor(clr, ease.ease(t));
+    float easedT = ease.ease(t);
 
     if (usePal.getValueb()) {
+      if (t < palStrt.getValuef())
+        t = palStrt.getValuef();
       clr = Colors.getParameterizedPaletteColor(lx, swatch.getValuei(), t, ease);
     }
+    if (easedT < bgintensity.getValuef())
+      easedT = bgintensity.getValuef();
+    clr = Colors.getWeightedColor(clr, easedT);
     return clr;
   }
 
   public void renderFrame(double deltaMs) {
+    ease.easeNum = easeParam.getValuei();
+    if (easeParam.getValuei() == 8) {
+      ease.perlinFreq = perlinFreq.getValuef();
+    } else if (easeParam.getValuei() == 8) {
+      ease.freq = sinFreq.getValuef();
+    }
     for (LXPoint p : lx.getModel().points) {
       float t = (p.y - lx.getModel().yMin) / (lx.getModel().yMax - lx.getModel().yMin);
       float val = 0f;
@@ -76,14 +89,11 @@ public class Vertical extends FPSPattern {
       } else if (wave.getValuei() == 3) {
         val = AnimUtils.squareWave(pos.getValuef(), width.getValuef(), t);
       }
-      val = ease.ease(val);
-      if (val < bgintensity.getValuef() && bgIntPalStop.isOn())
-        val = bgintensity.getValuef();
-      int clr = getColor(p, val);
-      val = val * maxIntensity.getValuef();
-      if (val < bgintensity.getValuef())
-        val = bgintensity.getValuef();
-      clr = Colors.getWeightedColor(clr, val);
+
+      int clr = getColor(val);
+
+      // Now apply the value as an intensity modifier.
+      clr = Colors.getWeightedColor(clr, maxIntensity.getValuef());
       colors[p.index] = clr;
     }
   }

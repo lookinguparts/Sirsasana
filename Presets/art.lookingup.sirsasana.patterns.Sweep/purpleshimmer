@@ -1,13 +1,13 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1661105603074,
-  "id": 3875,
+  "timestamp": 1661108541620,
+  "id": 3893,
   "class": "art.lookingup.sirsasana.patterns.Sweep",
   "internal": {
     "modulationColor": 0,
     "expanded": true,
     "modulationExpanded": false,
-    "presetFile": "redpurple",
+    "presetFile": "purplesperlin",
     "autoCycleEligible": true
   },
   "parameters": {
@@ -16,7 +16,7 @@
     "fps": 61.0,
     "speed": 0.2,
     "angleW": 142.1999978274107,
-    "bgi": 0.5199999883770943,
+    "bgi": 0.2699999939650297,
     "maxi": 1.0,
     "sparkle": 0.0,
     "color/brightness": 100.0,
@@ -25,12 +25,13 @@
     "usePal": true,
     "palStrt": 0.0,
     "ease": 6,
-    "swatch": 6,
-    "perlFreq": 0.7999999821186066
+    "swatch": 7,
+    "perlFreq": 3.9999999552965164,
+    "sinFreq": 1.0
   },
   "children": {
     "modulation": {
-      "id": 3876,
+      "id": 3894,
       "class": "heronarts.lx.modulation.LXModulationEngine",
       "internal": {
         "modulationColor": 0

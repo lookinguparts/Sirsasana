@@ -1,0 +1,103 @@
+{
+  "version": "0.4.1-SNAPSHOT",
+  "timestamp": 1661108059199,
+  "id": 4636,
+  "class": "art.lookingup.sirsasana.patterns.Vertical",
+  "internal": {
+    "modulationColor": 0,
+    "expanded": true,
+    "modulationExpanded": true,
+    "presetFile": "beatingheart",
+    "autoCycleEligible": true
+  },
+  "parameters": {
+    "label": "Vertical",
+    "recall": false,
+    "fps": 61.0,
+    "pos": 0.5,
+    "wave": 0,
+    "slope": 1.7,
+    "width": 0.10000000149011612,
+    "speed": 1.0,
+    "bgi": 0.5299999881535769,
+    "maxi": 1.0,
+    "color/brightness": 100.0,
+    "color/saturation": 0.0,
+    "color/hue": 0.0,
+    "usePal": true,
+    "palStrt": 0.0,
+    "ease": 0,
+    "swatch": 1,
+    "sinFreq": 1.0,
+    "perlFreq": 1.0
+  },
+  "children": {
+    "modulation": {
+      "id": 4637,
+      "class": "heronarts.lx.modulation.LXModulationEngine",
+      "internal": {
+        "modulationColor": 0
+      },
+      "parameters": {
+        "label": "Modulation"
+      },
+      "children": {},
+      "modulators": [
+        {
+          "id": 4638,
+          "class": "heronarts.lx.modulator.VariableLFO",
+          "internal": {
+            "modulationColor": 0
+          },
+          "parameters": {
+            "label": "LFO",
+            "running": true,
+            "trigger": false,
+            "loop": true,
+            "tempoSync": false,
+            "tempoMultiplier": 5,
+            "tempoLock": true,
+            "clockMode": 0,
+            "periodFast": 1000.0,
+            "periodSlow": 10000.0,
+            "wave": 0,
+            "skew": 0.0,
+            "shape": 0.0,
+            "bias": 0.0,
+            "phase": 0.0,
+            "exp": 0.0
+          },
+          "children": {},
+          "basis": 0.9830000000001229
+        }
+      ],
+      "modulations": [
+        {
+          "source": {
+            "id": 4638,
+            "path": "/modulation/modulator/1"
+          },
+          "target": {
+            "componentId": 4636,
+            "parameterPath": "slope",
+            "path": "/slope"
+          },
+          "id": 4639,
+          "class": "heronarts.lx.modulation.LXCompoundModulation",
+          "internal": {
+            "modulationColor": 0
+          },
+          "parameters": {
+            "label": "LX",
+            "enabled": true,
+            "Polarity": 0,
+            "Range": 0.6399999856948853
+          },
+          "children": {}
+        }
+      ],
+      "triggers": []
+    }
+  },
+  "deviceVersion": -1
+}
