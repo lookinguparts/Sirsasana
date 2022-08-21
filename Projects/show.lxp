@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1661108523221,
+  "timestamp": 1661109117757,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -1017,19 +1017,19 @@
               "viewEnabled": false,
               "viewSelector": "",
               "viewNormalization": 0,
-              "autoCycleEnabled": false,
+              "autoCycleEnabled": true,
               "autoCycleMode": 0,
-              "autoCycleTimeSecs": 20.0,
-              "transitionEnabled": false,
-              "transitionTimeSecs": 1.1,
+              "autoCycleTimeSecs": 300.0,
+              "transitionEnabled": true,
+              "transitionTimeSecs": 20.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 13,
+              "focusedPattern": 0,
               "triggerPatternCycle": false
             },
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 13,
+            "patternIndex": 0,
             "patterns": [
               {
                 "id": 151,
@@ -1786,7 +1786,7 @@
                   "modulationColor": 0,
                   "expanded": true,
                   "modulationExpanded": false,
-                  "presetFile": "purplesperlin",
+                  "presetFile": "purpleshimmer",
                   "autoCycleEligible": true
                 },
                 "parameters": {
@@ -1936,7 +1936,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.4429095825801833
+                        "basis": 0.5327664307158201
                       }
                     ],
                     "modulations": [
@@ -2060,7 +2060,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.9468420968799159
+                        "basis": 0.6114727136044715
                       }
                     ],
                     "modulations": [
@@ -2161,7 +2161,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.8389937908029733
+                        "basis": 0.9692051224058829
                       }
                     ],
                     "modulations": [
