@@ -40,6 +40,9 @@ public class FlappyBird extends LXPattern {
     public static final double minJitter = 0.75;
     public static final double maxJitter = 1.25;
     
+    CompoundParameter flightSpeed = new CompoundParameter("flightSpeed",5,1,10).setDescription("Flight speed");
+    CompoundParameter flightRelax = new CompoundParameter("flightRelax",5,1,10).setDescription("Relaxation");
+
     static double newArc(Random rnd) {
 	double value = minArc + rnd.nextDouble() * (maxArc-minArc);
 	if (rnd.nextBoolean()) {
@@ -135,6 +138,9 @@ public class FlappyBird extends LXPattern {
   Random rnd;
   PImage ctexture[];
   ArrayList<coloring> colorings;
+  int inFlight = -1;
+  long timeToFly = 10000;
+  long nextFlight = 20000;
 
   public FlappyBird(LX lx) {
     super(lx);
@@ -159,13 +165,52 @@ public class FlappyBird extends LXPattern {
     for (Bird bird : SirsasanaModel.birds) {
 	this.colorings.add(new coloring());
     }
+
+    addParameter("flight speed",flightSpeed);
+    addParameter("flight relax",flightRelax);
   }
 
+    int getFlightPos() {
+	int flightPos = (int)((this.timeToFly / (600 / flightSpeed.getValue())) % SirsasanaModel.birds.size());
+	
+	if (this.ccw) {
+	    flightPos = SirsasanaModel.birds.size() - 1 - flightPos;
+	}
+	return flightPos;
+    }
+	
   public static final double timescale = 1/2500.0;
   double simtime;
+    int rightFlightColors[] = new int[13];
+    int leftFlightColors[] = new int[13];
+    boolean ccw;
 
   public void run(double deltaMs) {
       simtime += deltaMs * timescale * speed.getValuef();
+
+      int flightPos = -1;
+
+      if (this.inFlight >= 0) {
+	  this.timeToFly -= deltaMs;
+
+	  if (this.timeToFly < 0) {
+	      this.colorings.set(this.inFlight, new coloring());
+	      this.inFlight = -1;
+	  } else {
+	      flightPos = getFlightPos();
+	  }
+      } else {
+	  this.nextFlight -= deltaMs;
+	  
+	  if (this.nextFlight < 0) {
+	      int nextB = rnd.nextInt(SirsasanaModel.birds.size());
+	      this.nextFlight = (int)(60000 * flightRelax.getValue() + rnd.nextDouble());
+	      this.timeToFly = (int)(5000 * flightRelax.getValue() + rnd.nextDouble());
+	      this.ccw = rnd.nextDouble() < 0.5;
+	      this.inFlight = getFlightPos();
+	      flightPos = this.inFlight;
+	  }
+      }      
 
       for (int bno = 0; bno < SirsasanaModel.birds.size(); bno++) {
 	  Bird bird = SirsasanaModel.birds.get(bno);
@@ -176,7 +221,7 @@ public class FlappyBird extends LXPattern {
 	  for (segment seg : c.segments) {
 	      double per = seg.arc / (double)(seg.count-1);
 	      double shimmer = (maxArc+minArc)/2.0*Math.sin(seg.jitter*simtime);
-		  
+
 	      for (int part = 0; part < seg.count; part++, pno++) {
 
 			  shimmer = shimmer * bird.getVolume() * shimScale.getValuef();
@@ -187,7 +232,6 @@ public class FlappyBird extends LXPattern {
 
 
 		  LXPoint l = bird.side1Points.get(pno);
-
 		  LXPoint r = bird.side2Points.get(12-pno);
 
 		  double rad = seg.rad;
@@ -200,12 +244,55 @@ public class FlappyBird extends LXPattern {
 
 		  int clrLeft = c.leftTexture().pixels[y*400+x];
 		  int clrRight = c.rightTexture().pixels[y*400+x];
+
 		  float intensity = bgIntensity.getValuef() + (1f - bgIntensity.getValuef()) * bird.getVolume() * volScale.getValuef();
+
 		  intensity = (float) Math.min(1.0, intensity);
+
 		  colors[l.index] = Colors.getWeightedColor(clrLeft, intensity);
 		  colors[r.index] = Colors.getWeightedColor(clrRight, intensity);
+
+		  if (bno == this.inFlight) {
+		      leftFlightColors[pno] = colors[l.index];
+		      rightFlightColors[pno] = colors[r.index];
+		  }
 	      }
 	  }
       }
+
+      if (inFlight >= 0) {
+	  Bird sitting = SirsasanaModel.birds.get(flightPos);
+
+	      for (int pno = 0; pno < 13; pno++) {
+		  LXPoint l = sitting.side1Points.get(pno);
+		  LXPoint r = sitting.side2Points.get(12-pno);
+
+		  if (flightPos == inFlight) {
+		      float intensity = bgIntensity.getValuef() + (1f - bgIntensity.getValuef()) * sitting.getVolume() * volScale.getValuef();
+
+		      intensity = (float) Math.min(1.0, intensity);		  
+		      
+		      colors[l.index] = Colors.getWeightedColor(Colors.WHITE, intensity);
+		      colors[r.index] = Colors.getWeightedColor(Colors.WHITE, intensity);
+		  } else {
+		      colors[l.index] = blend(colors[l.index], leftFlightColors[pno]);
+		      colors[r.index] = blend(colors[r.index], rightFlightColors[pno]);
+		  }
+	      }
+      }
   }
+
+    int blend(int a, int b) {
+	return Colors.rgb(blend1(Colors.red(a), Colors.red(b)),
+			  blend1(Colors.green(a), Colors.green(b)),
+			  blend1(Colors.blue(a), Colors.blue(b)));
+				 
+    }
+
+    int blend1(int a, int b) {
+	float af = (float)a / 255.0F;
+	float bf = (float)b / 255.0F;
+	float c = 1 - (1 - af) * (1 - bf);
+	return (int)(c * 255.0);
+    }
 }
