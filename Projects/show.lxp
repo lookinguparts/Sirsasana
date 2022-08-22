@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1661109117757,
+  "timestamp": 1661153056429,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -973,7 +973,7 @@
           "scene-5": false,
           "crossfader": 0.5,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 0,
+          "focusedChannel": 1,
           "cueA": false,
           "cueB": false,
           "viewCondensed": false
@@ -1006,7 +1006,7 @@
             "parameters": {
               "label": "Sculpture",
               "arm": false,
-              "selected": true,
+              "selected": false,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -2509,7 +2509,7 @@
             "parameters": {
               "label": "Birds",
               "arm": false,
-              "selected": false,
+              "selected": true,
               "enabled": true,
               "cue": false,
               "fader": 1.0,
@@ -2532,7 +2532,7 @@
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 0,
+            "patternIndex": 1,
             "patterns": [
               {
                 "id": 876,
@@ -2606,9 +2606,11 @@
                   "label": "FlappyBird",
                   "recall": false,
                   "speed": 1.0,
-                  "bgI": 0.570000009611249,
+                  "bgI": 1.0,
                   "volScale": 3.399999924004078,
-                  "jitScale": 1.5
+                  "jitScale": 1.5,
+                  "flight speed": 5.0,
+                  "flight relax": 5.0
                 },
                 "children": {
                   "modulation": {
