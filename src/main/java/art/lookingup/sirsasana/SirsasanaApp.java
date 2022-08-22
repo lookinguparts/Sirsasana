@@ -58,6 +58,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
   private static final int MAX_LOG_AGE_SECS = MAX_LOG_AGE_DAYS * 24 * 60 * 60;
 
   public static OutputMapping outputMap;
+  public static CtrlSigMapping ctrlSigMap;
   public static MapOffsets mapOffsets;
   public static UIPixliteConfig pixliteConfig;
   public static PApplet pApplet;
@@ -201,6 +202,7 @@ public class SirsasanaApp extends PApplet implements LXPlugin {
     }
     outputMap = (OutputMapping) new OutputMapping(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
     mapOffsets = (MapOffsets) new MapOffsets(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
+    ctrlSigMap = (CtrlSigMapping) new CtrlSigMapping(ui, lx).setExpanded(false).addToContainer(lx.ui.leftPane.global);
 
     if (useUnity)
       Output.configureUnityArtNet(lx);

@@ -1,0 +1,50 @@
+{
+  "version": "0.4.1-SNAPSHOT",
+  "timestamp": 1661198026472,
+  "entries": [
+    {
+      "id": 4640,
+      "class": "heronarts.lx.scheduler.LXScheduledProject",
+      "internal": {
+        "modulationColor": 0
+      },
+      "parameters": {
+        "label": "show.lxp",
+        "enabled": true,
+        "projectFile": "show.lxp",
+        "hours": 17,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "children": {}
+    },
+    {
+      "id": 4833,
+      "class": "heronarts.lx.scheduler.LXScheduledProject",
+      "internal": {
+        "modulationColor": 0
+      },
+      "parameters": {
+        "label": "dawn.lxp",
+        "enabled": true,
+        "projectFile": "dawn.lxp",
+        "hours": 5,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "children": {}
+    }
+  ],
+  "id": 4,
+  "class": "heronarts.lx.scheduler.LXScheduler",
+  "internal": {
+    "modulationColor": 0
+  },
+  "parameters": {
+    "label": "LX",
+    "enabled": true,
+    "fade": true,
+    "fadeTimeSecs": 5.0
+  },
+  "children": {}
+}

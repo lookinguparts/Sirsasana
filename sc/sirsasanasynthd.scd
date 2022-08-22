@@ -11,6 +11,17 @@ Server.default = s = Server.internal.boot;
 // greater than this number.  This can help reduce the amount of OSC traffic.
 ~oscUpdateGate = 0.01;
 
+// Controls the mapping from bird WAV amplitude to control bus.
+// 12 LED birds
+//~birdToBus = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+// 6 LED birds. Each LED bird will get the control signal for 2 wav files.
+~birdToBus = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5];
+
+// 7 LED birds where the second bird is near the first speaker. I.e. there are
+// 2 independent birds on the first speaker, but only 1 bird for 2 bird WAV files for the rest.
+//~birdToBus = [0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6];
+
+
 s.waitForBoot {
 	// File for iteratively developing sirsasanagen.scd
 	~projectPath = PathName(thisProcess.nowExecutingPath).parentPath;
@@ -90,7 +101,7 @@ s.waitForBoot {
 					var amp = Amplitude.kr(diskin * volume * ampScale, 0.05, 0.1) * 30.0;
 
 					FreeSelfWhenDone.kr(diskin);
-					Out.kr(~cbusses[birdNum-1], amp);
+					Out.kr(~cbusses[~birdToBus[birdNum-1]], amp);
 					Out.ar(channel, diskin * volume * env);
 				}).add();
 			}, {
