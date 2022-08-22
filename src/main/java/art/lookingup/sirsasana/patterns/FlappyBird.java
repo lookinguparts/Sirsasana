@@ -25,7 +25,6 @@ public class FlappyBird extends LXPattern {
 	CompoundParameter bgIntensity = new CompoundParameter("bgI", 0.5f, 0f, 1f).setDescription("Background intensity");
 	CompoundParameter volScale = new CompoundParameter("volScale", 1f, 0f, 5f).setDescription("Volume feedback scaling");
 	CompoundParameter shimScale = new CompoundParameter("shimScale", 1f, 0f, 5f).setDescription("Scale factor for vol-based shimmer");
-        BooleanParameter realColor = new BooleanParameter("color", false);
 
     public static final double radius = 200.0;
 
