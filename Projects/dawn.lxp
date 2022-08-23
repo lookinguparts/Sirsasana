@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1661198572625,
+  "timestamp": 1661212336740,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -973,7 +973,7 @@
           "scene-5": false,
           "crossfader": 0.5,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 0,
+          "focusedChannel": 1,
           "cueA": false,
           "cueB": false,
           "viewCondensed": false
@@ -997,6 +997,140 @@
         },
         "channels": [
           {
+            "id": 419,
+            "class": "heronarts.lx.mixer.LXChannel",
+            "internal": {
+              "modulationColor": 0,
+              "controlsExpanded": true
+            },
+            "parameters": {
+              "label": "Birds",
+              "arm": false,
+              "selected": false,
+              "enabled": true,
+              "cue": false,
+              "fader": 1.0,
+              "crossfadeGroup": 0,
+              "blendMode": 4,
+              "midiMonitor": false,
+              "midiChannel": 16,
+              "viewEnabled": false,
+              "viewSelector": "",
+              "viewNormalization": 0,
+              "autoCycleEnabled": true,
+              "autoCycleMode": 0,
+              "autoCycleTimeSecs": 300.0,
+              "transitionEnabled": true,
+              "transitionTimeSecs": 5.0,
+              "transitionBlendMode": 0,
+              "focusedPattern": 0,
+              "triggerPatternCycle": false
+            },
+            "children": {},
+            "effects": [],
+            "clips": [],
+            "patternIndex": 0,
+            "patterns": [
+              {
+                "id": 876,
+                "class": "art.lookingup.sirsasana.patterns.BasicBirdVol",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false,
+                  "presetFile": "palettebird",
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "BasicBirdVol",
+                  "recall": false,
+                  "mix": false,
+                  "sing": false,
+                  "idle": false,
+                  "log": false,
+                  "trans": 0.0,
+                  "color/brightness": 100.0,
+                  "color/saturation": 51.66666793823242,
+                  "color/hue": 351.0,
+                  "color2/brightness": 100.0,
+                  "color2/saturation": 96.66666412353516,
+                  "color2/hue": 114.0,
+                  "color3/brightness": 100.0,
+                  "color3/saturation": 94.16666412353516,
+                  "color3/hue": 195.0,
+                  "bgi": 0.3999999910593033,
+                  "maxi": 1.0,
+                  "sparkle": 0.0,
+                  "usePal": true,
+                  "ease": 6,
+                  "swatch": 1,
+                  "swatch2": 2,
+                  "swatch3": 3,
+                  "perlFreq": 13.200000151991844,
+                  "idlei": 0.25000000186264515,
+                  "volScale": 4.000000022351742,
+                  "idlfreq": 0.40000000894069676,
+                  "minFreq": 0.29999999329447746
+                },
+                "children": {
+                  "modulation": {
+                    "id": 877,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 4256,
+                "class": "art.lookingup.sirsasana.patterns.FlappyBird",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false,
+                  "presetFile": "jmacd",
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "FlappyBird",
+                  "recall": false,
+                  "speed": 1.0,
+                  "bgI": 0.570000009611249,
+                  "volScale": 3.399999924004078,
+                  "jitScale": 1.6999999955296516,
+                  "flight speed": 5.0,
+                  "flight relax": 5.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 4257,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              }
+            ]
+          },
+          {
             "id": 92,
             "class": "heronarts.lx.mixer.LXChannel",
             "internal": {
@@ -1017,19 +1151,57 @@
               "viewEnabled": false,
               "viewSelector": "",
               "viewNormalization": 0,
-              "autoCycleEnabled": false,
+              "autoCycleEnabled": true,
               "autoCycleMode": 0,
               "autoCycleTimeSecs": 300.0,
-              "transitionEnabled": false,
+              "transitionEnabled": true,
               "transitionTimeSecs": 20.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 10,
+              "focusedPattern": 0,
               "triggerPatternCycle": false
             },
             "children": {},
-            "effects": [],
+            "effects": [
+              {
+                "id": 4995,
+                "class": "art.lookingup.sirsasana.patterns.MultiMask",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "MultiMask",
+                  "enabled": true,
+                  "crown": true,
+                  "topR": true,
+                  "lowRU": true,
+                  "lowRD": true,
+                  "canopy": true,
+                  "ground": true,
+                  "bird": false
+                },
+                "children": {
+                  "modulation": {
+                    "id": 4996,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              }
+            ],
             "clips": [],
-            "patternIndex": 10,
+            "patternIndex": 0,
             "patterns": [
               {
                 "id": 151,
@@ -1841,7 +2013,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.8250486115908162
+                        "basis": 0.2859079528042526
                       }
                     ],
                     "modulations": [
@@ -1869,137 +2041,6 @@
                         "children": {}
                       }
                     ],
-                    "triggers": []
-                  }
-                },
-                "deviceVersion": -1
-              }
-            ]
-          },
-          {
-            "id": 419,
-            "class": "heronarts.lx.mixer.LXChannel",
-            "internal": {
-              "modulationColor": 0,
-              "controlsExpanded": true
-            },
-            "parameters": {
-              "label": "Birds",
-              "arm": false,
-              "selected": false,
-              "enabled": true,
-              "cue": false,
-              "fader": 1.0,
-              "crossfadeGroup": 0,
-              "blendMode": 4,
-              "midiMonitor": false,
-              "midiChannel": 16,
-              "viewEnabled": false,
-              "viewSelector": "",
-              "viewNormalization": 0,
-              "autoCycleEnabled": true,
-              "autoCycleMode": 0,
-              "autoCycleTimeSecs": 300.0,
-              "transitionEnabled": true,
-              "transitionTimeSecs": 5.0,
-              "transitionBlendMode": 0,
-              "focusedPattern": 0,
-              "triggerPatternCycle": false
-            },
-            "children": {},
-            "effects": [],
-            "clips": [],
-            "patternIndex": 0,
-            "patterns": [
-              {
-                "id": 876,
-                "class": "art.lookingup.sirsasana.patterns.BasicBirdVol",
-                "internal": {
-                  "modulationColor": 0,
-                  "expanded": true,
-                  "modulationExpanded": false,
-                  "presetFile": "palettebird",
-                  "autoCycleEligible": true
-                },
-                "parameters": {
-                  "label": "BasicBirdVol",
-                  "recall": false,
-                  "mix": false,
-                  "sing": false,
-                  "idle": false,
-                  "log": false,
-                  "trans": 0.0,
-                  "color/brightness": 100.0,
-                  "color/saturation": 51.66666793823242,
-                  "color/hue": 351.0,
-                  "color2/brightness": 100.0,
-                  "color2/saturation": 96.66666412353516,
-                  "color2/hue": 114.0,
-                  "color3/brightness": 100.0,
-                  "color3/saturation": 94.16666412353516,
-                  "color3/hue": 195.0,
-                  "bgi": 0.3999999910593033,
-                  "maxi": 1.0,
-                  "sparkle": 0.0,
-                  "usePal": true,
-                  "ease": 6,
-                  "swatch": 1,
-                  "swatch2": 2,
-                  "swatch3": 3,
-                  "perlFreq": 13.200000151991844,
-                  "idlei": 0.25000000186264515,
-                  "volScale": 4.000000022351742,
-                  "idlfreq": 0.40000000894069676,
-                  "minFreq": 0.29999999329447746
-                },
-                "children": {
-                  "modulation": {
-                    "id": 877,
-                    "class": "heronarts.lx.modulation.LXModulationEngine",
-                    "internal": {
-                      "modulationColor": 0
-                    },
-                    "parameters": {
-                      "label": "Modulation"
-                    },
-                    "children": {},
-                    "modulators": [],
-                    "modulations": [],
-                    "triggers": []
-                  }
-                },
-                "deviceVersion": -1
-              },
-              {
-                "id": 4256,
-                "class": "art.lookingup.sirsasana.patterns.FlappyBird",
-                "internal": {
-                  "modulationColor": 0,
-                  "expanded": true,
-                  "modulationExpanded": false,
-                  "autoCycleEligible": true
-                },
-                "parameters": {
-                  "label": "FlappyBird",
-                  "recall": false,
-                  "speed": 1.0,
-                  "bgI": 0.570000009611249,
-                  "volScale": 3.399999924004078,
-                  "jitScale": 1.5
-                },
-                "children": {
-                  "modulation": {
-                    "id": 4257,
-                    "class": "heronarts.lx.modulation.LXModulationEngine",
-                    "internal": {
-                      "modulationColor": 0
-                    },
-                    "parameters": {
-                      "label": "Modulation"
-                    },
-                    "children": {},
-                    "modulators": [],
-                    "modulations": [],
                     "triggers": []
                   }
                 },
@@ -2378,7 +2419,7 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 80.52611467878735,
+          "radius": 45.803261459959046,
           "theta": 44.92748595029116,
           "phi": 0.28951817099004984,
           "x": 3.8360693603754044,
@@ -2388,7 +2429,7 @@
         "cue": [
           {
             "active": false,
-            "radius": 80.52611467878735,
+            "radius": 45.803261459959046,
             "theta": 44.92748595029116,
             "phi": 0.28951817099004984,
             "x": 3.8360693603754044,

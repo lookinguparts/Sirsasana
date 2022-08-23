@@ -1,0 +1,39 @@
+{
+  "version": "0.4.1-SNAPSHOT",
+  "timestamp": 1661200940940,
+  "id": 4256,
+  "class": "art.lookingup.sirsasana.patterns.FlappyBird",
+  "internal": {
+    "modulationColor": 0,
+    "expanded": true,
+    "modulationExpanded": false,
+    "autoCycleEligible": true
+  },
+  "parameters": {
+    "label": "FlappyBird",
+    "recall": false,
+    "speed": 1.0,
+    "bgI": 0.570000009611249,
+    "volScale": 3.399999924004078,
+    "jitScale": 1.5,
+    "flight speed": 5.0,
+    "flight relax": 5.0
+  },
+  "children": {
+    "modulation": {
+      "id": 4257,
+      "class": "heronarts.lx.modulation.LXModulationEngine",
+      "internal": {
+        "modulationColor": 0
+      },
+      "parameters": {
+        "label": "Modulation"
+      },
+      "children": {},
+      "modulators": [],
+      "modulations": [],
+      "triggers": []
+    }
+  },
+  "deviceVersion": -1
+}

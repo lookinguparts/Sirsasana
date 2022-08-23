@@ -77,6 +77,13 @@ public class BasicBirdVol extends BirdVol {
   }
 
   @Override
+  public void beforeRender(double deltaMs) {
+    for (LXPoint p : lx.getModel().points) {
+      colors[p.index] = LXColor.rgba(0, 0, 0, 0);
+    }
+  }
+
+  @Override
   public void afterRender(double deltaMs) {
     totalSecs += deltaMs / 1000f;
   }
