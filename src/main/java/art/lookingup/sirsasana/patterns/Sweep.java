@@ -96,15 +96,18 @@ public class Sweep extends FPSPattern {
   }
   public float computeTValue(float pointangle) {
     float distancefromhead = distancefromhead(pointangle);
-    if (distancefromhead > 1) {
+    if (distancefromhead >= 1f) {
       if (!usePal.isOn()) {
         return bgintensity.getValuef();
       } else {
         return palStrt.getValuef(); // If we are using the palette we will use this to grab lerp'd swatch color.
       }
     }
-    return ease.ease(bgintensity.getValuef() + (1- distancefromhead) * ( 1 - bgintensity.getValuef()));
-
+    if (!usePal.isOn()) {
+      return bgintensity.getValuef() + (1 - distancefromhead) * (1 - bgintensity.getValuef());
+    } else {
+      return palStrt.getValuef() + (1f - distancefromhead) * (1 - palStrt.getValuef());
+    }
   }
 
   /**

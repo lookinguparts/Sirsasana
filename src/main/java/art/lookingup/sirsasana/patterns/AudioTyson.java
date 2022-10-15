@@ -54,9 +54,20 @@ public class AudioTyson extends LXPattern {
     addParameter("wfrCh", wooferChannel);
   }
 
+  public void onActive() {
+    super.onActive();
+    // reset bird singing times.
+    for (Bird b: SirsasanaModel.birds) {
+      b.lastSinging = 0;
+      b.waitingToPlay = false;
+    }
+  }
+
   public void run(double deltaMs) {
     long now = System.currentTimeMillis();
     for (Bird bird : SirsasanaModel.birds) {
+      float timeSinceSinging = now - bird.lastSinging;
+      int bLoop = birdLoop.getValuei();
       if (now - bird.lastSinging > birdLoop.getValuei() * 1000 && !bird.waitingToPlay) {
         // Eligible to pick next start time.
         bird.startPlayingAt = now;

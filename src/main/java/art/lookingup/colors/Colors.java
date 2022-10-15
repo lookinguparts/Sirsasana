@@ -8,11 +8,13 @@ import heronarts.lx.color.LXSwatch;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * Utility methods for colors.
  */
 public final class Colors {
+  private static final Logger logger = Logger.getLogger(Colors.class.getName());
   static final Random rand = new Random();
 
   // Useful links:
@@ -264,6 +266,14 @@ public final class Colors {
     int red = (clr >> 16) & 0xff;
     int green = (clr >> 8) & 0xff;
     int blue = clr & 0xff;
+
+    if (weight > 1f) {
+      //logger.info("Color weight out of range: " + weight);
+      weight = 1f;
+    } else if (weight < 0f) {
+      //logger.info("Color weight out of range: " + weight);
+      weight = 0f;
+    }
 
     // Weight all the components
     red = (int) ((float) red * weight);

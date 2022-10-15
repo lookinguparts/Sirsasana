@@ -31,6 +31,15 @@ public class AudioTracs extends LXPattern {
     addParameter("fVol", frogVolume);
   }
 
+  public void onActive() {
+    super.onActive();
+    // reset bird singing times.
+    for (Bird b: SirsasanaModel.birds) {
+      b.lastSinging = 0;
+      b.waitingToPlay = false;
+    }
+  }
+
   public void run(double deltaMs) {
     long now = System.currentTimeMillis();
     for (Bird bird : SirsasanaModel.birds) {

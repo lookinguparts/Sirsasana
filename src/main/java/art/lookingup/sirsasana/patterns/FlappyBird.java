@@ -186,6 +186,9 @@ public class FlappyBird extends LXPattern {
     boolean ccw;
 
   public void run(double deltaMs) {
+    for (LXPoint p : lx.getModel().points) {
+      colors[p.index] = LXColor.rgba(0, 0, 0, 0);
+    }
       simtime += deltaMs * timescale * speed.getValuef();
 
       int flightPos = -1;

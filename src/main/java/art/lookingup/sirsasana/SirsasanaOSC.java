@@ -5,6 +5,7 @@ import heronarts.lx.osc.LXOscEngine;
 import heronarts.lx.osc.LXOscListener;
 import heronarts.lx.osc.OscMessage;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class SirsasanaOSC implements LXOscListener {
@@ -43,15 +44,25 @@ public class SirsasanaOSC implements LXOscListener {
         if (path.length > 2) {
 
           if ("birdvol".equals(path[2])) {
-            int birdNum = message.getInt(0);
+            int ctrlSigNum = message.getInt(0);
             float vol = message.getFloat(1);
-            if (birdNum < 0 || birdNum >= SirsasanaModel.birds.size()) {
+            if (ctrlSigNum < 0 || ctrlSigNum >= SirsasanaModel.birds.size()) {
               logger.info("Invalid bird number: " + message.getString());
               return;
             }
-            Bird bird = SirsasanaModel.birds.get(birdNum);
-            //logger.info("birdvol: bird=" + birdNum + " vol=" + vol);
-            bird.volume = vol;
+            if (SirsasanaApp.ctrlSigMap == null) {
+              Bird bird = SirsasanaModel.birds.get(ctrlSigNum);
+              //logger.info("birdvol: bird=" + birdNum + " vol=" + vol);
+              bird.volume = vol;
+            } else {
+              // Get the list of birds to map this control signal to.
+              List<Integer> birdIds = SirsasanaApp.ctrlSigMap.ctrlMap.get(ctrlSigNum);
+              for (int birdId : birdIds) {
+                // In the UI control signal mapping, the bird ids are 1 based so remap to zero based.
+                Bird bird = SirsasanaModel.birds.get(birdId - 1);
+                bird.volume = vol;
+              }
+            }
           }
         }
       }

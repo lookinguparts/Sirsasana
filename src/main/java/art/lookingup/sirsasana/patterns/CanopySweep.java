@@ -12,8 +12,11 @@ import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
+import java.util.logging.Logger;
+
 @LXCategory(LXCategory.FORM)
 public class CanopySweep extends LXPattern {
+  private static final Logger logger = Logger.getLogger(CanopySweep.class.getName());
   CompoundParameter speed = new CompoundParameter("speed", 1f, 0f, 30f).setDescription("Sweep speed");
   CompoundParameter angleWidth = new CompoundParameter("angleW", 45, 0, 360).setDescription("Angle width");
   CompoundParameter bgintensity = new CompoundParameter("bgi", 0, 0, 1 ).setDescription("Background Intensity");
@@ -95,17 +98,21 @@ public class CanopySweep extends LXPattern {
         return true;
     return false;
   }
+
   public float computeTValue(float pointangle) {
     float distancefromhead = distancefromhead(pointangle);
-    if (distancefromhead > 1) {
+    if (distancefromhead >= 1f) {
       if (!usePal.isOn()) {
         return bgintensity.getValuef();
       } else {
         return 0f; // If we are using the palette we will use this to grab lerp'd swatch color.
       }
     }
-    return bgintensity.getValuef() + (1- distancefromhead) * ( 1 - bgintensity.getValuef());
-
+    if (!usePal.isOn()) {
+      return bgintensity.getValuef() + (1 - distancefromhead) * (1 - bgintensity.getValuef());
+    } else {
+      return palStrt.getValuef() + (1f - distancefromhead) * (1 - palStrt.getValuef());
+    }
   }
 
   /**

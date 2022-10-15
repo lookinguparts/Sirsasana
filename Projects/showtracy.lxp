@@ -1,6 +1,6 @@
 {
   "version": "0.4.1-SNAPSHOT",
-  "timestamp": 1662002029365,
+  "timestamp": 1661212271802,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -1106,7 +1106,9 @@
                   "speed": 1.0,
                   "bgI": 0.570000009611249,
                   "volScale": 3.799999915063381,
-                  "jitScale": 2.599999975413084
+                  "jitScale": 2.599999975413084,
+                  "flight speed": 5.0,
+                  "flight relax": 5.0
                 },
                 "children": {
                   "modulation": {
@@ -1155,7 +1157,7 @@
               "transitionEnabled": true,
               "transitionTimeSecs": 20.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 15,
+              "focusedPattern": 0,
               "triggerPatternCycle": false
             },
             "children": {},
@@ -1199,7 +1201,7 @@
               }
             ],
             "clips": [],
-            "patternIndex": 15,
+            "patternIndex": 0,
             "patterns": [
               {
                 "id": 151,
@@ -1245,12 +1247,12 @@
                   "expanded": true,
                   "modulationExpanded": false,
                   "presetFile": "bluepurple",
-                  "autoCycleEligible": false
+                  "autoCycleEligible": true
                 },
                 "parameters": {
                   "label": "Selector",
                   "recall": false,
-                  "section": 0,
+                  "section": 7,
                   "color/brightness": 100.0,
                   "color/saturation": 0.0,
                   "color/hue": 0.0,
@@ -1289,7 +1291,7 @@
                   "expanded": true,
                   "modulationExpanded": false,
                   "presetFile": "yellowred",
-                  "autoCycleEligible": false
+                  "autoCycleEligible": true
                 },
                 "parameters": {
                   "label": "Selector",
@@ -1388,7 +1390,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.19462110951374434
+                        "basis": 0.3996377761806463
                       }
                     ],
                     "modulations": [
@@ -1536,7 +1538,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.04902114011786464
+                        "basis": 0.42247720698851166
                       }
                     ],
                     "modulations": [
@@ -1637,7 +1639,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.410019554959136
+                        "basis": 0.7430862216260196
                       }
                     ],
                     "modulations": [
@@ -1725,7 +1727,7 @@
                   "expanded": true,
                   "modulationExpanded": false,
                   "presetFile": "cyanylwmag",
-                  "autoCycleEligible": false
+                  "autoCycleEligible": true
                 },
                 "parameters": {
                   "label": "Selector",
@@ -1954,7 +1956,7 @@
                 "class": "art.lookingup.sirsasana.patterns.Sweep",
                 "internal": {
                   "modulationColor": 0,
-                  "expanded": false,
+                  "expanded": true,
                   "modulationExpanded": false,
                   "presetFile": "purpleshimmer",
                   "autoCycleEligible": true
@@ -1972,7 +1974,7 @@
                   "color/saturation": 0.0,
                   "color/hue": 0.0,
                   "usePal": true,
-                  "palStrt": 0.7199999839067459,
+                  "palStrt": 0.0,
                   "ease": 6,
                   "swatch": 7,
                   "perlFreq": 3.9999999552965164,
@@ -2004,7 +2006,7 @@
                   "expanded": true,
                   "modulationExpanded": false,
                   "presetFile": "purples",
-                  "autoCycleEligible": false
+                  "autoCycleEligible": true
                 },
                 "parameters": {
                   "label": "Selector",
@@ -2053,7 +2055,7 @@
                 "parameters": {
                   "label": "CanopySweep",
                   "recall": false,
-                  "speed": 10.800000429153442,
+                  "speed": 0.5,
                   "angleW": 127.79999814927578,
                   "bgi": 0.4899999890476465,
                   "maxi": 1.0,
@@ -2106,7 +2108,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.6425754828254016
+                        "basis": 0.02164128803337765
                       }
                     ],
                     "modulations": [
@@ -2230,7 +2232,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.26040843817786374
+                        "basis": 0.2621954296661857
                       }
                     ],
                     "modulations": [
@@ -2331,7 +2333,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.05177378946025213
+                        "basis": 0.3811059568761162
                       }
                     ],
                     "modulations": [
@@ -2533,7 +2535,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.2893479495863544
+                        "basis": 0.655982947679578
                       }
                     ],
                     "modulations": [
@@ -2634,7 +2636,7 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.3931847687924817
+                        "basis": 0.4563099378195731
                       }
                     ],
                     "modulations": [
@@ -2696,13 +2698,13 @@
               "transitionEnabled": false,
               "transitionTimeSecs": 5.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 1,
+              "focusedPattern": 2,
               "triggerPatternCycle": false
             },
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 1,
+            "patternIndex": 2,
             "patterns": [
               {
                 "id": 2183,
@@ -3040,22 +3042,22 @@
         "centerPoint": false,
         "camera": {
           "active": false,
-          "radius": 58.02248509592982,
-          "theta": 36.62596182478592,
-          "phi": -0.4161165114492178,
-          "x": -0.9733754405751824,
-          "y": 24.879793509840965,
-          "z": -0.741889163851738
+          "radius": 27.28286210836182,
+          "theta": 45.82186279213056,
+          "phi": 0.3421285874210298,
+          "x": 9.670022455975413,
+          "y": 4.950955361127853,
+          "z": 5.5234072944149375
         },
         "cue": [
           {
             "active": false,
-            "radius": 58.02248509592982,
-            "theta": 36.62596182478592,
-            "phi": -0.4161165114492178,
-            "x": -0.9733754405751824,
-            "y": 24.879793509840965,
-            "z": -0.741889163851738
+            "radius": 27.28286210836182,
+            "theta": 45.82186279213056,
+            "phi": 0.3421285874210298,
+            "x": 9.670022455975413,
+            "y": 4.950955361127853,
+            "z": 5.5234072944149375
           },
           {
             "active": false,
